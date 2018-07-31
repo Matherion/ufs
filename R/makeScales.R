@@ -26,7 +26,7 @@ makeScales <- function(data, scales, append=TRUE) {
                data[[names(scales[currentScale])]]);
     }
     else if (length(unlist(scales[currentScale])) == 1) {
-      resDat[[names(scales[currentScale])]] <- data[[unlist(scales[currentScale])]];
+      data[[names(scales[currentScale])]] <- data[[unlist(scales[currentScale])]];
     }
   }
   if (append) {
