@@ -16,23 +16,22 @@
 #' ### Create the scales and add them to the dataframe
 #' makeScales(mtcars, scales);
 makeScales <- function(data, scales, append=TRUE) {
-  resDat <- data[, FALSE];
   for (currentScale in 1:length(scales)) {
     if (length(unlist(scales[currentScale])) > 1) {
-      resDat[[names(scales[currentScale])]] <-
+      data[[names(scales[currentScale])]] <-
         rowMeans(data[, unlist(scales[currentScale])], na.rm=TRUE);
-      resDat[[names(scales[currentScale])]] <-
-        ifelse(is.nan(resDat[[names(scales[currentScale])]]),
+      data[[names(scales[currentScale])]] <-
+        ifelse(is.nan(data[[names(scales[currentScale])]]),
                NA,
-               resDat[[names(scales[currentScale])]]);
+               data[[names(scales[currentScale])]]);
     }
     else if (length(unlist(scales[currentScale])) == 1) {
       resDat[[names(scales[currentScale])]] <- data[[unlist(scales[currentScale])]];
     }
   }
   if (append) {
-    return(cbind(data, resDat));
+    return(data);
   } else {
-    return(resDat);
+    return(data[, names(scales)]);
   }
 }
