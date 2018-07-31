@@ -6,9 +6,10 @@
 #' @param table The vector or matrix in which to look up the element(s).
 #'
 #' @return A logical vector.
+#' @export
+#' @rdname IN
 #'
 #' @examples letters[1:4] %IN% LETTERS
-#' @export `%IN%`
-`%IN%` <- function(find, table) {
+"%IN%" <- function(find, table) {
   return(toupper(find) %in% toupper(table));
 }
