@@ -2,7 +2,7 @@
 % Please edit documentation in R/IN.R
 \name{\%IN\%}
 \alias{\%IN\%}
-\title{Case insensitive version of \code{\%in\%}}
+\title{Case insensitive version of \%in\%}
 \usage{
 find \%IN\% table
 }
@@ -15,7 +15,7 @@ find \%IN\% table
 A logical vector.
 }
 \description{
-Case insensitive version of \code{\%in\%}
+Case insensitive version of \%in\%
 }
 \examples{
 letters[1:4] \%IN\% LETTERS
