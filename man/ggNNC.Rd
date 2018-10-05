@@ -119,7 +119,7 @@ rates and vice versa; defaults to the normal distribution.}
 }
 \value{
 \code{erDataSeq} returns a data sequence; \code{ggNNC} a
-\code{\link{ggplot}}.
+\code{\link[ggplot2]{ggplot}}.
 }
 \description{
 These functions can be used to visualise Numbers Needed for Change.
