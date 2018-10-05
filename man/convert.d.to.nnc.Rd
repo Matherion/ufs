@@ -28,10 +28,6 @@ The converted value.
 These two functions are used by \code{\link{nnc}} to compute the Numbers
 Needed for Change.
 }
-\details{
-These two functions are used by \code{\link{nnc}} to compute the Numbers
-Needed for Change.
-}
 \examples{
 
 convert.d.to.eer(d=.5, cer=.25);

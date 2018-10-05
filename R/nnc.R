@@ -117,34 +117,40 @@ nnc <- nnt <- function(d = NULL, cer = NULL, r = 1, n = NULL,
 
   ### Compute CER if it was not specified
   if (is.null(cer) && !is.null(threshold)) {
-    cer <- convert.threshold.to.er(threshold = threshold,
-                                   mean = mean,
-                                   sd = sd);
+    cer <- ufs::convert.threshold.to.er(threshold = threshold,
+                                        mean = mean,
+                                        sd = sd);
   }
 
   if (!is.null(thresholdSensitivity)) {
-    cer.sensitivity <- convert.threshold.to.er(threshold = thresholdSensitivity,
-                                               mean = mean,
-                                               sd = sd);
+    cer.sensitivity <- ufs::convert.threshold.to.er(threshold = thresholdSensitivity,
+                                                    mean = mean,
+                                                    sd = sd);
     eer.sensitivity <-
-      convert.d.to.eer(d=d, cer=cer.sensitivity,
-                       eventDesirable=eventDesirable, eventIfHigher=eventIfHigher);
+      ufs::convert.d.to.eer(d=d,
+                            cer=cer.sensitivity,
+                            eventDesirable=eventDesirable,
+                            eventIfHigher=eventIfHigher);
     nnc.sensitivity <-
-      convert.d.to.nnc(d=d, cer=cer.sensitivity, r=r,
-                       eventDesirable=eventDesirable, eventIfHigher=eventIfHigher);
-    sensitivityDf <- data.frame(threshold = thresholdSensitivity,
-                                cer = cer.sensitivity,
-                                eer = eer.sensitivity,
-                                nnc = nnc.sensitivity);
+      ufs::convert.d.to.nnc(d=d,
+                            cer=cer.sensitivity,
+                            r=r,
+                            eventDesirable=eventDesirable,
+                            eventIfHigher=eventIfHigher);
+    sensitivityDf <-
+      data.frame(threshold = thresholdSensitivity,
+                 cer = cer.sensitivity,
+                 eer = eer.sensitivity,
+                 nnc = nnc.sensitivity);
   }
 
   ### Compute confidence intervals if we can
   if (is.null(d.ci) && !is.null(d.n))
-    d.ci <- cohensdCI(d=d, n = sum(d.n));
+    d.ci <- ufs::cohensdCI(d=d, n = sum(d.n));
   if (is.null(cer.ci) && !is.null(cer.n))
     cer.ci <- prop.test(cer*cer.n, cer.n)$conf.int[1:2]
   if (is.null(r.ci) && !is.null(r.n))
-    r.ci <- confIntR(r=r, N = r.n);
+    r.ci <- ufs::confIntR(r=r, N = r.n);
 
   ### Where we were unable to compute confidence intervals, just take the
   ### point estimate as both lower and upper bounds
@@ -164,12 +170,12 @@ nnc <- nnt <- function(d = NULL, cer = NULL, r = 1, n = NULL,
   ### Values closer to .5 are more conservative
   if (cer.ci[2] - .5 == min(abs(cer.ci - .5))) cer.ci <- rev(cer.ci);
 
-  nnc.est <- convert.d.to.nnc(d=d, cer=cer, r=r,
-                              eventDesirable=eventDesirable, eventIfHigher=eventIfHigher);
-  nnc.lb <- convert.d.to.nnc(d=d.ci[1], cer=cer.ci[1], r=r.ci[1],
-                             eventDesirable=eventDesirable, eventIfHigher=eventIfHigher);
-  nnc.ub <- convert.d.to.nnc(d=d.ci[2], cer=cer.ci[2], r=r.ci[2],
-                             eventDesirable=eventDesirable, eventIfHigher=eventIfHigher);
+  nnc.est <- ufs::convert.d.to.nnc(d=d, cer=cer, r=r,
+                                   eventDesirable=eventDesirable, eventIfHigher=eventIfHigher);
+  nnc.lb <- ufs::convert.d.to.nnc(d=d.ci[1], cer=cer.ci[1], r=r.ci[1],
+                                  eventDesirable=eventDesirable, eventIfHigher=eventIfHigher);
+  nnc.ub <- ufs::convert.d.to.nnc(d=d.ci[2], cer=cer.ci[2], r=r.ci[2],
+                                  eventDesirable=eventDesirable, eventIfHigher=eventIfHigher);
 
   eer.est <- attr(nnc.est, 'eer');
   eer.ci <- c(attr(nnc.lb, 'eer'),
@@ -261,13 +267,13 @@ nnc <- nnt <- function(d = NULL, cer = NULL, r = 1, n = NULL,
       cer <- mean(cer.ci);
       if (!silent)
         cat0("Warning: no point estimate for the CER supplied, so using the simple mean ",
-             "of the lower and upper confidence interval bounds (", formatR(cer), ") for the plot!\n");
+             "of the lower and upper confidence interval bounds (", ufs::formatR(cer), ") for the plot!\n");
     }
     if (is.null(r)) {
       r <- mean(r.ci);
       if (!silent)
         cat0("Warning: no point estimate for the correlation supplied, so using the simple mean ",
-             "of the lower and upper confidence interval bounds (", formatR(r), ") for the plot!\n");
+             "of the lower and upper confidence interval bounds (", ufs::formatR(r), ") for the plot!\n");
     }
 
     plot <- ggNNC(erDataSeq(er=cer, mean=mean, sd=sd, eventIfHigher=eventIfHigher),
@@ -289,13 +295,13 @@ nnc <- nnt <- function(d = NULL, cer = NULL, r = 1, n = NULL,
 
 print.nnc <- function(x, digits=2, ...) {
   if (!is.null(attr(x, 'plot'))) {
-    grid.newpage();
-    grid.draw(attr(x, 'plot'));
+    grid::grid.newpage();
+    grid::grid.draw(attr(x, 'plot'));
   }
 
   if (is.null(attr(x, 'cer.ci'))) {
     cer <- attr(x, 'cer');
-    cerStatement <- paste0("a Control Event Rate (CER) of ", formatR(cer));
+    cerStatement <- paste0("a Control Event Rate (CER) of ", ufs::formatR(cer));
   } else {
     cer <- formatCI(sort(attr(x, 'cer.ci')), noZero=TRUE);
     cerStatement <- paste0("a Control Event Rate (CER) with a confidence interval of ",
@@ -303,10 +309,10 @@ print.nnc <- function(x, digits=2, ...) {
   }
 
   if (is.null(attr(x, 'eer.ci'))) {
-    eer <- formatR(attr(x, 'eer'));
+    eer <- ufs::formatR(attr(x, 'eer'));
     eerStatement <- paste0(", an Experimental Event Rate (EER) of ", eer);
   } else {
-    eer <- formatCI(sort(attr(x, 'eer.ci')), noZero=TRUE);
+    eer <- ufs::formatCI(sort(attr(x, 'eer.ci')), noZero=TRUE);
     eerStatement <- paste0(", an Experimental Event Rate (EER) with a confidence interval of ",
                            eer);
   }
@@ -315,7 +321,7 @@ print.nnc <- function(x, digits=2, ...) {
     d <- attr(x, 'd');
     dStatement <- paste0(" and a Cohen's d of ", d);
   } else {
-    d <- formatCI(sort(attr(x, 'd.ci')));
+    d <- ufs::formatCI(sort(attr(x, 'd.ci')));
     dStatement <- paste0(" and a Cohen's d with a confidence interval of ",
                          d);
   }
@@ -329,14 +335,14 @@ print.nnc <- function(x, digits=2, ...) {
       rStatement <- "";
     }
   } else {
-    r <- formatCI(sort(attr(x, 'r.ci')), noZero=TRUE);
+    r <- ufs::formatCI(sort(attr(x, 'r.ci')), noZero=TRUE);
     rStatement <- paste0(", and assuming a correlation with a confidence interval of ",
                          r,
                          " between the dependent measure and behavior");
   }
 
   if (length(x) > 1) {
-    nnc <- formatCI(x);
+    nnc <- ufs::formatCI(x);
   } else {
     nnc <- x;
   }

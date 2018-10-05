@@ -1,11 +1,8 @@
 #' Helper functions for Numbers Needed for Change
-#' 
+#'
 #' These two functions are used by \code{\link{nnc}} to compute the Numbers
 #' Needed for Change.
-#' 
-#' These two functions are used by \code{\link{nnc}} to compute the Numbers
-#' Needed for Change.
-#' 
+#'
 #' @aliases convert.d.to.nnc convert.d.to.eer
 #' @param d The value of Cohen's \emph{d}.
 #' @param cer The Control Event Rate.
@@ -16,7 +13,7 @@
 #' considered 'an event'.
 #' @return The converted value.
 #' @author Gjalt-Jorn Peters & Stefan Gruijters
-#' 
+#'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
 #' @seealso \code{\link{nnc}}
 #' @references Gruijters, S. L. K., & Peters, G.-J. Y. (2017). Introducing the
@@ -24,10 +21,10 @@
 #' intervention research.
 #' @keywords utilities
 #' @examples
-#' 
+#'
 #' convert.d.to.eer(d=.5, cer=.25);
 #' convert.d.to.nnc(d=.5, cer=.25);
-#' 
+#'
 #' @export convert.d.to.nnc
 convert.d.to.nnc <- function(d, cer, r = 1, eventDesirable=TRUE, eventIfHigher=TRUE) {
 
