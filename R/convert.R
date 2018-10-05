@@ -4,6 +4,7 @@
 ### Converting from: Cohen's d
 ###########################################################################
 
+#' @export
 convert.d.to.r <- function(d, n1 = NULL, n2 = NULL, akfEq8='if (n1 + n2) < 50') {
   if (!is.logical(akfEq8) && !is.null(n1) && !is.null(n2) && ((n1 + n2) < 50)) {
     akfEq8 <- TRUE;
@@ -22,6 +23,7 @@ convert.d.to.r <- function(d, n1 = NULL, n2 = NULL, akfEq8='if (n1 + n2) < 50') 
   }
 }
 
+#' @export
 convert.d.to.t <- function(d, df=NULL, n1=NULL, n2=NULL, proportion=.5) {
   ### Obsolete; not basing computation on
   ### reversal of formula used in e.g.
@@ -29,7 +31,7 @@ convert.d.to.t <- function(d, df=NULL, n1=NULL, n2=NULL, proportion=.5) {
   #   return(ifelse(d < 0,
   #                 -1 * sqrt(sqrt(n) * abs(d)),
   #                 sqrt(sqrt(n) * abs(d))));
-  
+
   if (is.null(df) && !is.null(n1) && !is.null(n2)) {
     groupSize1 <- n1;
     groupSize2 <- n2;
@@ -42,15 +44,16 @@ convert.d.to.t <- function(d, df=NULL, n1=NULL, n2=NULL, proportion=.5) {
     warning("Specify either df (and ideally proportion) or n1 and n2! Returning NA.");
     return(NA);
   }
-  
+
   multiplier <- sqrt((1 / groupSize1) + (1 / groupSize2));
-  
+
   t <- d / multiplier;
-  
+
   return(t);
-  
+
 }
 
+#' @export
 convert.d.to.logodds <- function(d) {
   if (!is.numeric(d) || (length(d) > 1)) {
     stop("The 'd' argument is not a single numeric value!");
@@ -58,6 +61,7 @@ convert.d.to.logodds <- function(d) {
   return(d * (pi / sqrt(3)));
 }
 
+#' @export
 convert.d.to.variance <- function(d, n1, n2) {
   return( (((n1+n2) / (n1*n2)) + ((d^2) / (2*(n1+n2-2)))) * ((n1+n2) / (n1+n2-2)) );
 }
@@ -66,10 +70,12 @@ convert.d.to.variance <- function(d, n1, n2) {
 ### Converting from: Log Odds
 ###########################################################################
 
+#' @export
 convert.logodds.to.d <- function(logodds) {
   return(logodds * (sqrt(3) / pi));
 }
 
+#' @export
 convert.logodds.to.r <- function(logodds) {
   return(convert.d.to.r(convert.logodds.to.d(logodds)));
 }
@@ -78,10 +84,12 @@ convert.logodds.to.r <- function(logodds) {
 ### Converting from: Odds Ratio
 ###########################################################################
 
+#' @export
 convert.or.to.d <- function(or) {
   return(log(or) * (sqrt(3) / pi));
 }
 
+#' @export
 convert.or.to.r <- function(or) {
   return(convert.d.to.r(convert.logodds.to.d(log(or))));
 }
@@ -90,6 +98,7 @@ convert.or.to.r <- function(or) {
 ### Converting from: Proportions (percentages)
 ###########################################################################
 
+#' @export
 convert.percentage.to.se <- function(p, n) {
   return(sqrt((p * (1-p)) / n));
 }
@@ -98,19 +107,23 @@ convert.percentage.to.se <- function(p, n) {
 ### Converting from: Pearson's r
 ###########################################################################
 
+#' @export
 convert.r.to.t <- function(r, n) {
   return(r * sqrt((n - 2) / (1-r^2)));
 }
 
+#' @export
 convert.r.to.d <- function(r) {
   return( (r*2) / sqrt(1 - r^2));
 }
 
+#' @export
 convert.r.to.p <- function(r, n) {
   t <- convert.r.to.t(r, n);
   return(convert.t.to.p(t, n - 2));
 }
 
+#' @export
 convert.r.to.fisherz <- function(r) {
   return(.5 * log((1+r) / (1-r)));
 }
@@ -119,16 +132,19 @@ convert.r.to.fisherz <- function(r) {
 ### Converting from: Student's t
 ###########################################################################
 
+#' @export
 convert.t.to.r <- function(t, n) {
   return(t / (sqrt(n-2+t^2)));
 }
 
+#' @export
 convert.t.to.p <- function(t, df) {
   return(2*pt(-abs(t),df));
 }
 
+#' @export
 convert.t.to.d <- function(t, df=NULL, n1=NULL, n2=NULL, proportion=.5) {
- 
+
   if (is.null(df) && !is.null(n1) && !is.null(n2)) {
     groupSize1 <- n1;
     groupSize2 <- n2;
@@ -141,14 +157,14 @@ convert.t.to.d <- function(t, df=NULL, n1=NULL, n2=NULL, proportion=.5) {
     warning("Specify either df (and ideally proportion) or n1 and n2! Returning NA.");
     return(NA);
   }
-  
+
   ### Updated to reflect http://journal.frontiersin.org/article/10.3389/fpsyg.2013.00863/full
 #   multiplier <- sqrt(((groupSize1 + groupSize2) / (groupSize1 * groupSize2)) *
 #                        ((groupSize1 + groupSize2) / (groupSize1 + groupSize2 - 2)));
   multiplier <- sqrt((1 / groupSize1) + (1 / groupSize2));
-  
+
   d <- t * multiplier;
-  
+
   return(d);
 }
 
@@ -157,6 +173,7 @@ convert.t.to.d <- function(t, df=NULL, n1=NULL, n2=NULL, proportion=.5) {
 ### Converting from: Chi Square
 ###########################################################################
 
+#' @export
 convert.chisq.to.V <- function(chisq, n, minDim) {
   if (!is.numeric(chisq) || (length(chisq) > 1)) {
     stop("The 'chisq' argument is not a single numeric value!");
@@ -171,10 +188,12 @@ convert.chisq.to.V <- function(chisq, n, minDim) {
   return(ifelse(is.finite(res), res, NA));
 }
 
+#' @export
 convert.chisq.to.p <- function(chisq, df, lower.tail=FALSE) {
   return(2*pchisq(chisq, df, lower.tail=lower.tail));
 }
 
+#' @export
 convert.V.to.r <- function(V) {
   return(V);
 }
@@ -183,10 +202,12 @@ convert.V.to.r <- function(V) {
 ### Converting from: F
 ###########################################################################
 
+#' @export
 convert.f.to.p <- function(f, df1, df2, lower.tail=FALSE) {
   return(2*pf(f, df1, df2, lower.tail=lower.tail));
 }
 
+#' @export
 convert.f.to.d <- function(f, df1, df2 = NULL, n1=NULL, n2=NULL, proportion=.5) {
   if (df1 != 1) {
     warning("You can only convert an F value for the comparison of two groups to Cohen's d, ",
@@ -206,17 +227,19 @@ convert.f.to.d <- function(f, df1, df2 = NULL, n1=NULL, n2=NULL, proportion=.5) 
     warning("Specify either df2 (and ideally proportion) or n1 and n2! Returning NA.");
     return(NA);
   }
-  
+
   d <- sqrt(f * ((groupSize1 + groupSize2) / (groupSize1 * groupSize2)) *
               ((groupSize1 + groupSize2) / (groupSize1 + groupSize2 - 2)));
-  
+
   return(d);
 }
 
+#' @export
 convert.f.to.etasq <- function(f, df1, df2) {
   return( (f * df1) / ((f * df1) + df2) );
 }
 
+#' @export
 convert.f.to.omegasq <- function(f, df1, df2) {
   return( (f - 1) / (f + (df2 + 1) / (df1)) );
 }
@@ -225,10 +248,12 @@ convert.f.to.omegasq <- function(f, df1, df2) {
 ### Converting from: Eta square
 ###########################################################################
 
+#' @export
 convert.etasq.to.cohensf <- function(etasq) {
   return(sqrt(etasq / (1-etasq)));
 }
 
+#' @export
 convert.etasq.to.r <- function(etasq) {
   return(sqrt(etasq));
 }
@@ -239,10 +264,12 @@ convert.etasq.to.r <- function(etasq) {
 
 ### Equation 16 in Steiger's (2004) 'Beyond the F Test' paper
 
+#' @export
 convert.cohensf.to.omegasq <- function(cohensf) {
   return(cohensf^2 / (1 + cohensf^2));
 }
 
+#' @export
 convert.cohensfsq.to.omegasq <- function(cohensfsq) {
   return(cohensfsq / (1 + cohensfsq));
 }
@@ -251,16 +278,19 @@ convert.cohensfsq.to.omegasq <- function(cohensfsq) {
 ### Converting from: Omega^2
 ###########################################################################
 
+#' @export
 convert.omegasq.to.f <- function(omegasq, df1, df2) {
   return( (omegasq * ((df2 + 1) / df1) + 1) / (1 - omegasq) );
 }
 
 ### Equation 15 in Steiger's (2004) 'Beyond the F Test' paper
 
+#' @export
 convert.omegasq.to.cohensfsq <- function(omegasq) {
   return(omegasq / (1 - omegasq));
 }
 
+#' @export
 convert.omegasq.to.cohensf <- function(omegasq) {
   return(sqrt(omegasq / (1 - omegasq)));
 }
@@ -269,6 +299,7 @@ convert.omegasq.to.cohensf <- function(omegasq) {
 ### Converting from: Beta (regression weight)
 ###########################################################################
 
+#' @export
 convert.b.to.t <- function(b, se) {
   return(b/se);
 }
@@ -277,6 +308,7 @@ convert.b.to.t <- function(b, se) {
 ### Converting from: Fisher's z
 ###########################################################################
 
+#' @export
 convert.fisherz.to.r <- function(z) {
   return((exp(2 * z) - 1) / (exp(2*z)+1));
 }
@@ -287,6 +319,7 @@ convert.fisherz.to.r <- function(z) {
 
 ### Using formula 16 in Beyond The F Test, Steiger's 2004 paper
 
+#' @export
 convert.ncf.to.omegasq <- function(ncf, N) {
   return(ncf / (ncf + N));
 }
@@ -295,6 +328,7 @@ convert.ncf.to.omegasq <- function(ncf, N) {
 ### Converting from: Means and standard deviations
 ###########################################################################
 
+#' @export
 convert.means.to.d <- function(means, sds, ns = NULL, var.equal=NULL) {
   if (is.null(ns)) {
     var <- mean(sds);
