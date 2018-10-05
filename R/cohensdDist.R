@@ -174,6 +174,7 @@ dCohensd <- dd <- function(x, df=NULL,
               ncp=ufs::convert.d.to.t(populationD, n1=n1, n2=n2)));
 }
 
+#' @export
 pCohensd <- pd <- function(q, df, populationD = 0, lower.tail=TRUE) {
   ### Return p-value for given Cohen's d
   return(pt(ufs::convert.d.to.t(q, df=df), df,
@@ -181,6 +182,7 @@ pCohensd <- pd <- function(q, df, populationD = 0, lower.tail=TRUE) {
             lower.tail=lower.tail));
 }
 
+#' @export
 qCohensd <- qd <- function(p, df, populationD = 0, lower.tail=TRUE) {
   ### Return Cohen's d for given p-value
   return(ufs::convert.t.to.d(qt(p, df,
@@ -189,6 +191,7 @@ qCohensd <- qd <- function(p, df, populationD = 0, lower.tail=TRUE) {
                            lower.tail=lower.tail), df + 2));
 }
 
+#' @export
 rCohensd <- rd <- function(n, df, populationD = 0) {
   ### Return random Cohen's d value(s)
   return(ufs::convert.t.to.d(rt(n, df=df,
@@ -197,16 +200,19 @@ rCohensd <- rd <- function(n, df, populationD = 0) {
                         df=df));
 }
 
+#' @export
 pdInterval <- function(ds, n, populationD = 0) {
   return(ufs::pd(max(ds), df=n - 2, populationD=populationD) -
            pd(min(ds), df=n - 2, populationD=populationD));
 }
 
+#' @export
 pdExtreme <- function(d, n, populationD = 0) {
   return(2 * ufs::pd(d, n - 2, populationD=populationD,
                 lower.tail = (d <= populationD)));
 }
 
+#' @export
 pdMild <- function(d, n, populationD = 0) {
   return(1 - ufs::pdExtreme(d, n, populationD=populationD));
 }

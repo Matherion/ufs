@@ -72,7 +72,7 @@
 #' @param pdist,qdist Distributions to use when converting thresholds to event
 #' rates and vice versa; defaults to the normal distribution.
 #' @return \code{erDataSeq} returns a data sequence; \code{ggNNC} a
-#' \code{\link{ggplot}}.
+#' \code{\link[ggplot2]{ggplot}}.
 #' @author Gjalt-Jorn Peters & Stefan Gruijters
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
