@@ -148,7 +148,7 @@ nnc <- nnt <- function(d = NULL, cer = NULL, r = 1, n = NULL,
   if (is.null(d.ci) && !is.null(d.n))
     d.ci <- ufs::cohensdCI(d=d, n = sum(d.n));
   if (is.null(cer.ci) && !is.null(cer.n))
-    cer.ci <- prop.test(cer*cer.n, cer.n)$conf.int[1:2]
+    cer.ci <- stats::prop.test(cer*cer.n, cer.n)$conf.int[1:2]
   if (is.null(r.ci) && !is.null(r.n))
     r.ci <- ufs::confIntR(r=r, N = r.n);
 

@@ -1,4 +1,6 @@
-#' @export
+#' @rdname cohensDdistribution
+#' @export cohensdCI
+#' @export confIntD
 cohensdCI <- confIntD <- function(d, n, conf.level = .95, plot=FALSE, silent=TRUE) {
 
   if (length(conf.level) != 1) {
@@ -18,13 +20,13 @@ cohensdCI <- confIntD <- function(d, n, conf.level = .95, plot=FALSE, silent=TRU
 
   if (length(d) == length(n)) {
     res <- t(sapply(1:length(d), function(i) {
-    return(withCallingHandlers(c(ufs::qCohensd(ci.bound.lo,
-                                               n[i],
-                                               populationD=d[i]),
-                                 ufs::qCohensd(ci.bound.hi,
-                                               n[i],
-                                               populationD=d[i])),
-                               warning = wHandler));
+      return(withCallingHandlers(c(ufs::qCohensd(ci.bound.lo,
+                                                 n[i],
+                                                 populationD=d[i]),
+                                   ufs::qCohensd(ci.bound.hi,
+                                                 n[i],
+                                                 populationD=d[i])),
+                                 warning = wHandler));
     }));
   } else if ((length(d) == 1) || (length(n) == 1)) {
     res <- withCallingHandlers(matrix(c(ufs::qCohensd(ci.bound.lo,
@@ -50,7 +52,8 @@ cohensdCI <- confIntD <- function(d, n, conf.level = .95, plot=FALSE, silent=TRU
                                max(res) + .5, .001));
       df$density <- withCallingHandlers(ufs::dd(df$d,
                                                 df = n-2,
-                                                populationD = d),
+                                                populationD = d,
+                                                silent=TRUE),
                                         warning = wHandler);
 
       cilo <- min(res);
@@ -59,33 +62,35 @@ cohensdCI <- confIntD <- function(d, n, conf.level = .95, plot=FALSE, silent=TRU
 
       plot <-
         ggplot2::ggplot(df,
-                        ggplot2::aes(x=d, y=density)) +
+                        ggplot2::aes_string(x='d', y='density')) +
         ggplot2::theme_bw() +
         ggplot2::theme(axis.title.x.top = ggplot2::element_blank()) +
         ggplot2::scale_x_continuous(sec.axis = ggplot2::dup_axis(breaks=c(cilo,
                                                                           dValue,
                                                                           cihi),
-                                    labels=round(c(cilo,
-                                                   dValue,
-                                                   cihi), 2))) +
+                                                                 labels=round(c(cilo,
+                                                                                dValue,
+                                                                                cihi), 2))) +
         ggplot2::geom_vline(ggplot2::aes(xintercept=cilo), linetype='dashed') +
         ggplot2::geom_vline(ggplot2::aes(xintercept=dValue), linetype='dashed') +
         ggplot2::geom_vline(ggplot2::aes(xintercept=cihi), linetype='dashed') +
         ggplot2::geom_ribbon(data=df[df$d >= min(res) & df$d <= max(res), ],
-                             ggplot2::aes(ymin = 0, ymax=density),
+                             ggplot2::aes_string(ymin = 0, ymax='density'),
                              fill='#cadded') +
         ggplot2::geom_segment(x = min(res),
-                     xend = min(res),
-                     y = 0,
-                     yend = ufs::dd(min(res), df = n-2,
-                                    populationD = d),
-                     color = '#2a5581', size=1.5) +
+                              xend = min(res),
+                              y = 0,
+                              yend = ufs::dd(min(res), df = n-2,
+                                             populationD = d,
+                                             silent=TRUE),
+                              color = '#2a5581', size=1.5) +
         ggplot2::geom_segment(x = max(res),
-                     xend = max(res),
-                     y = 0,
-                     yend = ufs::dd(max(res), df = n-2,
-                                    populationD = d),
-                     color = '#2a5581', size=1.5) +
+                              xend = max(res),
+                              y = 0,
+                              yend = ufs::dd(max(res), df = n-2,
+                                             populationD = d,
+                                             silent=TRUE),
+                              color = '#2a5581', size=1.5) +
         ggplot2::geom_line(size=1.5);
       attr(res, "plot") <- plot;
       class(res) <- 'cohensdCI';

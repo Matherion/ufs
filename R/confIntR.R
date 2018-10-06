@@ -68,7 +68,7 @@ confIntR <- function(r, N, conf.level = .95, plot=FALSE) {
   if ((length(r) > 1) && (length(N) > 1)) {
     stop("Sorry, current implementation only vectorized over either r of N!");
   }
-  Z <- qnorm(1 - (1-conf.level)/2);
+  Z <- stats::qnorm(1 - (1-conf.level)/2);
   se <- sqrt(1/((N - 3)));
   zr <- log((1 + r)/(1 - r))/2;
   LL0 <- zr - Z*se;
@@ -105,33 +105,33 @@ confIntR <- function(r, N, conf.level = .95, plot=FALSE) {
       cihi <- max(res);
       rValue <- r;
 
-      plot <- ggplot2::ggplot(df, ggplot2::aes(x=r, y=density)) +
+      plot <- ggplot2::ggplot(df, ggplot2::aes_string(x='r', y='density')) +
         ggplot2::theme_bw() +
         ggplot2::theme(axis.title.x.top = ggplot2::element_blank()) +
         ggplot2::scale_x_continuous(sec.axis = ggplot2::dup_axis(breaks=c(cilo,
-                                                        rValue,
-                                                        cihi),
-                                               labels=round(c(cilo,
-                                                              rValue,
-                                                              cihi), 2))) +
-        ggplot2::geom_vline(aes(xintercept=cilo), linetype='dashed') +
-        ggplot2::geom_vline(aes(xintercept=rValue), linetype='dashed') +
-        ggplot2::geom_vline(aes(xintercept=cihi), linetype='dashed') +
+                                                                          rValue,
+                                                                          cihi),
+                                                                 labels=round(c(cilo,
+                                                                                rValue,
+                                                                                cihi), 2))) +
+        ggplot2::geom_vline(ggplot2::aes_string(xintercept='cilo'), linetype='dashed') +
+        ggplot2::geom_vline(ggplot2::aes_string(xintercept='rValue'), linetype='dashed') +
+        ggplot2::geom_vline(ggplot2::aes_string(xintercept='cihi'), linetype='dashed') +
         ggplot2::geom_ribbon(data=df[df$r >= min(res) & df$r <= max(res), ],
-                             ggplot2::aes(ymin = 0, ymax=density),
-                    fill='#cadded') +
+                             ggplot2::aes_string(ymin = 0, ymax='density'),
+                             fill='#cadded') +
         ggplot2::geom_segment(x = min(res),
-                     xend = min(res),
-                     y = 0,
-                     yend = SuppDists::dPearson(min(res), N = N,
-                                                rho = r),
-                     color = '#2a5581', size=1.5) +
+                              xend = min(res),
+                              y = 0,
+                              yend = SuppDists::dPearson(min(res), N = N,
+                                                         rho = r),
+                              color = '#2a5581', size=1.5) +
         ggplot2::geom_segment(x = max(res),
-                     xend = max(res),
-                     y = 0,
-                     yend = SuppDists::dPearson(max(res), N = N,
-                                                rho = r),
-                     color = '#2a5581', size=1.5) +
+                              xend = max(res),
+                              y = 0,
+                              yend = SuppDists::dPearson(max(res), N = N,
+                                                         rho = r),
+                              color = '#2a5581', size=1.5) +
         ggplot2::geom_line(size=1.5);
 
       attr(res, "plot") <- plot;

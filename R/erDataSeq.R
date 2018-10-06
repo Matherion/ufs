@@ -1,8 +1,9 @@
+#' @rdname nncvis
 #' @export
 erDataSeq <- function(er = NULL, threshold = NULL, mean = NULL, sd = NULL,
                       eventIfHigher = TRUE,
                       pRange = c(.000001, .99999), xStep=.01) {
-  
+
   if (is.null(er) && is.null(threshold)) {
     stop("Provide either the control event rate (er; a proportion, ",
          "a number between 0 and 1) or the cut-off value that determines ",
@@ -29,18 +30,18 @@ erDataSeq <- function(er = NULL, threshold = NULL, mean = NULL, sd = NULL,
     } else if (is.null(sd)) {
       stop("If providing an event rate (er) and a mean value, you must also provide a standard deviation!");
     }
-    threshold <- convert.er.to.threshold(er,
-                                         mean = mean,
-                                         sd = sd,
-                                         eventIfHigher = eventIfHigher);
+    threshold <- ufs::convert.er.to.threshold(er,
+                                              mean = mean,
+                                              sd = sd,
+                                              eventIfHigher = eventIfHigher);
   }
 
   ### Get range from where to where to generate values
-  xRange <- c(qnorm(min(pRange), mean=mean, sd=sd),
-              qnorm(max(pRange), mean=mean, sd=sd));
+  xRange <- c(stats::qnorm(min(pRange), mean=mean, sd=sd),
+              stats::qnorm(max(pRange), mean=mean, sd=sd));
 
   res <- data.frame(x = seq(from=xRange[1], to=xRange[2], by=xStep));
-  res$density <- dnorm(res$x, mean=mean, sd=sd);
+  res$density <- stats::dnorm(res$x, mean=mean, sd=sd);
 
   attr(res, 'er') <- er;
   attr(res, 'threshold') <- threshold;

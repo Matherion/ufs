@@ -24,8 +24,9 @@
 #' @param ds A vector with two Cohen's \emph{d} values.
 #' @param p Vector of probabilites (\emph{p}-values).
 #' @param df Degrees of freedom.
-#' @param n Desired number of Cohen's \emph{d} values for \code{rCohensd} and
-#' \code{rd}, and the number of participants/datapoints for \code{pdExtreme},
+#' @param n,n1,n2 Desired number of Cohen's \emph{d} values for \code{rCohensd} and
+#' \code{rd} (`n`), and the number of participants/datapoints in total (`n`) or in each
+#' group (`n1` and `n2`) for `dd`, `dCohensd`, \code{pdExtreme},
 #' \code{pdMild}, \code{pdInterval}, and \code{cohensdCI}.
 #' @param populationD The value of Cohen's \emph{d} in the population; this
 #' determines the center of the Cohen's \emph{d} distribution. I suppose this
@@ -130,7 +131,10 @@
 #' ### than .5 if it's 0.2 in the population.
 #' pdExtreme(.5, 64, populationD = .2);
 #'
+#' @name cohensDdistribution
+#' @rdname cohensDdistribution
 #' @export dCohensd
+#' @export dd
 dCohensd <- dd <- function(x, df=NULL,
                            populationD = 0,
                            n=NULL,
@@ -169,50 +173,59 @@ dCohensd <- dd <- function(x, df=NULL,
   multiplier <- sqrt(n1*n2/(n1+n2));
   ### Return density for given Cohen's d
   return(multiplier*
-           dt(x=ufs::convert.d.to.t(x, n1=n1, n2=n2),
-              df=(n1+n2-2),
-              ncp=ufs::convert.d.to.t(populationD, n1=n1, n2=n2)));
+           stats::dt(x=ufs::convert.d.to.t(x, n1=n1, n2=n2),
+                     df=(n1+n2-2),
+                     ncp=ufs::convert.d.to.t(populationD, n1=n1, n2=n2)));
 }
 
-#' @export
+#' @export pCohensd
+#' @export pd
+#' @rdname cohensDdistribution
 pCohensd <- pd <- function(q, df, populationD = 0, lower.tail=TRUE) {
   ### Return p-value for given Cohen's d
-  return(pt(ufs::convert.d.to.t(q, df=df), df,
-            ncp=ufs::convert.d.to.t(populationD, df=df),
-            lower.tail=lower.tail));
+  return(stats::pt(ufs::convert.d.to.t(q, df=df), df,
+                   ncp=ufs::convert.d.to.t(populationD, df=df),
+                   lower.tail=lower.tail));
 }
 
-#' @export
+#' @export qCohensd
+#' @export qd
+#' @rdname cohensDdistribution
 qCohensd <- qd <- function(p, df, populationD = 0, lower.tail=TRUE) {
   ### Return Cohen's d for given p-value
-  return(ufs::convert.t.to.d(qt(p, df,
-                           ncp=ufs::convert.d.to.t(d=populationD,
-                                              df=df),
-                           lower.tail=lower.tail), df + 2));
+  return(ufs::convert.t.to.d(stats::qt(p, df,
+                                       ncp=ufs::convert.d.to.t(d=populationD,
+                                                               df=df),
+                                       lower.tail=lower.tail), df + 2));
 }
 
-#' @export
+#' @export rCohensd
+#' @export rd
+#' @rdname cohensDdistribution
 rCohensd <- rd <- function(n, df, populationD = 0) {
   ### Return random Cohen's d value(s)
-  return(ufs::convert.t.to.d(rt(n, df=df,
-                           ncp=ufs::convert.d.to.t(d=populationD,
-                                              df=df)),
-                        df=df));
+  return(ufs::convert.t.to.d(stats::rt(n, df=df,
+                                       ncp=ufs::convert.d.to.t(d=populationD,
+                                                               df=df)),
+                             df=df));
 }
 
 #' @export
+#' @rdname cohensDdistribution
 pdInterval <- function(ds, n, populationD = 0) {
   return(ufs::pd(max(ds), df=n - 2, populationD=populationD) -
-           pd(min(ds), df=n - 2, populationD=populationD));
+           ufs::pd(min(ds), df=n - 2, populationD=populationD));
 }
 
 #' @export
+#' @rdname cohensDdistribution
 pdExtreme <- function(d, n, populationD = 0) {
   return(2 * ufs::pd(d, n - 2, populationD=populationD,
-                lower.tail = (d <= populationD)));
+                     lower.tail = (d <= populationD)));
 }
 
 #' @export
+#' @rdname cohensDdistribution
 pdMild <- function(d, n, populationD = 0) {
   return(1 - ufs::pdExtreme(d, n, populationD=populationD));
 }

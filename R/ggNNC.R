@@ -1,6 +1,7 @@
 #' Visualising Numbers Needed for Change
 #'
-#' These functions can be used to visualise Numbers Needed for Change.
+#' These functions can be used to visualise Numbers Needed for Change (or
+#' Numbers Needed to Treat).
 #' \code{erDataSeq} is a helper function to generate an Event Rate Data
 #' Sequence, and it uses \code{convert.threshold.to.er} and
 #' \code{convert.er.to.threshold} to convert thresholds to event rates and vice
@@ -109,6 +110,8 @@
 #' ### you'll still need a high number of NNC
 #' ggNNC(erDataSeq(er=.9), d=1);
 #'
+#' @name nncvis
+#' @rdname nncvis
 #'
 #' @export ggNNC
 ggNNC <- function(cerDataSeq, d = NULL,
@@ -116,7 +119,7 @@ ggNNC <- function(cerDataSeq, d = NULL,
                   r = 1,
                   xlab = "Continuous outcome",
                   plotTitle = c("Numbers Needed for Change = ", ""),
-                  theme=theme_bw(),
+                  theme=ggplot2::theme_bw(),
                   lineSize=1,
                   cerColor = '#EBF2F8',
                   eerColor = "#172F47", #'#CADDED',
@@ -196,46 +199,47 @@ ggNNC <- function(cerDataSeq, d = NULL,
   ### Layer with CER normal curve
   if (eventIfHigher) {
     cerFill <- ggplot2::geom_ribbon(data = cerDataSeq[cerDataSeq$x > cerValue, ],
-                                    ggplot2::aes(x=x, ymax=density, ymin=0, fill=cerLabel), alpha=cerAlpha);
+                                    ggplot2::aes_string(x='x', ymax='density', ymin=0, fill='cerLabel'), alpha='cerAlpha');
   } else  {
     cerFill <- ggplot2::geom_ribbon(data = cerDataSeq[cerDataSeq$x < cerValue, ],
-                                    ggplot2::aes(x=x, ymax=density, ymin=0, fill=cerLabel), alpha=cerAlpha);
+                                    ggplot2::aes_string(x="x", ymax="density", ymin=0, fill="cerLabel"), alpha="cerAlpha");
   }
   ### Add line on top
-  cerOutline <- ggplot2::geom_line(data=cerDataSeq, aes(x=x, y=density), size=lineSize, color=cerLineColor,
+  cerOutline <- ggplot2::geom_line(data=cerDataSeq,
+                                   ggplot2::aes_string(x="x", y="density"), size=lineSize, color=cerLineColor,
                                    na.rm=TRUE);
   ### Vertical line to show CER
-  cerLine <- ggplot2::geom_segment(aes(x=cerValue, xend=cerValue, y=0, yend=cerValueDensity),
+  cerLine <- ggplot2::geom_segment(ggplot2::aes_string(x="cerValue", xend="cerValue", y=0, yend="cerValueDensity"),
                                    size=lineSize, color=verticalLineColor);
 
   ### Layer with EER normal curve
   if (eventIfHigher) {
     eerFill <- ggplot2::geom_ribbon(data = eerDataSeq[eerDataSeq$x > cerValue, ],
-                                    ggplot2::aes(x=x, ymax=density, ymin=0, fill=eerLabel),
+                                    ggplot2::aes_string(x="x", ymax="density", ymin=0, fill="eerLabel"),
                                     alpha=eerAlpha);
   } else {
     eerFill <- ggplot2::geom_ribbon(data = eerDataSeq[eerDataSeq$x < cerValue, ],
-                                    ggplot2::aes(x=x, ymax=density, ymin=0, fill=eerLabel),
+                                    ggplot2::aes_string(x="x", ymax="density", ymin=0, fill="eerLabel"),
                                     alpha=eerAlpha);
   }
   ### Add line on top
   eerOutline <- ggplot2::geom_line(data=eerDataSeq,
-                                   ggplot2::aes(x=x, y=density),
+                                   ggplot2::aes_string(x="x", y="density"),
                                    size=lineSize, color=eerLineColor,
                                    na.rm=TRUE);
   ### Vertical line to show EER
-  eerLine <- ggplot2::geom_segment(ggplot2::aes(x=cerValue, xend=cerValue, y=0, yend=eerValueDensity),
+  eerLine <- ggplot2::geom_segment(ggplot2::aes_string(x="cerValue", xend="cerValue", y=0, yend="eerValueDensity"),
                                    size=lineSize, color=verticalLineColor);
 
   ### Indicator for difference between distributions
-  dArrow <- ggplot2::geom_segment(ggplot2::aes(x = meanValue, xend = newMeanValue,
-                                  y = max(cerDataSeq$density) + dArrowDistance,
-                             yend = max(cerDataSeq$density) + dArrowDistance),
-                         arrow=arrow(length = unit(.02, 'npc'), ends='last', type='closed', angle=20),
-                         size=lineSize, color=dArrowColor);
-  dText <- geom_text(aes(x = mean(c(meanValue, newMeanValue)),
-                         y = max(cerDataSeq$density) + dLabelDistance),
-                     hjust=.5, label=paste0("d = ", round(d, 2)));
+  dArrow <- ggplot2::geom_segment(ggplot2::aes_(x = meanValue, xend = newMeanValue,
+                                                y = max(cerDataSeq$density) + dArrowDistance,
+                                                yend = max(cerDataSeq$density) + dArrowDistance),
+                                  arrow=ggplot2::arrow(length = ggplot2::unit(.02, 'npc'), ends='last', type='closed', angle=20),
+                                  size=lineSize, color=dArrowColor);
+  dText <- ggplot2::geom_text(ggplot2::aes_(x = mean(c(meanValue, newMeanValue)),
+                                  y =       max(cerDataSeq$density) + dLabelDistance),
+                              hjust=.5, label=paste0("d = ", round(d, 2)));
 
   ### Convert desirable and undesirable to event and no event
   if (eventDesirable) {
@@ -258,7 +262,7 @@ ggNNC <- function(cerDataSeq, d = NULL,
   if (eventIfHigher) {
     eventBarNoEvent <- ggplot2::geom_rect(ggplot2::aes(xmin = -Inf, xmax = cerValue, ymax = 0, ymin = -Inf),
                                           fill=noEventColor, alpha=noEventAlpha);
-    eventBarEvent <- ggplot2::geom_rect(aes(xmin = cerValue, xmax = Inf, ymax = 0, ymin = -Inf),
+    eventBarEvent <- ggplot2::geom_rect(ggplot2::aes(xmin = cerValue, xmax = Inf, ymax = 0, ymin = -Inf),
                                         fill=eventColor, alpha=eventAlpha);
     eventBarNoEventText <- ggplot2::geom_text(ggplot2::aes(x = mean(c(lowestXWithDensity, cerValue)),
                                                            y = -.5*dArrowDistance,
@@ -284,7 +288,7 @@ ggNNC <- function(cerDataSeq, d = NULL,
   }
 
   ### Horizontal line at 0 (just aesthetic)
-  zeroLine <- ggplot2::geom_hline(aes(yintercept=0), color="#000000", size=lineSize);
+  zeroLine <- ggplot2::geom_hline(ggplot2::aes(yintercept=0), color="#000000", size=lineSize);
 
   ### Build & return plot
   basePlot <- basePlot +
@@ -306,7 +310,7 @@ ggNNC <- function(cerDataSeq, d = NULL,
   }
   if (showLegend && d!=0) {
     basePlot <- basePlot +
-      ggplot2:: guides(fill=guide_legend(override.aes=list(color=c(cerLineColor, eerLineColor), size=lineSize))) +
+      ggplot2:: guides(fill=ggplot2::guide_legend(override.aes=list(color=c(cerLineColor, eerLineColor), size=lineSize))) +
       ggplot2::theme(legend.position="top");
   } else {
     basePlot <- basePlot + ggplot2::theme(legend.position="none");

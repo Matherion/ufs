@@ -1,5 +1,5 @@
-from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95, units = 100, 
-                                homogeneity = "breslow.day", outcome = "as.columns") 
+from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95, units = 100,
+                                homogeneity = "breslow.day", outcome = "as.columns")
 {
   if (outcome == "as.columns") {
     dat <- dat
@@ -38,11 +38,11 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
     lb <- ub <- x
     lb[x1] <- 1
     ub[x2] <- n[x2] - 1
-    lcl <- 1 - qbeta(1 - alpha2, n + 1 - x, lb)
-    ucl <- 1 - qbeta(alpha2, n - ub, x + 1)
-    if (any(x1)) 
+    lcl <- 1 - stats::qbeta(1 - alpha2, n + 1 - x, lb)
+    ucl <- 1 - stats::qbeta(alpha2, n - ub, x + 1)
+    if (any(x1))
       lcl[x1] <- rep(0, sum(x1))
-    if (any(x2)) 
+    if (any(x2))
       ucl[x2] <- rep(1, sum(x2))
     rval <- data.frame(est = p, lower = lcl, upper = ucl)
     rval
@@ -52,15 +52,15 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
     a <- dat[, 1]
     n <- dat[, 2]
     p <- a/n
-    low <- 0.5 * qchisq(p = N., df = 2 * a + 2, lower.tail = FALSE)/n
-    up <- 0.5 * qchisq(p = 1 - N., df = 2 * a + 2, lower.tail = FALSE)/n
+    low <- 0.5 * stats::qchisq(p = N., df = 2 * a + 2, lower.tail = FALSE)/n
+    up <- 0.5 * stats::qchisq(p = 1 - N., df = 2 * a + 2, lower.tail = FALSE)/n
     rval <- data.frame(p, low, up)
     names(rval) <- c("est", "lower", "upper")
     rval
   }
   .funRRwald <- function(dat, conf.level) {
     N. <- 1 - ((1 - conf.level)/2)
-    z <- qnorm(N., mean = 0, sd = 1)
+    z <- stats::qnorm(N., mean = 0, sd = 1)
     a <- dat[1]
     b <- dat[3]
     c <- dat[2]
@@ -78,7 +78,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   }
   .funRRscore <- function(dat, conf.level) {
     N. <- 1 - ((1 - conf.level)/2)
-    z <- qnorm(N., mean = 0, sd = 1)
+    z <- stats::qnorm(N., mean = 0, sd = 1)
     a <- dat[1]
     b <- dat[3]
     c <- dat[2]
@@ -92,9 +92,9 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
     }
     else {
       a1 = N0 * (N0 * (N0 + N1) * a + N1 * (N0 + a) * (z^2))
-      a2 = -N0 * (N0 * N1 * (c + a) + 2 * (N0 + N1) * c * 
+      a2 = -N0 * (N0 * N1 * (c + a) + 2 * (N0 + N1) * c *
                     a + N1 * (N0 + c + 2 * a) * (z^2))
-      a3 = 2 * N0 * N1 * c * (c + a) + (N0 + N1) * (c^2) * 
+      a3 = 2 * N0 * N1 * c * (c + a) + (N0 + N1) * (c^2) *
         a + N0 * N1 * (c + a) * (z^2)
       a4 = -N1 * (c^2) * (c + a)
       b1 = a2/a1
@@ -113,12 +113,12 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       p0up = min(p01, p02, p03)
       p0low = p0sum - p0up - max(p01, p02, p03)
       if ((c == 0) && (a != 0)) {
-        ll = (1 - (N1 - a) * (1 - p0low)/(c + N1 - (N0 + 
+        ll = (1 - (N1 - a) * (1 - p0low)/(c + N1 - (N0 +
                                                       N1) * p0low))/p0low
         ul = Inf
       }
       else if ((c != N0) && (a == 0)) {
-        ul = (1 - (N1 - a) * (1 - p0up)/(c + N1 - (N0 + 
+        ul = (1 - (N1 - a) * (1 - p0up)/(c + N1 - (N0 +
                                                      N1) * p0up))/p0up
         ll = 0
       }
@@ -140,11 +140,11 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
             a = (N0 + N1) * phil
             b = -((c + N1) * phil + a + N0)
             c = c + a
-            p1hat = (-b - sqrt(b^2 - 4 * a * c))/(2 * 
+            p1hat = (-b - sqrt(b^2 - 4 * a * c))/(2 *
                                                     a)
             p2hat = p1hat * phil
             q2hat = 1 - p2hat
-            var = (N0 * N1 * p2hat)/(N1 * (phil - p2hat) + 
+            var = (N0 * N1 * p2hat)/(N1 * (phil - p2hat) +
                                        N0 * q2hat)
             chi2 = ((a - N1 * p2hat)/q2hat)/sqrt(var)
             ll = phil
@@ -178,18 +178,18 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
           a. = (ni + nj) * phiu
           b. = -((i + nj) * phiu + j + ni)
           c. = i + j
-          p1hat = (-b. - sqrt(b.^2 - 4 * a. * c.))/(2 * 
+          p1hat = (-b. - sqrt(b.^2 - 4 * a. * c.))/(2 *
                                                       a.)
           p2hat = p1hat * phiu
           q2hat = 1 - p2hat
-          var = (ni * nj * p2hat)/(nj * (phiu - p2hat) + 
+          var = (ni * nj * p2hat)/(nj * (phiu - p2hat) +
                                      ni * q2hat)
           chi1 = ((j - nj * p2hat)/q2hat)/sqrt(var)
           phiu1 = phiu
           phiu = 1.0001 * phiu1
         }
         if (a == N1) {
-          ul = (1 - (N1 - a) * (1 - p0up)/(c + N1 - (N0 + 
+          ul = (1 - (N1 - a) * (1 - p0up)/(c + N1 - (N0 +
                                                        N1) * p0up))/p0up
           ll = 1/phiu1
         }
@@ -198,9 +198,9 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
         }
       }
       else {
-        ul = (1 - (N1 - a) * (1 - p0up)/(c + N1 - (N0 + 
+        ul = (1 - (N1 - a) * (1 - p0up)/(c + N1 - (N0 +
                                                      N1) * p0up))/p0up
-        ll = (1 - (N1 - a) * (1 - p0low)/(c + N1 - (N0 + 
+        ll = (1 - (N1 - a) * (1 - p0low)/(c + N1 - (N0 +
                                                       N1) * p0low))/p0low
       }
     }
@@ -208,7 +208,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   }
   .funORwald <- function(dat, conf.level) {
     N. <- 1 - ((1 - conf.level)/2)
-    z <- qnorm(N., mean = 0, sd = 1)
+    z <- stats::qnorm(N., mean = 0, sd = 1)
     a <- dat[1]
     b <- dat[3]
     c <- dat[2]
@@ -223,7 +223,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
     ul <- exp(lnwOR + (z * lnwOR.se))
     c(wOR.p, ll, ul)
   }
-  .funORcfield <- function(dat, conf.level, interval = c(1e-08, 
+  .funORcfield <- function(dat, conf.level, interval = c(1e-08,
                                                          1e+08)) {
     a <- dat[1]
     b <- dat[3]
@@ -238,36 +238,36 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
     }
     else if (c == N0 || a == 0) {
       ll <- 0
-      ul <- uniroot(function(or) {
-        sum(sapply(max(0, a + c - N0):a, dFNCHypergeo, 
-                   N1, N0, a + c, or)) - dFNCHypergeo(a, N1, N0, 
-                                                      a + c, or)/2 - (1 - conf.level)/2
+      ul <- stats::uniroot(function(or) {
+        sum(sapply(max(0, a + c - N0):a, BiasedUrn::dFNCHypergeo,
+                   N1, N0, a + c, or)) - BiasedUrn::dFNCHypergeo(a, N1, N0,
+                                                                 a + c, or)/2 - (1 - conf.level)/2
       }, interval = interval)$root
     }
     else if (a == N1 || c == 0) {
-      ll <- uniroot(function(or) {
-        sum(sapply(a:min(N1, a + c), dFNCHypergeo, N1, 
-                   N0, a + c, or)) - dFNCHypergeo(a, N1, N0, a + 
-                                                    c, or)/2 - (1 - conf.level)/2
+      ll <- stats::uniroot(function(or) {
+        sum(sapply(a:min(N1, a + c), BiasedUrn::dFNCHypergeo, N1,
+                   N0, a + c, or)) - BiasedUrn::dFNCHypergeo(a, N1, N0, a +
+                                                               c, or)/2 - (1 - conf.level)/2
       }, interval = interval)$root
       ul <- Inf
     }
     else {
-      ll <- uniroot(function(or) {
-        sum(sapply(a:min(N1, a + c), dFNCHypergeo, N1, 
-                   N0, a + c, or)) - dFNCHypergeo(a, N1, N0, a + 
-                                                    c, or)/2 - (1 - conf.level)/2
+      ll <- stats::uniroot(function(or) {
+        sum(sapply(a:min(N1, a + c), BiasedUrn::dFNCHypergeo, N1,
+                   N0, a + c, or)) - BiasedUrn::dFNCHypergeo(a, N1, N0, a +
+                                                               c, or)/2 - (1 - conf.level)/2
       }, interval = interval)$root
-      ul <- uniroot(function(or) {
-        sum(sapply(max(0, a + c - N0):a, dFNCHypergeo, 
-                   N1, N0, a + c, or)) - dFNCHypergeo(a, N1, N0, 
-                                                      a + c, or)/2 - (1 - conf.level)/2
+      ul <- stats::uniroot(function(or) {
+        sum(sapply(max(0, a + c - N0):a, BiasedUrn::dFNCHypergeo,
+                   N1, N0, a + c, or)) - BiasedUrn::dFNCHypergeo(a, N1, N0,
+                                                                 a + c, or)/2 - (1 - conf.level)/2
       }, interval = interval)$root
     }
     c(cfOR.p, ll, ul)
   }
   .limit <- function(x1, n1, x2, n2, conf.level, lim, t) {
-    z = qchisq(conf.level, 1)
+    z = stats::qchisq(conf.level, 1)
     px = x1/n1
     score <- 1:1000
     score = 0
@@ -277,7 +277,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       c. = -(x1 + x2)
       p2d = (-b. + sqrt(b.^2 - 4 * a. * c.))/(2 * a.)
       p1d = p2d * lim/(1 + p2d * (lim - 1))
-      score = ((n1 * (px - p1d))^2) * (1/(n1 * p1d * (1 - 
+      score = ((n1 * (px - p1d))^2) * (1/(n1 * p1d * (1 -
                                                         p1d)) + 1/(n2 * p2d * (1 - p2d)))
       ci = lim
       if (t == 0) {
@@ -300,7 +300,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
     px = x1/n1
     py = x2/n2
     scOR.p <- (dat[1]/dat[3])/(dat[2]/dat[4])
-    if (((x1 == 0) && (x2 == 0)) || ((x1 == n1) && (x2 == 
+    if (((x1 == 0) && (x2 == 0)) || ((x1 == n1) && (x2 ==
                                                     n2))) {
       ul = 1/0
       ll = 0
@@ -324,7 +324,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
     c(scOR.p, ll, ul)
   }
   .funORml <- function(dat, conf.level) {
-    mOR.tmp <- fisher.test(dat, conf.int = TRUE, conf.level = conf.level)
+    mOR.tmp <- stats::fisher.test(dat, conf.int = TRUE, conf.level = conf.level)
     mOR.p <- as.numeric(mOR.tmp$estimate)
     mOR.l <- as.numeric(mOR.tmp$conf.int)[1]
     mOR.u <- as.numeric(mOR.tmp$conf.int)[2]
@@ -332,7 +332,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   }
   .funARwald <- function(dat, conf.level, units) {
     N. <- 1 - ((1 - conf.level)/2)
-    z <- qnorm(N., mean = 0, sd = 1)
+    z <- stats::qnorm(N., mean = 0, sd = 1)
     a <- dat[1]
     b <- dat[3]
     c <- dat[2]
@@ -340,7 +340,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
     N1 <- a + b
     N0 <- c + d
     wARisk.p <- ((a/N1) - (c/N0))
-    wARisk.se <- (sqrt(((a * (N1 - a))/N1^3) + ((c * (N0 - 
+    wARisk.se <- (sqrt(((a * (N1 - a))/N1^3) + ((c * (N0 -
                                                         c))/N0^3)))
     ll <- (wARisk.p - (z * wARisk.se))
     ul <- (wARisk.p + (z * wARisk.se))
@@ -348,7 +348,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   }
   .funARscore <- function(dat, conf.level, units) {
     N. <- 1 - ((1 - conf.level)/2)
-    z <- qnorm(N., mean = 0, sd = 1)
+    z <- stats::qnorm(N., mean = 0, sd = 1)
     a <- dat[1]
     b <- dat[3]
     c <- dat[2]
@@ -358,7 +358,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
     sARisk.p <- ((a/N1) - (c/N0))
     px = a/N1
     py = c/N0
-    z = qchisq(conf.level, 1)
+    z = stats::qchisq(conf.level, 1)
     proot = px - py
     dp = 1 - proot
     niter = 1
@@ -402,7 +402,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       t = ny/nx
       a = 1 + t
       b = -(1 + t + p1x + t * p1y + dif * (t + 2))
-      c = dif * dif + dif * (2 * p1x + t + 1) + p1x + t * 
+      c = dif * dif + dif * (2 * p1x + t + 1) + p1x + t *
         p1y
       d = -p1x * dif * (1 + dif)
       v = (b/a/3)^3 - b * c/(6 * a * a) + d/a/2
@@ -423,103 +423,103 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   }
   .funMHRD.Sato0 <- function(dat, conf.level = 0.95, units = units) {
     if (length(dim(dat)) > 2) {
-      ndat <- addmargins(A = dat, margin = 2, FUN = sum, 
-                         quiet = FALSE)
+      ndat <- stats::addmargins(A = dat, margin = 2, FUN = sum,
+                                quiet = FALSE)
       c1 <- ndat[1, 1, ]
       c2 <- ndat[1, 3, ]
       c3 <- ndat[2, 1, ]
       c4 <- ndat[2, 3, ]
       dataset <- cbind(c1, c2, c3, c4)
-      num <- sum(apply(X = dataset, MARGIN = 1, FUN = function(ro) (ro[1] * 
+      num <- sum(apply(X = dataset, MARGIN = 1, FUN = function(ro) (ro[1] *
                                                                       ro[4] - ro[3] * ro[2])/(ro[2] + ro[4])))
-      W <- sum(apply(dataset, 1, function(ro) ro[2] * ro[4]/(ro[2] + 
+      W <- sum(apply(dataset, 1, function(ro) ro[2] * ro[4]/(ro[2] +
                                                                ro[4])))
       delta.MH <- num/W
-      P <- sum(apply(dataset, 1, function(ro) (ro[2]^2 * 
-                                                 ro[3] - ro[4]^2 * ro[1] + 0.5 * ro[2] * ro[4] * 
+      P <- sum(apply(dataset, 1, function(ro) (ro[2]^2 *
+                                                 ro[3] - ro[4]^2 * ro[1] + 0.5 * ro[2] * ro[4] *
                                                  (ro[4] - ro[2]))/(ro[2] + ro[4])^2))
-      Q <- sum(apply(dataset, 1, function(ro) (ro[1] * 
-                                                 (ro[4] - ro[3]) + ro[3] * (ro[2] - ro[1]))/(2 * 
+      Q <- sum(apply(dataset, 1, function(ro) (ro[1] *
+                                                 (ro[4] - ro[3]) + ro[3] * (ro[2] - ro[1]))/(2 *
                                                                                                (ro[2] + ro[4]))))
-      delta.Mid <- delta.MH + 0.5 * qchisq(conf.level, 
+      delta.Mid <- delta.MH + 0.5 * stats::qchisq(conf.level,
                                            df = 1) * (P/W^2)
-      ME <- sqrt(delta.Mid^2 - delta.MH^2 + qchisq(conf.level, 
+      ME <- sqrt(delta.Mid^2 - delta.MH^2 + stats::qchisq(conf.level,
                                                    df = 1) * Q/W^2)
       CI <- delta.Mid + cbind(-1, 1) * ME
       Sato0ARisk.p <- delta.Mid
       Sato0ARisk.l <- Sato0ARisk.p - ME
       Sato0ARisk.u <- Sato0ARisk.p + ME
-      c(Sato0ARisk.p * units, Sato0ARisk.l * units, Sato0ARisk.u * 
+      c(Sato0ARisk.p * units, Sato0ARisk.l * units, Sato0ARisk.u *
           units)
     }
   }
   .funMHRD.Sato <- function(dat, conf.level = 0.95, units = units) {
     if (length(dim(dat)) > 2) {
-      ndat <- addmargins(A = dat, margin = 2, FUN = sum, 
-                         quiet = FALSE)
+      ndat <- stats::addmargins(A = dat, margin = 2, FUN = sum,
+                                quiet = FALSE)
       c1 <- ndat[1, 1, ]
       c2 <- ndat[1, 3, ]
       c3 <- ndat[2, 1, ]
       c4 <- ndat[2, 3, ]
       dataset <- cbind(c1, c2, c3, c4)
-      num <- sum(apply(X = dataset, MARGIN = 1, FUN = function(ro) (ro[1] * 
+      num <- sum(apply(X = dataset, MARGIN = 1, FUN = function(ro) (ro[1] *
                                                                       ro[4] - ro[3] * ro[2])/(ro[2] + ro[4])))
-      W <- sum(apply(dataset, 1, function(ro) ro[2] * ro[4]/(ro[2] + 
+      W <- sum(apply(dataset, 1, function(ro) ro[2] * ro[4]/(ro[2] +
                                                                ro[4])))
       delta.MH <- num/W
-      P <- sum(apply(dataset, 1, function(ro) (ro[2]^2 * 
-                                                 ro[3] - ro[4]^2 * ro[1] + 0.5 * ro[2] * ro[4] * 
+      P <- sum(apply(dataset, 1, function(ro) (ro[2]^2 *
+                                                 ro[3] - ro[4]^2 * ro[1] + 0.5 * ro[2] * ro[4] *
                                                  (ro[4] - ro[2]))/(ro[2] + ro[4])^2))
-      Q <- sum(apply(dataset, 1, function(ro) (ro[1] * 
-                                                 (ro[4] - ro[3]) + ro[3] * (ro[2] - ro[1]))/(2 * 
+      Q <- sum(apply(dataset, 1, function(ro) (ro[1] *
+                                                 (ro[4] - ro[3]) + ro[3] * (ro[2] - ro[1]))/(2 *
                                                                                                (ro[2] + ro[4]))))
       var.delta.MH = (delta.MH * P + Q)/W^2
       SatoARisk.p <- delta.MH
-      SatoARisk.l <- SatoARisk.p - qnorm(1 - (1 - conf.level)/2) * 
+      SatoARisk.l <- SatoARisk.p - stats::qnorm(1 - (1 - conf.level)/2) *
         sqrt(var.delta.MH)
-      SatoARisk.u <- SatoARisk.p + qnorm(1 - (1 - conf.level)/2) * 
+      SatoARisk.u <- SatoARisk.p + stats::qnorm(1 - (1 - conf.level)/2) *
         sqrt(var.delta.MH)
-      c(SatoARisk.p * units, SatoARisk.l * units, SatoARisk.u * 
+      c(SatoARisk.p * units, SatoARisk.l * units, SatoARisk.u *
           units)
     }
   }
   .funMHRD.GR <- function(dat, conf.level = 0.95, units = units) {
     if (length(dim(dat)) > 2) {
-      ndat <- addmargins(A = dat, margin = 2, FUN = sum, 
-                         quiet = FALSE)
+      ndat <- stats::addmargins(A = dat, margin = 2, FUN = sum,
+                                quiet = FALSE)
       c1 <- ndat[1, 1, ]
       c2 <- ndat[1, 3, ]
       c3 <- ndat[2, 1, ]
       c4 <- ndat[2, 3, ]
       dataset <- cbind(c1, c2, c3, c4)
-      num <- sum(apply(X = dataset, MARGIN = 1, FUN = function(ro) (ro[1] * 
+      num <- sum(apply(X = dataset, MARGIN = 1, FUN = function(ro) (ro[1] *
                                                                       ro[4] - ro[3] * ro[2])/(ro[2] + ro[4])))
-      W <- sum(apply(dataset, 1, function(ro) ro[2] * ro[4]/(ro[2] + 
+      W <- sum(apply(dataset, 1, function(ro) ro[2] * ro[4]/(ro[2] +
                                                                ro[4])))
       delta.MH <- num/W
-      P <- sum(apply(dataset, 1, function(ro) (ro[2]^2 * 
-                                                 ro[3] - ro[4]^2 * ro[1] + 0.5 * ro[2] * ro[4] * 
+      P <- sum(apply(dataset, 1, function(ro) (ro[2]^2 *
+                                                 ro[3] - ro[4]^2 * ro[1] + 0.5 * ro[2] * ro[4] *
                                                  (ro[4] - ro[2]))/(ro[2] + ro[4])^2))
-      Q <- sum(apply(dataset, 1, function(ro) (ro[1] * 
-                                                 (ro[4] - ro[3]) + ro[3] * (ro[2] - ro[1]))/(2 * 
+      Q <- sum(apply(dataset, 1, function(ro) (ro[1] *
+                                                 (ro[4] - ro[3]) + ro[3] * (ro[2] - ro[1]))/(2 *
                                                                                                (ro[2] + ro[4]))))
       p1 <- dataset[, 1]/dataset[, 2]
       p2 <- dataset[, 3]/dataset[, 4]
-      denom <- apply(dataset, 1, function(ro) ro[2] * ro[4]/(ro[2] + 
+      denom <- apply(dataset, 1, function(ro) ro[2] * ro[4]/(ro[2] +
                                                                ro[4]))
-      var.delta.MH <- sum(denom^2 * (p1 * (1 - p1)/dataset[, 
+      var.delta.MH <- sum(denom^2 * (p1 * (1 - p1)/dataset[,
                                                            2] + p2 * (1 - p2)/dataset[, 4]))/W^2
       GRARisk.p <- delta.MH
-      GRARisk.l <- GRARisk.p - qnorm(1 - (1 - conf.level)/2) * 
+      GRARisk.l <- GRARisk.p - stats::qnorm(1 - (1 - conf.level)/2) *
         sqrt(var.delta.MH)
-      GRARisk.u <- GRARisk.p + qnorm(1 - (1 - conf.level)/2) * 
+      GRARisk.u <- GRARisk.p + stats::qnorm(1 - (1 - conf.level)/2) *
         sqrt(var.delta.MH)
-      c(GRARisk.p * units, GRARisk.l * units, GRARisk.u * 
+      c(GRARisk.p * units, GRARisk.l * units, GRARisk.u *
           units)
     }
   }
   N. <- 1 - ((1 - conf.level)/2)
-  z <- qnorm(N., mean = 0, sd = 1)
+  z <- stats::qnorm(N., mean = 0, sd = 1)
   a <- as.numeric(a)
   A <- as.numeric(A)
   b <- as.numeric(b)
@@ -575,24 +575,24 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   IRatepop.p <- as.numeric(.tmp[, 1]) * units
   IRatepop.l <- as.numeric(.tmp[, 2]) * units
   IRatepop.u <- as.numeric(.tmp[, 3]) * units
-  Al <- (qbinom(1 - N., size = a + b, prob = (a/(a + b))))/(a + 
+  Al <- (stats::qbinom(1 - N., size = a + b, prob = (a/(a + b))))/(a +
                                                               b)
-  Au <- (qbinom(N., size = a + b, prob = (a/(a + b))))/(a + 
+  Au <- (stats::qbinom(N., size = a + b, prob = (a/(a + b))))/(a +
                                                           b)
   Oe.p <- (a/b)
   Oe.l <- (Al/(1 - Al))
   Oe.u <- (Au/(1 - Au))
-  Al <- (qbinom(1 - N., size = c + d, prob = (c/(c + d))))/(c + 
+  Al <- (stats::qbinom(1 - N., size = c + d, prob = (c/(c + d))))/(c +
                                                               d)
-  Au <- (qbinom(N., size = c + d, prob = (c/(c + d))))/(c + 
+  Au <- (stats::qbinom(N., size = c + d, prob = (c/(c + d))))/(c +
                                                           d)
   Oo.p <- (c/d)
   Oo.l <- (Al/(1 - Al))
   Oo.u <- (Au/(1 - Au))
-  Al <- (qbinom(1 - N., size = M1 + M0, prob = (M1/(M1 + M0))))/(M1 + 
-                                                                   M0)
-  Au <- (qbinom(N., size = M1 + M0, prob = (M1/(M1 + M0))))/(M1 + 
-                                                               M0)
+  Al <- (stats::qbinom(1 - N., size = M1 + M0, prob = (M1/(M1 + M0))))/(M1 +
+                                                                          M0)
+  Au <- (stats::qbinom(N., size = M1 + M0, prob = (M1/(M1 + M0))))/(M1 +
+                                                                      M0)
   Opop.p <- (M1/M0)
   Opop.l <- (Al/(1 - Al))
   Opop.u <- (Au/(1 - Au))
@@ -620,24 +620,24 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   cIRatepop.p <- as.numeric(.tmp[, 1]) * units
   cIRatepop.l <- as.numeric(.tmp[, 2]) * units
   cIRatepop.u <- as.numeric(.tmp[, 3]) * units
-  Al <- (qbinom(1 - N., size = sa + sb, prob = (sa/(sa + sb))))/(sa + 
-                                                                   sb)
-  u <- (qbinom(N., size = sa + sb, prob = (sa/(sa + sb))))/(sa + 
-                                                              sb)
+  Al <- (stats::qbinom(1 - N., size = sa + sb, prob = (sa/(sa + sb))))/(sa +
+                                                                          sb)
+  u <- (stats::qbinom(N., size = sa + sb, prob = (sa/(sa + sb))))/(sa +
+                                                                     sb)
   cOe.p <- sa/sb
   cOe.l <- Al/(1 - Al)
   cOe.u <- Au/(1 - Au)
-  Al <- (qbinom(1 - N., size = sc + sd, prob = (sc/(sc + sd))))/(sc + 
-                                                                   sd)
-  u <- (qbinom(N., size = sc + sd, prob = (sc/(sc + sd))))/(sc + 
-                                                              sd)
+  Al <- (stats::qbinom(1 - N., size = sc + sd, prob = (sc/(sc + sd))))/(sc +
+                                                                          sd)
+  u <- (stats::qbinom(N., size = sc + sd, prob = (sc/(sc + sd))))/(sc +
+                                                                     sd)
   cOo.p <- sc/sd
   cOo.l <- Al/(1 - Al)
   cOo.u <- Au/(1 - Au)
-  Al <- (qbinom(1 - N., size = sM1 + sM0, prob = (sM1/(sM1 + 
-                                                         sM0))))/(sM1 + sM0)
-  u <- (qbinom(N., size = sM1 + sM0, prob = (sM1/(sM1 + sM0))))/(sM1 + 
-                                                                   sM0)
+  Al <- (stats::qbinom(1 - N., size = sM1 + sM0, prob = (sM1/(sM1 +
+                                                                sM0))))/(sM1 + sM0)
+  u <- (stats::qbinom(N., size = sM1 + sM0, prob = (sM1/(sM1 + sM0))))/(sM1 +
+                                                                          sM0)
   cOpop.p <- sM1/sM0
   cOpop.l <- Al/(1 - Al)
   cOpop.u <- Au/(1 - Au)
@@ -683,8 +683,8 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   lnIRR.var <- (1/a) + (1/c)
   lnIRR.se <- sqrt((1/a) + (1/c))
   IRR.se <- exp(lnIRR.se)
-  pl <- a/(a + (c + 1) * (1/qf(1 - N., 2 * a, 2 * c + 2)))
-  ph <- (a + 1)/(a + 1 + c/(1/qf(1 - N., 2 * c, 2 * a + 2)))
+  pl <- a/(a + (c + 1) * (1/stats::qf(1 - N., 2 * a, 2 * c + 2)))
+  ph <- (a + 1)/(a + 1 + c/(1/stats::qf(1 - N., 2 * c, 2 * a + 2)))
   IRR.l <- pl * d/((1 - pl) * b)
   IRR.u <- ph * d/((1 - ph) * b)
   IRR.w <- 1/(exp(lnIRR.var))
@@ -817,7 +817,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   AFest.u <- (mOR.u - 1)/mOR.u
   wPARisk.ctype <- ""
   wPARisk.p <- ((M1/total) - (c/N0)) * units
-  wPARisk.se <- (sqrt(((M1 * (total - M1))/total^3) + ((c * 
+  wPARisk.se <- (sqrt(((M1 * (total - M1))/total^3) + ((c *
                                                           (N0 - c))/N0^3))) * units
   wPARisk.l <- wPARisk.p - (z * wPARisk.se)
   wPARisk.u <- wPARisk.p + (z * wPARisk.se)
@@ -825,10 +825,10 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   pPARisk.p <- ((M1/total) - (c/N0)) * units
   pPARisk.d1 <- (1/total) - ((a + c)/total^2)
   pPARisk.d2 <- -((a + c)/total^2)
-  pPARisk.d3 <- (c/(c + d)^2) - ((a + c)/total^2) + (1/total) - 
+  pPARisk.d3 <- (c/(c + d)^2) - ((a + c)/total^2) + (1/total) -
     (1/(c + d))
   pPARisk.d4 <- (c/(c + d)^2) - ((a + c)/total^2)
-  pPARisk.var <- ((pPARisk.d1^2) * a) + ((pPARisk.d2^2) * b) + 
+  pPARisk.var <- ((pPARisk.d1^2) * a) + ((pPARisk.d2^2) * b) +
     ((pPARisk.d3^2) * c) + ((pPARisk.d4^2) * d)
   pPARisk.se <- sqrt(pPARisk.var) * units
   pPARisk.l <- pPARisk.p - (z * pPARisk.se)
@@ -845,9 +845,9 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   PAFRisk.u <- 1 - exp(log(1 - PAFRisk.p) - (z * sqrt(PAFRisk.var)))
   PAFRate.ctype <- "Sullivan"
   PAFRate.p <- (IRatepop.p - IRateo.p)/IRatepop.p
-  PAFRate.l <- min((IRatepop.l - IRateo.l)/IRatepop.l, (IRatepop.u - 
+  PAFRate.l <- min((IRatepop.l - IRateo.l)/IRatepop.l, (IRatepop.u -
                                                           IRateo.u)/IRatepop.u)
-  PAFRate.u <- max((IRatepop.l - IRateo.l)/IRatepop.l, (IRatepop.u - 
+  PAFRate.u <- max((IRatepop.l - IRateo.l)/IRatepop.l, (IRatepop.u -
                                                           IRateo.u)/IRatepop.u)
   PAFest.ctype <- "Jewell"
   PAFest.p <- ((a * d) - (b * c))/(d * (a + c))
@@ -855,13 +855,13 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   PAFest.l <- 1 - exp(log(1 - PAFest.p) + (z * sqrt(PAFest.var)))
   PAFest.u <- 1 - exp(log(1 - PAFest.p) - (z * sqrt(PAFest.var)))
   cwRR.ctype <- "Wald"
-  .tmp <- .funRRwald(apply(dat, MARGIN = c(1, 2), FUN = sum), 
+  .tmp <- .funRRwald(apply(dat, MARGIN = c(1, 2), FUN = sum),
                      conf.level)
   cwRR.p <- .tmp[1]
   cwRR.l <- .tmp[2]
   cwRR.u <- .tmp[3]
   csRR.ctype <- "Score"
-  .tmp <- .funRRscore(apply(dat, MARGIN = c(1, 2), FUN = sum), 
+  .tmp <- .funRRscore(apply(dat, MARGIN = c(1, 2), FUN = sum),
                       conf.level)
   csRR.p <- .tmp[1]
   csRR.l <- .tmp[2]
@@ -871,44 +871,44 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   celnIRR <- log(ceIRR.p)
   celnIRR.se <- sqrt((1/sa) + (1/sc))
   ceIRR.se <- exp(celnIRR.se)
-  pl <- sa/(sa + (sc + 1) * (1/qf(1 - N., 2 * sa, 2 * sc + 
+  pl <- sa/(sa + (sc + 1) * (1/stats::qf(1 - N., 2 * sa, 2 * sc +
                                     2)))
-  ph <- (sa + 1)/(sa + 1 + sc/(1/qf(1 - N., 2 * sc, 2 * sa + 
+  ph <- (sa + 1)/(sa + 1 + sc/(1/stats::qf(1 - N., 2 * sc, 2 * sa +
                                       2)))
   ceIRR.l <- pl * sd/((1 - pl) * sb)
   ceIRR.u <- ph * sd/((1 - ph) * sb)
   cwOR.ctype <- "Wald"
-  .tmp <- .funORwald(apply(dat, MARGIN = c(1, 2), FUN = sum), 
+  .tmp <- .funORwald(apply(dat, MARGIN = c(1, 2), FUN = sum),
                      conf.level)
   cwOR.p <- .tmp[1]
   cwOR.l <- .tmp[2]
   cwOR.u <- .tmp[3]
   ccfOR.ctype <- "Cornfield"
-  .tmp <- .funORcfield(apply(dat, MARGIN = c(1, 2), FUN = sum), 
+  .tmp <- .funORcfield(apply(dat, MARGIN = c(1, 2), FUN = sum),
                        conf.level)
   ccfOR.p <- .tmp[1]
   ccfOR.l <- .tmp[2]
   ccfOR.u <- .tmp[3]
   csOR.ctype <- "Score"
-  .tmp <- .funORscore(apply(dat, MARGIN = c(1, 2), FUN = sum), 
+  .tmp <- .funORscore(apply(dat, MARGIN = c(1, 2), FUN = sum),
                       conf.level)
   csOR.p <- .tmp[1]
   csOR.l <- .tmp[2]
   csOR.u <- .tmp[3]
   cmOR.ctype <- "MLE"
-  cmOR.tmp <- fisher.test(apply(dat, MARGIN = c(1, 2), FUN = sum), 
-                          conf.int = TRUE, conf.level = conf.level)
+  cmOR.tmp <- stats::fisher.test(apply(dat, MARGIN = c(1, 2), FUN = sum),
+                                 conf.int = TRUE, conf.level = conf.level)
   cmOR.p <- as.numeric(cmOR.tmp$estimate)
   cmOR.l <- as.numeric(cmOR.tmp$conf.int)[1]
   cmOR.u <- as.numeric(cmOR.tmp$conf.int)[2]
   cwARisk.ctype <- "Wald"
-  .tmp <- .funARwald(apply(dat, MARGIN = c(1, 2), FUN = sum), 
+  .tmp <- .funARwald(apply(dat, MARGIN = c(1, 2), FUN = sum),
                      conf.level, units)
   cwARisk.p <- .tmp[1]
   cwARisk.l <- .tmp[2]
   cwARisk.u <- .tmp[3]
   cscARisk.ctype <- "Score"
-  .tmp <- .funARscore(apply(dat, MARGIN = c(1, 2), FUN = sum), 
+  .tmp <- .funARscore(apply(dat, MARGIN = c(1, 2), FUN = sum),
                       conf.level, units)
   cscARisk.p <- .tmp[1]
   cscARisk.l <- .tmp[2]
@@ -932,7 +932,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   cAFest.u <- max((scOR.l - 1)/scOR.l, (scOR.u - 1)/scOR.u)
   cwPARisk.ctype <- "Wald"
   cwPARisk.p <- ((sM1/stotal) - (sc/sN0)) * units
-  cwPARisk.se <- (sqrt(((sM1 * (stotal - sM1))/stotal^3) + 
+  cwPARisk.se <- (sqrt(((sM1 * (stotal - sM1))/stotal^3) +
                          ((sc * (sN0 - sc))/sN0^3))) * units
   cwPARisk.l <- cwPARisk.p - (z * cwPARisk.se)
   cwPARisk.u <- cwPARisk.p + (z * cwPARisk.se)
@@ -940,10 +940,10 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   cpPARisk.p <- ((sM1/stotal) - (sc/sN0)) * units
   cpPARisk.d1 <- (1/stotal) - ((sa + sc)/stotal^2)
   cpPARisk.d2 <- -((sa + sc)/stotal^2)
-  cpPARisk.d3 <- (sc/(sc + sd)^2) - ((sa + sc)/stotal^2) + 
+  cpPARisk.d3 <- (sc/(sc + sd)^2) - ((sa + sc)/stotal^2) +
     (1/stotal) - (1/(sc + sd))
   cpPARisk.d4 <- (sc/(sc + sd)^2) - ((sa + sc)/stotal^2)
-  cpPARisk.var <- ((cpPARisk.d1^2) * sa) + ((cpPARisk.d2^2) * 
+  cpPARisk.var <- ((cpPARisk.d1^2) * sa) + ((cpPARisk.d2^2) *
                                               sb) + ((cpPARisk.d3^2) * sc) + ((cpPARisk.d4^2) * sd)
   cpPARisk.se <- sqrt(cpPARisk.var) * units
   cpPARisk.l <- cpPARisk.p - (z * cpPARisk.se)
@@ -955,22 +955,22 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   cPARate.u <- cPARate.p + (z * cPARate.se)
   cPAFRisk.ctype <- ""
   cPAFRisk.p <- (cIRiskpop.p - cIRisko.p)/cIRiskpop.p
-  cPAFRisk.l <- min((cIRiskpop.l - cIRisko.l)/cIRiskpop.l, 
+  cPAFRisk.l <- min((cIRiskpop.l - cIRisko.l)/cIRiskpop.l,
                     (cIRiskpop.u - cIRisko.u)/cIRiskpop.u)
-  cPAFRisk.u <- max((cIRiskpop.l - cIRisko.l)/cIRiskpop.l, 
+  cPAFRisk.u <- max((cIRiskpop.l - cIRisko.l)/cIRiskpop.l,
                     (cIRiskpop.u - cIRisko.u)/cIRiskpop.u)
   cPAFRate.ctype <- ""
   cPAFRate.p <- (cIRatepop.p - cIRateo.p)/cIRatepop.p
-  cPAFRate.l <- min((cIRatepop.l - cIRateo.l)/cIRatepop.l, 
+  cPAFRate.l <- min((cIRatepop.l - cIRateo.l)/cIRatepop.l,
                     (cIRatepop.u - cIRateo.u)/cIRatepop.u)
-  cPAFRate.u <- max((cIRatepop.l - cIRateo.l)/cIRatepop.l, 
+  cPAFRate.u <- max((cIRatepop.l - cIRateo.l)/cIRatepop.l,
                     (cIRatepop.u - cIRateo.u)/cIRatepop.u)
   cPAFest.ctype <- ""
   cPAFest.p <- (cOpop.p - cOo.p)/cOpop.p
   cPAFest.l <- min((cOpop.l - cOo.l)/cOpop.l, (cOpop.u - cOo.u)/cOpop.u)
   cPAFest.u <- max((cOpop.l - cOo.l)/cOpop.l, (cOpop.u - cOo.u)/cOpop.u)
   sRR.p <- sum((a * N0/total))/sum((c * N1/total))
-  varLNRR.s <- sum(((M1 * N1 * N0)/total^2) - ((a * c)/total))/(sum((a * 
+  varLNRR.s <- sum(((M1 * N1 * N0)/total^2) - ((a * c)/total))/(sum((a *
                                                                        N0)/total) * sum((c * N1)/total))
   lnRR.s <- log(sRR.p)
   sRR.se <- (sqrt(varLNRR.s))
@@ -978,7 +978,7 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   sRR.u <- exp(lnRR.s + (z * sqrt(varLNRR.s)))
   sIRR.p <- sum((a * d)/M0)/sum((c * b)/M0)
   lnIRR.s <- log(sIRR.p)
-  varLNIRR.s <- (sum((M1 * b * d)/M0^2))/(sum((a * d)/M0) * 
+  varLNIRR.s <- (sum((M1 * b * d)/M0^2))/(sum((a * d)/M0) *
                                             sum((c * b)/M0))
   sIRR.se <- sqrt(varLNIRR.s)
   sIRR.l <- exp(lnIRR.s - (z * sqrt(varLNIRR.s)))
@@ -996,16 +996,16 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   sumHQ <- sum(H * Q)
   sumGQ <- sum(G * Q)
   sumGQ.HP <- sum(GQ.HP)
-  varLNOR.s <- sumGP/(2 * sumG^2) + sumGQ.HP/(2 * sumG * sumH) + 
+  varLNOR.s <- sumGP/(2 * sumG^2) + sumGQ.HP/(2 * sumG * sumH) +
     sumHQ/(2 * sumH^2)
   lnOR.s <- log(sOR.p)
   sOR.se <- sqrt(varLNOR.s)
   sOR.l <- exp(lnOR.s - z * sqrt(varLNOR.s))
   sOR.u <- exp(lnOR.s + z * sqrt(varLNOR.s))
-  sARisk.p <- (sum(((a * N0) - (c * N1))/total)/sum((N1 * N0)/total)) * 
+  sARisk.p <- (sum(((a * N0) - (c * N1))/total)/sum((N1 * N0)/total)) *
     units
   w <- (N1 * N0)/total
-  var.p1 <- (((a * d)/(N1^2 * (N1 - 1))) + ((c * b)/(N0^2 * 
+  var.p1 <- (((a * d)/(N1^2 * (N1 - 1))) + ((c * b)/(N0^2 *
                                                        (N0 - 1))))
   var.p1[N0 == 1] <- 0
   var.p1[N1 == 1] <- 0
@@ -1023,9 +1023,9 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   GRARisk.p <- .tmp[1]
   GRARisk.l <- .tmp[2]
   GRARisk.u <- .tmp[3]
-  sARate.p <- sum(((a * d) - (c * b))/M0)/sum((b * d)/M0) * 
+  sARate.p <- sum(((a * d) - (c * b))/M0)/sum((b * d)/M0) *
     units
-  varARate.s <- sum(((b * d)/M0)^2 * ((a/b^2) + (c/d^2)))/sum((b * 
+  varARate.s <- sum(((b * d)/M0)^2 * ((a/b^2) + (c/d^2)))/sum((b *
                                                                  d)/M0)^2
   sARate.se <- sqrt(varARate.s) * units
   sARate.l <- sARate.p - (z * sARate.se)
@@ -1049,19 +1049,19 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
   exp.b <- (N1 * M0)/total
   exp.c <- (N0 * M1)/total
   exp.d <- (N0 * M0)/total
-  chi2 <- (((a - exp.a)^2)/exp.a) + (((b - exp.b)^2)/exp.b) + 
+  chi2 <- (((a - exp.a)^2)/exp.a) + (((b - exp.b)^2)/exp.b) +
     (((c - exp.c)^2)/exp.c) + (((d - exp.d)^2)/exp.d)
-  p.chi2 <- 1 - pchisq(chi2, df = 1)
+  p.chi2 <- 1 - stats::pchisq(chi2, df = 1)
   exp.sa <- (sN1 * sM1)/stotal
   exp.sb <- (sN1 * sM0)/stotal
   exp.sc <- (sN0 * sM1)/stotal
   exp.sd <- (sN0 * sM0)/stotal
-  chi2s <- (((sa - exp.sa)^2)/exp.sa) + (((sb - exp.sb)^2)/exp.sb) + 
+  chi2s <- (((sa - exp.sa)^2)/exp.sa) + (((sb - exp.sb)^2)/exp.sb) +
     (((sc - exp.sc)^2)/exp.sc) + (((sd - exp.sd)^2)/exp.sd)
-  p.chi2s <- 1 - pchisq(chi2s, df = 1)
+  p.chi2s <- 1 - stats::pchisq(chi2s, df = 1)
   if (length(a) > 1) {
-    chi2m <- as.numeric(mantelhaen.test(dat)$statistic)
-    p.chi2m <- as.numeric(mantelhaen.test(dat)$p.value)
+    chi2m <- as.numeric(stats::mantelhaen.test(dat)$statistic)
+    p.chi2m <- as.numeric(stats::mantelhaen.test(dat)$p.value)
   }
   if (length(a) > 1) {
     if (homogeneity == "woolf") {
@@ -1070,20 +1070,20 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       wRR. <- 1/lnRR.var.
       lnRR.s. <- sum(wRR. * lnRR.)/sum(wRR.)
       RR.homogeneity <- sum(wRR. * (lnRR. - lnRR.s.)^2)
-      RR.homogeneity.p <- 1 - pchisq(RR.homogeneity, df = n.strata - 
+      RR.homogeneity.p <- 1 - stats::pchisq(RR.homogeneity, df = n.strata -
                                        1)
-      RR.homog <- data.frame(test.statistic = RR.homogeneity, 
+      RR.homog <- data.frame(test.statistic = RR.homogeneity,
                              df = n.strata - 1, p.value = RR.homogeneity.p)
-      lnOR. <- log(((a + 0.5) * (d + 0.5))/((b + 0.5) * 
+      lnOR. <- log(((a + 0.5) * (d + 0.5))/((b + 0.5) *
                                               (c + 0.5)))
-      lnOR.var. <- (1/(a + 0.5)) + (1/(b + 0.5)) + (1/(c + 
+      lnOR.var. <- (1/(a + 0.5)) + (1/(b + 0.5)) + (1/(c +
                                                          0.5)) + (1/(d + 0.5))
       wOR. <- 1/lnOR.var.
       lnOR.s. <- sum((wOR. * lnOR.))/sum(wOR.)
       OR.homogeneity <- sum(wOR. * (lnOR. - lnOR.s.)^2)
-      OR.homogeneity.p <- 1 - pchisq(OR.homogeneity, df = n.strata - 
-                                       1)
-      OR.homog <- data.frame(test.statistic = OR.homogeneity, 
+      OR.homogeneity.p <- 1 - stats::pchisq(OR.homogeneity, df = n.strata -
+                                              1)
+      OR.homog <- data.frame(test.statistic = OR.homogeneity,
                              df = n.strata - 1, p.value = OR.homogeneity.p)
     }
     if (homogeneity == "breslow.day") {
@@ -1095,120 +1095,125 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       row2sums <- n21k + n22k
       col1sums <- n11k + n21k
       Amax <- apply(cbind(row1sums, col1sums), 1, min)
-      bb <- row2sums + row1sums * sRR.p - col1sums * (1 - 
+      bb <- row2sums + row1sums * sRR.p - col1sums * (1 -
                                                         sRR.p)
-      determ <- sqrt(bb^2 + 4 * (1 - sRR.p) * sRR.p * row1sums * 
+      determ <- sqrt(bb^2 + 4 * (1 - sRR.p) * sRR.p * row1sums *
                        col1sums)
-      Astar <- (-bb + cbind(-determ, determ))/(2 - 2 * 
+      Astar <- (-bb + cbind(-determ, determ))/(2 - 2 *
                                                  sRR.p)
-      Astar <- ifelse(Astar[, 1] <= Amax & Astar[, 1] >= 
+      Astar <- ifelse(Astar[, 1] <= Amax & Astar[, 1] >=
                         0, Astar[, 1], Astar[, 2])
       Bstar <- row1sums - Astar
       Cstar <- col1sums - Astar
       Dstar <- row2sums - col1sums + Astar
-      Var <- apply(1/cbind(Astar, Bstar, Cstar, Dstar), 
+      Var <- apply(1/cbind(Astar, Bstar, Cstar, Dstar),
                    1, sum)^(-1)
       RR.homogeneity <- sum((dat[1, 1, ] - Astar)^2/Var)
-      RR.homogeneity.p <- 1 - pchisq(RR.homogeneity, df = n.strata - 
-                                       1)
-      bb <- row2sums + row1sums * sOR.p - col1sums * (1 - 
+      RR.homogeneity.p <- 1 - stats::pchisq(RR.homogeneity, df = n.strata -
+                                              1)
+      bb <- row2sums + row1sums * sOR.p - col1sums * (1 -
                                                         sOR.p)
-      determ <- sqrt(bb^2 + 4 * (1 - sOR.p) * sOR.p * row1sums * 
+      determ <- sqrt(bb^2 + 4 * (1 - sOR.p) * sOR.p * row1sums *
                        col1sums)
-      Astar <- (-bb + cbind(-determ, determ))/(2 - 2 * 
+      Astar <- (-bb + cbind(-determ, determ))/(2 - 2 *
                                                  sOR.p)
-      Astar <- ifelse(Astar[, 1] <= Amax & Astar[, 1] >= 
+      Astar <- ifelse(Astar[, 1] <= Amax & Astar[, 1] >=
                         0, Astar[, 1], Astar[, 2])
       Bstar <- row1sums - Astar
       Cstar <- col1sums - Astar
       Dstar <- row2sums - col1sums + Astar
-      Var <- apply(1/cbind(Astar, Bstar, Cstar, Dstar), 
+      Var <- apply(1/cbind(Astar, Bstar, Cstar, Dstar),
                    1, sum)^(-1)
       OR.homogeneity <- sum((dat[1, 1, ] - Astar)^2/Var)
-      OR.homogeneity.p <- 1 - pchisq(OR.homogeneity, df = n.strata - 
-                                       1)
+      OR.homogeneity.p <- 1 - stats::pchisq(OR.homogeneity, df = n.strata -
+                                              1)
     }
   }
-  res <- list(RR.strata.wald = data.frame(est = wRR.p, lower = wRR.l, 
-                                          upper = wRR.u), RR.strata.score = data.frame(est = scRR.p, 
-                                                                                       lower = scRR.l, upper = scRR.u), RR.crude.wald = data.frame(est = cwRR.p, 
-                                                                                                                                                   lower = cwRR.l, upper = cwRR.u), RR.crude.score = data.frame(est = csRR.p, 
-                                                                                                                                                                                                                lower = csRR.l, upper = csRR.u), RR.mh.wald = data.frame(est = sRR.p, 
-                                                                                                                                                                                                                                                                         lower = sRR.l, upper = sRR.u), IRR.strata.wald = data.frame(est = IRR.p, 
-                                                                                                                                                                                                                                                                                                                                     lower = IRR.l, upper = IRR.u), IRR.crude.wald = data.frame(est = ceIRR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                lower = ceIRR.l, upper = ceIRR.u), IRR.mh.wald = data.frame(est = sIRR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            lower = sIRR.l, upper = sIRR.u), OR.strata.wald = data.frame(est = wOR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         lower = wOR.l, upper = wOR.u), OR.strata.score = data.frame(est = scOR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     lower = scOR.l, upper = scOR.u), OR.strata.cfield = data.frame(est = cfOR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    lower = cfOR.l, upper = cfOR.u), OR.strata.mle = data.frame(est = mOR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                lower = mOR.l, upper = mOR.u), OR.crude.wald = data.frame(est = cwOR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          lower = cwOR.l, upper = cwOR.u), OR.crude.score = data.frame(est = csOR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       lower = csOR.l, upper = csOR.u), OR.crude.cfield = data.frame(est = ccfOR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     lower = ccfOR.l, upper = ccfOR.u), OR.crude.mle = data.frame(est = cmOR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  lower = cmOR.l, upper = cmOR.u), OR.mh.wald = data.frame(est = sOR.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           lower = sOR.l, upper = sOR.u), ARisk.strata.wald = data.frame(est = wARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         lower = wARisk.l, upper = wARisk.u), ARisk.strata.score = data.frame(est = scARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              lower = scARisk.l, upper = scARisk.u), ARisk.crude.wald = data.frame(est = cwARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   lower = cwARisk.l, upper = cwARisk.u), ARisk.crude.score = data.frame(est = cscARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         lower = cscARisk.l, upper = cscARisk.u), ARisk.mh.wald = data.frame(est = sARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             lower = sARisk.l, upper = sARisk.u), ARisk.mh.sato = data.frame(est = SatoARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             lower = SatoARisk.l, upper = SatoARisk.u), ARisk.mh.green = data.frame(est = GRARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    lower = GRARisk.l, upper = GRARisk.u), ARate.strata.wald = data.frame(est = ARate.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          lower = ARate.l, upper = ARate.u), ARate.crude.wald = data.frame(est = cARate.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           lower = cARate.l, upper = cARate.u), ARate.mh.wald = data.frame(est = sARate.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           lower = sARate.l, upper = sARate.u), AFRisk.strata.wald = data.frame(est = AFRisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                lower = AFRisk.l, upper = AFRisk.u), AFRisk.crude.wald = data.frame(est = cAFRisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    lower = cAFRisk.l, upper = cAFRisk.u), AFRate.strata.wald = data.frame(est = AFRate.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           lower = AFRate.l, upper = AFRate.u), AFRate.crude.wald = data.frame(est = cAFRate.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               lower = cAFRate.l, upper = cAFRate.u), AFest.strata.wald = data.frame(est = AFest.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     lower = AFest.l, upper = AFest.u), AFest.crude.wald = data.frame(est = cAFest.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      lower = cAFest.l, upper = cAFest.u), PARisk.strata.wald = data.frame(est = wPARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           lower = wPARisk.l, upper = wPARisk.u), PARisk.strata.piri = data.frame(est = pPARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  lower = pPARisk.l, upper = pPARisk.u), PARisk.crude.wald = data.frame(est = cwPARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        lower = cwPARisk.l, upper = cwPARisk.u), PARisk.crude.piri = data.frame(est = cpPARisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                lower = cpPARisk.l, upper = cpPARisk.u), PARate.strata.wald = data.frame(est = PARate.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         lower = PARate.l, upper = PARate.u), PARate.crude.wald = data.frame(est = cPARate.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             lower = cPARate.l, upper = cPARate.u), PAFRisk.strata.wald = data.frame(est = PAFRisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     lower = PAFRisk.l, upper = PAFRisk.u), PAFRisk.crude.wald = data.frame(est = cPAFRisk.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            lower = cPAFRisk.l, upper = cPAFRisk.u), PAFRate.strata.wald = data.frame(est = PAFRate.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      lower = PAFRate.l, upper = PAFRate.u), PAFRate.crude.wald = data.frame(est = cPAFRate.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             lower = cPAFRate.l, upper = cPAFRate.u), PAFest.strata.wald = data.frame(est = PAFest.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      lower = PAFest.l, upper = PAFest.u), PAFest.crude.wald = data.frame(est = cPAFest.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          lower = cPAFest.l, upper = cPAFest.u), RR.conf = data.frame(est = RR.conf.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      lower = RR.conf.l, upper = RR.conf.u), IRR.conf = data.frame(est = IRR.conf.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   lower = IRR.conf.l, upper = IRR.conf.u), OR.conf = data.frame(est = OR.conf.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 lower = OR.conf.l, upper = OR.conf.u), ARisk.conf = data.frame(est = ARisk.conf.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                lower = ARisk.conf.l, upper = ARisk.conf.u), ARate.conf = data.frame(est = ARate.conf.p, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     lower = ARate.conf.l, upper = ARate.conf.u), count.units = ifelse(units == 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         1, "Outcomes per population unit", paste("Outcomes per ", 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  units, " population units", sep = "")), time.units = ifelse(units == 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                1, "Outcomes per unit of population time at risk", paste("Outcomes per ", 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         units, " units of population time at risk", sep = "")), 
-              chisq.strata = data.frame(test.statistic = chi2, df = 1, 
-                                        p.value = p.chi2), chisq.crude = data.frame(test.statistic = chi2s, 
-                                                                                    df = 1, p.value = p.chi2s))
+  res <-
+    list(RR.strata.wald = data.frame(est = wRR.p,
+                                     lower = wRR.l,
+                                     upper = wRR.u),
+         RR.strata.score = data.frame(est = scRR.p,
+                                      lower = scRR.l,
+                                      upper = scRR.u),
+         RR.crude.wald = data.frame(est = cwRR.p,
+                                    lower = cwRR.l, upper = cwRR.u), RR.crude.score = data.frame(est = csRR.p,
+                                                                                                 lower = csRR.l, upper = csRR.u), RR.mh.wald = data.frame(est = sRR.p,
+                                                                                                                                                          lower = sRR.l, upper = sRR.u), IRR.strata.wald = data.frame(est = IRR.p,
+                                                                                                                                                                                                                      lower = IRR.l, upper = IRR.u), IRR.crude.wald = data.frame(est = ceIRR.p,
+                                                                                                                                                                                                                                                                                 lower = ceIRR.l, upper = ceIRR.u), IRR.mh.wald = data.frame(est = sIRR.p,
+                                                                                                                                                                                                                                                                                                                                             lower = sIRR.l, upper = sIRR.u), OR.strata.wald = data.frame(est = wOR.p,
+                                                                                                                                                                                                                                                                                                                                                                                                          lower = wOR.l, upper = wOR.u), OR.strata.score = data.frame(est = scOR.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      lower = scOR.l, upper = scOR.u), OR.strata.cfield = data.frame(est = cfOR.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     lower = cfOR.l, upper = cfOR.u), OR.strata.mle = data.frame(est = mOR.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 lower = mOR.l, upper = mOR.u), OR.crude.wald = data.frame(est = cwOR.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           lower = cwOR.l, upper = cwOR.u), OR.crude.score = data.frame(est = csOR.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        lower = csOR.l, upper = csOR.u), OR.crude.cfield = data.frame(est = ccfOR.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      lower = ccfOR.l, upper = ccfOR.u), OR.crude.mle = data.frame(est = cmOR.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   lower = cmOR.l, upper = cmOR.u), OR.mh.wald = data.frame(est = sOR.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            lower = sOR.l, upper = sOR.u), ARisk.strata.wald = data.frame(est = wARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          lower = wARisk.l, upper = wARisk.u), ARisk.strata.score = data.frame(est = scARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               lower = scARisk.l, upper = scARisk.u), ARisk.crude.wald = data.frame(est = cwARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    lower = cwARisk.l, upper = cwARisk.u), ARisk.crude.score = data.frame(est = cscARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          lower = cscARisk.l, upper = cscARisk.u), ARisk.mh.wald = data.frame(est = sARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              lower = sARisk.l, upper = sARisk.u), ARisk.mh.sato = data.frame(est = SatoARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              lower = SatoARisk.l, upper = SatoARisk.u), ARisk.mh.green = data.frame(est = GRARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     lower = GRARisk.l, upper = GRARisk.u), ARate.strata.wald = data.frame(est = ARate.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           lower = ARate.l, upper = ARate.u), ARate.crude.wald = data.frame(est = cARate.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            lower = cARate.l, upper = cARate.u), ARate.mh.wald = data.frame(est = sARate.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            lower = sARate.l, upper = sARate.u), AFRisk.strata.wald = data.frame(est = AFRisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 lower = AFRisk.l, upper = AFRisk.u), AFRisk.crude.wald = data.frame(est = cAFRisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     lower = cAFRisk.l, upper = cAFRisk.u), AFRate.strata.wald = data.frame(est = AFRate.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            lower = AFRate.l, upper = AFRate.u), AFRate.crude.wald = data.frame(est = cAFRate.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                lower = cAFRate.l, upper = cAFRate.u), AFest.strata.wald = data.frame(est = AFest.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      lower = AFest.l, upper = AFest.u), AFest.crude.wald = data.frame(est = cAFest.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       lower = cAFest.l, upper = cAFest.u), PARisk.strata.wald = data.frame(est = wPARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            lower = wPARisk.l, upper = wPARisk.u), PARisk.strata.piri = data.frame(est = pPARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   lower = pPARisk.l, upper = pPARisk.u), PARisk.crude.wald = data.frame(est = cwPARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         lower = cwPARisk.l, upper = cwPARisk.u), PARisk.crude.piri = data.frame(est = cpPARisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 lower = cpPARisk.l, upper = cpPARisk.u), PARate.strata.wald = data.frame(est = PARate.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          lower = PARate.l, upper = PARate.u), PARate.crude.wald = data.frame(est = cPARate.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              lower = cPARate.l, upper = cPARate.u), PAFRisk.strata.wald = data.frame(est = PAFRisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      lower = PAFRisk.l, upper = PAFRisk.u), PAFRisk.crude.wald = data.frame(est = cPAFRisk.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             lower = cPAFRisk.l, upper = cPAFRisk.u), PAFRate.strata.wald = data.frame(est = PAFRate.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       lower = PAFRate.l, upper = PAFRate.u), PAFRate.crude.wald = data.frame(est = cPAFRate.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              lower = cPAFRate.l, upper = cPAFRate.u), PAFest.strata.wald = data.frame(est = PAFest.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       lower = PAFest.l, upper = PAFest.u), PAFest.crude.wald = data.frame(est = cPAFest.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           lower = cPAFest.l, upper = cPAFest.u), RR.conf = data.frame(est = RR.conf.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       lower = RR.conf.l, upper = RR.conf.u), IRR.conf = data.frame(est = IRR.conf.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    lower = IRR.conf.l, upper = IRR.conf.u), OR.conf = data.frame(est = OR.conf.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  lower = OR.conf.l, upper = OR.conf.u), ARisk.conf = data.frame(est = ARisk.conf.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 lower = ARisk.conf.l, upper = ARisk.conf.u), ARate.conf = data.frame(est = ARate.conf.p,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      lower = ARate.conf.l, upper = ARate.conf.u), count.units = ifelse(units ==
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1, "Outcomes per population unit", paste("Outcomes per ",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   units, " population units", sep = "")), time.units = ifelse(units ==
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 1, "Outcomes per unit of population time at risk", paste("Outcomes per ",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          units, " units of population time at risk", sep = "")),
+         chisq.strata = data.frame(test.statistic = chi2, df = 1,
+                                   p.value = p.chi2), chisq.crude = data.frame(test.statistic = chi2s,
+                                                                               df = 1, p.value = p.chi2s))
   if (n.strata > 1) {
-    res$chisq.mh = data.frame(test.statistic = chi2m, df = 1, 
+    res$chisq.mh = data.frame(test.statistic = chi2m, df = 1,
                               p.value = p.chi2m)
-    res$RR.homog = data.frame(test.statistic = RR.homogeneity, 
+    res$RR.homog = data.frame(test.statistic = RR.homogeneity,
                               df = n.strata - 1, p.value = RR.homogeneity.p)
-    res$OR.homog = data.frame(test.statistic = OR.homogeneity, 
+    res$OR.homog = data.frame(test.statistic = OR.homogeneity,
                               df = n.strata - 1, p.value = OR.homogeneity.p)
   }
   if (method == "cohort.count" & n.strata == 1) {
-    massoc <- list(RR.strata.wald = res$RR.strata.wald, RR.strata.score = res$RR.strata.score, 
-                   OR.strata.wald = res$OR.strata.wald, OR.strata.score = res$OR.strata.score, 
-                   OR.strata.cfield = res$OR.strata.cfield, OR.strata.mle = res$OR.strata.mle, 
-                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score, 
-                   PARisk.strata.wald = res$PARisk.strata.wald, PARisk.strata.piri = res$PARisk.strata.piri, 
-                   AFRisk.strata.wald = res$AFRisk.strata.wald, PAFRisk.strata.wald = res$PAFRisk.strata.wald, 
+    massoc <- list(RR.strata.wald = res$RR.strata.wald, RR.strata.score = res$RR.strata.score,
+                   OR.strata.wald = res$OR.strata.wald, OR.strata.score = res$OR.strata.score,
+                   OR.strata.cfield = res$OR.strata.cfield, OR.strata.mle = res$OR.strata.mle,
+                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score,
+                   PARisk.strata.wald = res$PARisk.strata.wald, PARisk.strata.piri = res$PARisk.strata.piri,
+                   AFRisk.strata.wald = res$AFRisk.strata.wald, PAFRisk.strata.wald = res$PAFRisk.strata.wald,
                    chisq.strata = res$chisq.strata)
     if (outcome == "as.columns") {
       r1 <- c(a, b, N1, cIRiske.p, cOe.p)
       r2 <- c(c, d, N0, cIRisko.p, cOo.p)
       r3 <- c(M1, M0, M0 + M1, cIRiskpop.p, cOpop.p)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Outcome +", "   Outcome -", 
+      colnames(tab) <- c("   Outcome +", "   Outcome -",
                          "     Total", "       Inc risk *", "       Odds")
       rownames(tab) <- c("Exposed +", "Exposed -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
@@ -1218,39 +1223,39 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       r2 <- c(b, d, M0)
       r3 <- c(N1, N0, N0 + N1)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Exposed +", "   Exposed -", 
+      colnames(tab) <- c("   Exposed +", "   Exposed -",
                          "     Total")
       rownames(tab) <- c("Outcome +", "Outcome -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
     }
-    out <- list(method = "cohort.count", n.strata = n.strata, 
-                conf.level = conf.level, res = res, massoc = massoc, 
+    out <- list(method = "cohort.count", n.strata = n.strata,
+                conf.level = conf.level, res = res, massoc = massoc,
                 tab = tab)
   }
   if (method == "cohort.count" & n.strata > 1) {
-    massoc <- list(RR.strata.wald = res$RR.strata.wald, RR.strata.score = res$RR.strata.score, 
-                   RR.crude.wald = res$RR.crude.wald, RR.crude.score = res$RR.crude.score, 
-                   RR.mh.wald = res$RR.mh.wald, OR.strata.wald = res$OR.strata.wald, 
-                   OR.strata.score = res$OR.strata.score, OR.strata.cfield = res$OR.strata.cfield, 
-                   OR.strata.mle = res$OR.strata.mle, OR.crude.wald = res$OR.crude.wald, 
-                   OR.crude.score = res$OR.crude.score, OR.crude.cfield = res$OR.crude.cfield, 
-                   OR.crude.mle = res$OR.crude.mle, OR.mh.wald = res$OR.mh.wald, 
-                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score, 
-                   ARisk.crude.wald = res$ARisk.crude.wald, ARisk.crude.score = res$ARisk.crude.score, 
-                   ARisk.mh.wald = res$ARisk.mh.wald, ARisk.mh.sato = res$ARisk.mh.sato, 
-                   ARisk.mh.green = res$ARisk.mh.green, PARisk.strata.wald = res$PARisk.strata.wald, 
-                   PARisk.strata.piri = res$PARisk.strata.piri, PARisk.crude.wald = res$PARisk.crude.wald, 
-                   PARisk.crude.piri = res$PARisk.crude.piri, AFRisk.strata.wald = res$AFRisk.strata.wald, 
-                   AFRisk.crude.wald = res$AFRisk.crude.wald, PAFRisk.strata.wald = res$PAFRisk.strata.wald, 
-                   PAFRisk.crude.wald = res$PAFRisk.crude.wald, chisq.strata = res$chisq.strata, 
-                   chisq.crude = res$chisq.crude, chisq.mh = res$chisq.mh, 
+    massoc <- list(RR.strata.wald = res$RR.strata.wald, RR.strata.score = res$RR.strata.score,
+                   RR.crude.wald = res$RR.crude.wald, RR.crude.score = res$RR.crude.score,
+                   RR.mh.wald = res$RR.mh.wald, OR.strata.wald = res$OR.strata.wald,
+                   OR.strata.score = res$OR.strata.score, OR.strata.cfield = res$OR.strata.cfield,
+                   OR.strata.mle = res$OR.strata.mle, OR.crude.wald = res$OR.crude.wald,
+                   OR.crude.score = res$OR.crude.score, OR.crude.cfield = res$OR.crude.cfield,
+                   OR.crude.mle = res$OR.crude.mle, OR.mh.wald = res$OR.mh.wald,
+                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score,
+                   ARisk.crude.wald = res$ARisk.crude.wald, ARisk.crude.score = res$ARisk.crude.score,
+                   ARisk.mh.wald = res$ARisk.mh.wald, ARisk.mh.sato = res$ARisk.mh.sato,
+                   ARisk.mh.green = res$ARisk.mh.green, PARisk.strata.wald = res$PARisk.strata.wald,
+                   PARisk.strata.piri = res$PARisk.strata.piri, PARisk.crude.wald = res$PARisk.crude.wald,
+                   PARisk.crude.piri = res$PARisk.crude.piri, AFRisk.strata.wald = res$AFRisk.strata.wald,
+                   AFRisk.crude.wald = res$AFRisk.crude.wald, PAFRisk.strata.wald = res$PAFRisk.strata.wald,
+                   PAFRisk.crude.wald = res$PAFRisk.crude.wald, chisq.strata = res$chisq.strata,
+                   chisq.crude = res$chisq.crude, chisq.mh = res$chisq.mh,
                    RR.homog = res$RR.homog, OR.homog = res$OR.homog)
     if (outcome == "as.columns") {
       r1 <- c(sa, sb, sN1, cIRiske.p, cOe.p)
       r2 <- c(sc, sd, sN0, cIRisko.p, cOo.p)
       r3 <- c(sM1, sM0, sM0 + sM1, cIRiskpop.p, cOpop.p)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Outcome +", "   Outcome -", 
+      colnames(tab) <- c("   Outcome +", "   Outcome -",
                          "     Total", "       Inc risk *", "       Odds")
       rownames(tab) <- c("Exposed +", "Exposed -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
@@ -1260,26 +1265,26 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       r2 <- c(sb, sd, sM0)
       r3 <- c(sN1, sN0, sN0 + sN1)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Exposed +", "   Exposed -", 
+      colnames(tab) <- c("   Exposed +", "   Exposed -",
                          "     Total")
       rownames(tab) <- c("Outcome +", "Outcome -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
     }
-    out <- list(method = "cohort.count", n.strata = n.strata, 
-                conf.level = conf.level, res = res, massoc = massoc, 
+    out <- list(method = "cohort.count", n.strata = n.strata,
+                conf.level = conf.level, res = res, massoc = massoc,
                 tab = tab)
   }
   if (method == "cohort.time" & n.strata == 1) {
-    massoc <- list(IRR.strata.wald = res$IRR.strata.wald, 
-                   ARate.strata.wald = res$ARate.strata.wald, PARate.strata.wald = res$PARate.strata.wald, 
-                   AFRate.strata.wald = res$AFRate.strata.wald, PAFRate.strata.wald = res$PAFRate.strata.wald, 
+    massoc <- list(IRR.strata.wald = res$IRR.strata.wald,
+                   ARate.strata.wald = res$ARate.strata.wald, PARate.strata.wald = res$PARate.strata.wald,
+                   AFRate.strata.wald = res$AFRate.strata.wald, PAFRate.strata.wald = res$PAFRate.strata.wald,
                    chisq.strata = res$chisq.strata)
     if (outcome == "as.columns") {
       r1 <- c(a, b, cIRatee.p)
       r2 <- c(c, d, cIRateo.p)
       r3 <- c(M1, M0, cIRatepop.p)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Outcome +", "   Time at risk", 
+      colnames(tab) <- c("   Outcome +", "   Time at risk",
                          "       Inc rate *")
       rownames(tab) <- c("Exposed +", "Exposed -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
@@ -1289,30 +1294,30 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       r2 <- c(b, d, M0)
       r3 <- c(N1, N0, N0 + N1)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Exposed +", "   Exposed -", 
+      colnames(tab) <- c("   Exposed +", "   Exposed -",
                          "     Total")
       rownames(tab) <- c("Outcome +", "Time at risk", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
     }
-    out <- list(method = "cohort.time", n.strata = n.strata, 
-                conf.level = conf.level, res = res, massoc = massoc, 
+    out <- list(method = "cohort.time", n.strata = n.strata,
+                conf.level = conf.level, res = res, massoc = massoc,
                 tab = tab)
   }
   if (method == "cohort.time" & n.strata > 1) {
-    massoc <- list(IRR.strata.wald = res$IRR.strata.wald, 
-                   IRR.crude.wald = res$IRR.crude.wald, IRR.mh.wald = res$IRR.mh.wald, 
-                   ARate.strata.wald = res$ARate.strata.wald, ARate.crude.wald = res$ARate.crude.wald, 
-                   ARate.mh.wald = res$ARate.mh.wald, PARate.strata.wald = res$PARate.strata.wald, 
-                   PARate.crude.wald = res$PARate.crude.wald, AFRate.strata.wald = res$AFRate.strata.wald, 
-                   AFRate.crude.wald = res$AFRate.crude.wald, PAFRate.strata.wald = res$PAFRate.strata.wald, 
-                   PAFRate.crude.wald = res$PAFRate.crude.wald, chisq.strata = res$chisq.strata, 
+    massoc <- list(IRR.strata.wald = res$IRR.strata.wald,
+                   IRR.crude.wald = res$IRR.crude.wald, IRR.mh.wald = res$IRR.mh.wald,
+                   ARate.strata.wald = res$ARate.strata.wald, ARate.crude.wald = res$ARate.crude.wald,
+                   ARate.mh.wald = res$ARate.mh.wald, PARate.strata.wald = res$PARate.strata.wald,
+                   PARate.crude.wald = res$PARate.crude.wald, AFRate.strata.wald = res$AFRate.strata.wald,
+                   AFRate.crude.wald = res$AFRate.crude.wald, PAFRate.strata.wald = res$PAFRate.strata.wald,
+                   PAFRate.crude.wald = res$PAFRate.crude.wald, chisq.strata = res$chisq.strata,
                    chisq.crude = res$chisq.crude, chisq.mh = res$chisq.mh)
     if (outcome == "as.columns") {
       r1 <- c(sa, sb, cIRatee.p)
       r2 <- c(sc, sd, cIRateo.p)
       r3 <- c(sM1, sM0, cIRatepop.p)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Outcome +", "   Time at risk", 
+      colnames(tab) <- c("   Outcome +", "   Time at risk",
                          "       Inc rate *")
       rownames(tab) <- c("Exposed +", "Exposed -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
@@ -1326,23 +1331,23 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       rownames(tab) <- c("Outcome +", "Outcome -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
     }
-    out <- list(method = "cohort.time", n.strata = n.strata, 
-                conf.level = conf.level, res = res, massoc = massoc, 
+    out <- list(method = "cohort.time", n.strata = n.strata,
+                conf.level = conf.level, res = res, massoc = massoc,
                 tab = tab)
   }
   if (method == "case.control" & n.strata == 1) {
-    massoc <- list(OR.strata.wald = res$OR.strata.wald, OR.strata.score = res$OR.strata.score, 
-                   OR.strata.cfield = res$OR.strata.cfield, OR.strata.mle = res$OR.strata.mle, 
-                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score, 
-                   PARisk.strata.wald = res$PARisk.strata.wald, PARisk.strata.piri = res$PARisk.strata.piri, 
-                   AFest.strata.wald = res$AFest.strata.wald, PAFest.strata.wald = res$PAFest.strata.wald, 
+    massoc <- list(OR.strata.wald = res$OR.strata.wald, OR.strata.score = res$OR.strata.score,
+                   OR.strata.cfield = res$OR.strata.cfield, OR.strata.mle = res$OR.strata.mle,
+                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score,
+                   PARisk.strata.wald = res$PARisk.strata.wald, PARisk.strata.piri = res$PARisk.strata.piri,
+                   AFest.strata.wald = res$AFest.strata.wald, PAFest.strata.wald = res$PAFest.strata.wald,
                    chisq.strata = res$chisq.strata)
     if (outcome == "as.columns") {
       r1 <- c(a, b, N1, cIRiske.p, cOe.p)
       r2 <- c(c, d, N0, cIRisko.p, cOo.p)
       r3 <- c(M1, M0, M0 + M1, cIRiskpop.p, cOpop.p)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Outcome +", "   Outcome -", 
+      colnames(tab) <- c("   Outcome +", "   Outcome -",
                          "     Total", "       Prevalence *", "       Odds")
       rownames(tab) <- c("Exposed +", "Exposed -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
@@ -1352,36 +1357,36 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       r2 <- c(b, d, M0)
       r3 <- c(N1, N0, N0 + N1)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Exposed +", "   Exposed -", 
+      colnames(tab) <- c("   Exposed +", "   Exposed -",
                          "     Total")
       rownames(tab) <- c("Outcome +", "Outcome -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
     }
-    out <- list(method = "case.control", n.strata = n.strata, 
-                conf.level = conf.level, res = res, massoc = massoc, 
+    out <- list(method = "case.control", n.strata = n.strata,
+                conf.level = conf.level, res = res, massoc = massoc,
                 tab = tab)
   }
   if (method == "case.control" & n.strata > 1) {
-    massoc <- list(OR.strata.wald = res$OR.strata.wald, OR.strata.score = res$OR.strata.score, 
-                   OR.strata.cfield = res$OR.strata.cfield, OR.strata.mle = res$OR.strata.mle, 
-                   OR.crude.wald = res$OR.crude.wald, OR.crude.score = res$OR.crude.score, 
-                   OR.crude.cfield = res$OR.crude.cfield, OR.crude.mle = res$OR.crude.mle, 
-                   OR.mh.wald = res$OR.mh.wald, ARisk.strata.wald = res$ARisk.strata.wald, 
-                   ARisk.strata.score = res$ARisk.strata.score, ARisk.crude.wald = res$ARisk.crude.wald, 
-                   ARisk.crude.score = res$ARisk.crude.score, ARisk.mh.wald = res$ARisk.mh.wald, 
-                   ARisk.mh.sato = res$ARisk.mh.sato, ARisk.mh.green = res$ARisk.mh.green, 
-                   PARisk.strata.wald = res$PARisk.strata.wald, PARisk.strata.piri = res$PARisk.strata.piri, 
-                   PARisk.crude.wald = res$PARisk.crude.wald, PARisk.crude.piri = res$PARisk.crude.piri, 
-                   AFest.strata.wald = res$AFest.strata.wald, AFest.crude.wald = res$AFest.crude.wald, 
-                   PAFest.strata.wald = res$PAFest.strata.wald, PAFest.crude.wald = res$PAFest.crude.wald, 
-                   chisq.strata = res$chisq.strata, chisq.crude = res$chisq.crude, 
+    massoc <- list(OR.strata.wald = res$OR.strata.wald, OR.strata.score = res$OR.strata.score,
+                   OR.strata.cfield = res$OR.strata.cfield, OR.strata.mle = res$OR.strata.mle,
+                   OR.crude.wald = res$OR.crude.wald, OR.crude.score = res$OR.crude.score,
+                   OR.crude.cfield = res$OR.crude.cfield, OR.crude.mle = res$OR.crude.mle,
+                   OR.mh.wald = res$OR.mh.wald, ARisk.strata.wald = res$ARisk.strata.wald,
+                   ARisk.strata.score = res$ARisk.strata.score, ARisk.crude.wald = res$ARisk.crude.wald,
+                   ARisk.crude.score = res$ARisk.crude.score, ARisk.mh.wald = res$ARisk.mh.wald,
+                   ARisk.mh.sato = res$ARisk.mh.sato, ARisk.mh.green = res$ARisk.mh.green,
+                   PARisk.strata.wald = res$PARisk.strata.wald, PARisk.strata.piri = res$PARisk.strata.piri,
+                   PARisk.crude.wald = res$PARisk.crude.wald, PARisk.crude.piri = res$PARisk.crude.piri,
+                   AFest.strata.wald = res$AFest.strata.wald, AFest.crude.wald = res$AFest.crude.wald,
+                   PAFest.strata.wald = res$PAFest.strata.wald, PAFest.crude.wald = res$PAFest.crude.wald,
+                   chisq.strata = res$chisq.strata, chisq.crude = res$chisq.crude,
                    chisq.mh = res$chisq.mh, OR.homog = res$OR.homog)
     if (outcome == "as.columns") {
       r1 <- c(sa, sb, sN1, cIRiske.p, cOe.p)
       r2 <- c(sc, sd, sN0, cIRisko.p, cOo.p)
       r3 <- c(sM1, sM0, sM0 + sM1, cIRiskpop.p, cOpop.p)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Outcome +", "   Outcome -", 
+      colnames(tab) <- c("   Outcome +", "   Outcome -",
                          "     Total", "       Prevalence *", "       Odds")
       rownames(tab) <- c("Exposed +", "Exposed -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
@@ -1391,29 +1396,29 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       r2 <- c(sb, sd, sM0)
       r3 <- c(sN1, sN0, sN0 + sN1)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Exposed +", "   Exposed -", 
+      colnames(tab) <- c("   Exposed +", "   Exposed -",
                          "     Total")
       rownames(tab) <- c("Outcome +", "Outcome -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
     }
-    out <- list(method = "case.control", n.strata = n.strata, 
-                conf.level = conf.level, res = res, massoc = massoc, 
+    out <- list(method = "case.control", n.strata = n.strata,
+                conf.level = conf.level, res = res, massoc = massoc,
                 tab = tab)
   }
   if (method == "cross.sectional" & n.strata == 1) {
-    massoc <- list(PR.strata.wald = res$RR.strata.wald, PR.strata.score = res$RR.strata.score, 
-                   OR.strata.wald = res$OR.strata.wald, OR.strata.score = res$OR.strata.score, 
-                   OR.strata.cfield = res$OR.strata.cfield, OR.strata.mle = res$OR.strata.mle, 
-                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score, 
-                   PARisk.strata.wald = res$PARisk.strata.wald, PARisk.strata.piri = res$PARisk.strata.piri, 
-                   AFRisk.strata.wald = res$AFRisk.strata.wald, PAFRisk.strata.wald = res$PAFRisk.strata.wald, 
+    massoc <- list(PR.strata.wald = res$RR.strata.wald, PR.strata.score = res$RR.strata.score,
+                   OR.strata.wald = res$OR.strata.wald, OR.strata.score = res$OR.strata.score,
+                   OR.strata.cfield = res$OR.strata.cfield, OR.strata.mle = res$OR.strata.mle,
+                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score,
+                   PARisk.strata.wald = res$PARisk.strata.wald, PARisk.strata.piri = res$PARisk.strata.piri,
+                   AFRisk.strata.wald = res$AFRisk.strata.wald, PAFRisk.strata.wald = res$PAFRisk.strata.wald,
                    chisq.strata = res$chisq.strata)
     if (outcome == "as.columns") {
       r1 <- c(a, b, N1, cIRiske.p, cOe.p)
       r2 <- c(c, d, N0, cIRisko.p, cOo.p)
       r3 <- c(M1, M0, M0 + M1, cIRiskpop.p, cOpop.p)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Outcome +", "   Outcome -", 
+      colnames(tab) <- c("   Outcome +", "   Outcome -",
                          "     Total", "       Prevalence *", "       Odds")
       rownames(tab) <- c("Exposed +", "Exposed -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
@@ -1423,39 +1428,39 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       r2 <- c(b, d, M0)
       r3 <- c(N1, N0, N0 + N1)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Exposed +", "   Exposed -", 
+      colnames(tab) <- c("   Exposed +", "   Exposed -",
                          "     Total")
       rownames(tab) <- c("Outcome +", "Outcome -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
     }
-    out <- list(method = "cross.sectional", n.strata = n.strata, 
-                conf.level = conf.level, res = res, massoc = massoc, 
+    out <- list(method = "cross.sectional", n.strata = n.strata,
+                conf.level = conf.level, res = res, massoc = massoc,
                 tab = tab)
   }
   if (method == "cross.sectional" & n.strata > 1) {
-    massoc <- list(PR.strata.wald = res$RR.strata.wald, PR.strata.score = res$RR.strata.score, 
-                   PR.crude.wald = res$RR.crude.wald, PR.crude.score = res$RR.crude.score, 
-                   PR.mh.wald = res$RR.mh.wald, OR.strata.wald = res$OR.strata.wald, 
-                   OR.strata.score = res$OR.strata.score, OR.strata.cfield = res$OR.strata.cfield, 
-                   OR.strata.mle = res$OR.strata.mle, OR.crude.wald = res$OR.crude.wald, 
-                   OR.crude.score = res$OR.crude.score, OR.crude.cfield = res$OR.crude.cfield, 
-                   OR.crude.mle = res$OR.crude.mle, OR.mh.wald = res$OR.mh.wald, 
-                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score, 
-                   ARisk.crude.wald = res$ARisk.crude.wald, ARisk.crude.score = res$ARisk.crude.score, 
-                   ARisk.mh.wald = res$ARisk.mh.wald, ARisk.mh.sato = res$ARisk.mh.sato, 
-                   ARisk.mh.green = res$ARisk.mh.green, PARisk.strata.wald = res$PARisk.strata.wald, 
-                   PARisk.strata.piri = res$PARisk.strata.piri, PARisk.crude.wald = res$PARisk.crude.wald, 
-                   PARisk.crude.piri = res$PARisk.crude.piri, AFRisk.strata.wald = res$AFRisk.strata.wald, 
-                   AFRisk.crude.wald = res$AFRisk.crude.wald, PAFRisk.strata.wald = res$PAFRisk.strata.wald, 
-                   PAFRisk.crude.wald = res$PAFRisk.crude.wald, chisq.strata = res$chisq.strata, 
-                   chisq.crude = res$chisq.crude, chisq.mh = res$chisq.mh, 
+    massoc <- list(PR.strata.wald = res$RR.strata.wald, PR.strata.score = res$RR.strata.score,
+                   PR.crude.wald = res$RR.crude.wald, PR.crude.score = res$RR.crude.score,
+                   PR.mh.wald = res$RR.mh.wald, OR.strata.wald = res$OR.strata.wald,
+                   OR.strata.score = res$OR.strata.score, OR.strata.cfield = res$OR.strata.cfield,
+                   OR.strata.mle = res$OR.strata.mle, OR.crude.wald = res$OR.crude.wald,
+                   OR.crude.score = res$OR.crude.score, OR.crude.cfield = res$OR.crude.cfield,
+                   OR.crude.mle = res$OR.crude.mle, OR.mh.wald = res$OR.mh.wald,
+                   ARisk.strata.wald = res$ARisk.strata.wald, ARisk.strata.score = res$ARisk.strata.score,
+                   ARisk.crude.wald = res$ARisk.crude.wald, ARisk.crude.score = res$ARisk.crude.score,
+                   ARisk.mh.wald = res$ARisk.mh.wald, ARisk.mh.sato = res$ARisk.mh.sato,
+                   ARisk.mh.green = res$ARisk.mh.green, PARisk.strata.wald = res$PARisk.strata.wald,
+                   PARisk.strata.piri = res$PARisk.strata.piri, PARisk.crude.wald = res$PARisk.crude.wald,
+                   PARisk.crude.piri = res$PARisk.crude.piri, AFRisk.strata.wald = res$AFRisk.strata.wald,
+                   AFRisk.crude.wald = res$AFRisk.crude.wald, PAFRisk.strata.wald = res$PAFRisk.strata.wald,
+                   PAFRisk.crude.wald = res$PAFRisk.crude.wald, chisq.strata = res$chisq.strata,
+                   chisq.crude = res$chisq.crude, chisq.mh = res$chisq.mh,
                    PR.homog = res$RR.homog, OR.homog = res$OR.homog)
     if (outcome == "as.columns") {
       r1 <- c(sa, sb, sN1, cIRiske.p, cOe.p)
       r2 <- c(sc, sd, sN0, cIRisko.p, cOo.p)
       r3 <- c(sM1, sM0, sM1 + sM0, cIRiskpop.p, cOpop.p)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Outcome +", "   Outcome -", 
+      colnames(tab) <- c("   Outcome +", "   Outcome -",
                          "     Total", "       Prevalence *", "       Odds")
       rownames(tab) <- c("Exposed +", "Exposed -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
@@ -1465,17 +1470,17 @@ from_epiR_epi.2by2 <- function (dat, method = "cohort.count", conf.level = 0.95,
       r2 <- c(sb, sd, sM0)
       r3 <- c(sN1, sN0, sN0 + sN1)
       tab <- as.data.frame(rbind(r1, r2, r3))
-      colnames(tab) <- c("   Exposed +", "   Exposed -", 
+      colnames(tab) <- c("   Exposed +", "   Exposed -",
                          "     Total")
       rownames(tab) <- c("Outcome +", "Outcome -", "Total")
       tab <- format.data.frame(tab, digits = 3, justify = "right")
     }
-    out <- list(method = "cross.sectional", n.strata = n.strata, 
-                conf.level = conf.level, res = res, massoc = massoc, 
+    out <- list(method = "cross.sectional", n.strata = n.strata,
+                conf.level = conf.level, res = res, massoc = massoc,
                 tab = tab)
   }
   class(out) <- "epi.2by2"
   return(out)
 }
 
-  
+

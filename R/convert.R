@@ -217,7 +217,7 @@ convert.t.to.r <- function(t, n) {
 
 #' @export
 convert.t.to.p <- function(t, df) {
-  return(2*pt(-abs(t),df));
+  return(2*stats::pt(-abs(t),df));
 }
 
 #' @export
@@ -268,7 +268,7 @@ convert.chisq.to.V <- function(chisq, n, minDim) {
 
 #' @export
 convert.chisq.to.p <- function(chisq, df, lower.tail=FALSE) {
-  return(2*pchisq(chisq, df, lower.tail=lower.tail));
+  return(2*stats::pchisq(chisq, df, lower.tail=lower.tail));
 }
 
 #' @export
@@ -282,7 +282,7 @@ convert.V.to.r <- function(V) {
 
 #' @export
 convert.f.to.p <- function(f, df1, df2, lower.tail=FALSE) {
-  return(2*pf(f, df1, df2, lower.tail=lower.tail));
+  return(2*stats::pf(f, df1, df2, lower.tail=lower.tail));
 }
 
 #' @export
