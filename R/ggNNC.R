@@ -168,8 +168,8 @@ ggNNC <- function(cerDataSeq, d = NULL,
   newMeanValue <- meanValue + d * sd;
   cerValueDensity <- cerDataSeq[cerDataSeq$x == max(cerDataSeq[cerDataSeq$x < cerValue, 'x']), 'density'];
   eerValueDensity <- eerDataSeq[eerDataSeq$x == max(eerDataSeq[eerDataSeq$x < cerValue, 'x']), 'density'];
-  cerLabel <- paste0("CER = ", round(100*cer, 2), ifelse(d != 0, "pct    ", "pct"));
-  eerLabel <- paste0("EER = ", round(100*eer, 2), "pct");
+  cerLabel <- paste0("CER = ", round(100*cer, 2), ifelse(d != 0, "%    ", "%"));
+  eerLabel <- paste0("EER = ", round(100*eer, 2), "%");
   nnc <- nnc(d = d, cer = cer,
              eventDesirable=eventDesirable, eventIfHigher=eventIfHigher,
              plot=FALSE);
@@ -199,10 +199,10 @@ ggNNC <- function(cerDataSeq, d = NULL,
   ### Layer with CER normal curve
   if (eventIfHigher) {
     cerFill <- ggplot2::geom_ribbon(data = cerDataSeq[cerDataSeq$x > cerValue, ],
-                                    ggplot2::aes_string(x='x', ymax='density', ymin=0, fill='cerColor'), alpha=cerAlpha);
+                                    ggplot2::aes_string(x='x', ymax='density', ymin=0, fill='cerLabel'), alpha=cerAlpha);
   } else  {
     cerFill <- ggplot2::geom_ribbon(data = cerDataSeq[cerDataSeq$x < cerValue, ],
-                                    ggplot2::aes_string(x="x", ymax="density", ymin=0, fill='cerColor'), alpha=cerAlpha);
+                                    ggplot2::aes_string(x="x", ymax="density", ymin=0, fill='cerLabel'), alpha=cerAlpha);
   }
   ### Add line on top
   cerOutline <- ggplot2::geom_line(data=cerDataSeq,
