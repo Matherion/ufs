@@ -16,7 +16,7 @@ convert.threshold.to.er(threshold, mean, sd, eventIfHigher = TRUE,
   pdist = stats::pnorm)
 
 convert.er.to.threshold(er, mean, sd, eventIfHigher = TRUE,
-  qdist = stast::qnorm)
+  qdist = stats::qnorm)
 
 erDataSeq(er = NULL, threshold = NULL, mean = NULL, sd = NULL,
   eventIfHigher = TRUE, pRange = c(1e-06, 0.99999), xStep = 0.01)

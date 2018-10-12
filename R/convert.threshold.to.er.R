@@ -10,7 +10,7 @@ convert.threshold.to.er <- function(threshold, mean, sd,
 #' @export
 convert.er.to.threshold <- function(er, mean, sd,
                                     eventIfHigher = TRUE,
-                                    qdist = stast::qnorm) {
+                                    qdist = stats::qnorm) {
   q <- qdist(er);
   if (eventIfHigher) {
     return(mean - q * sd);
