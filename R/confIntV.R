@@ -20,7 +20,7 @@ cramersV <- function(x, y = NULL, digits=2) {
       ### incorrect
       suppressWarnings(withCallingHandlers({
         res$intermediate$chisq.test <-
-          stast::chisq.test(x, correct=FALSE);
+          stats::chisq.test(x, correct=FALSE);
       }, warning = function(w) {
         if (grepl("Chi-squared approximation may be incorrect", w)) {
           res$errors[[length(res$errors) + 1]] <- w;
