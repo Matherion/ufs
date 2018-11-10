@@ -2,6 +2,8 @@
 ### (i.e. see the comments by Nick Horton and thelatemail)
 
 ### Function to compute Cramer's V
+
+#' @export cramersV
 cramersV <- function(x, y = NULL, digits=2) {
 
   res <- list(input = list(x=x, y=y, digits=digits),
@@ -58,6 +60,7 @@ cramersV <- function(x, y = NULL, digits=2) {
   return(res);
 }
 
+#' @export print.CramersV
 print.CramersV <- function(x, digits=x$input$digits, ...) {
   cat(paste0("Cram\u00E9r's V = "),
       signif(x$output$cramersV, digits=digits));
@@ -188,6 +191,7 @@ confIntV <- function(x, y = NULL, conf.level=.95,
   return(res);
 }
 
+#' @export print.confIntV
 print.confIntV <- function(x, digits=x$input$digits, ...) {
   cat(paste0("Cram\u00E9r's V ", 100*x$input$conf.level,
              "% confidence interval (point estimate = ",
