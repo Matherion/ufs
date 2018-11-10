@@ -158,7 +158,7 @@ ggDiamondLayer <- function(data,
                                    mapping=ggplot2::aes_string(x='x', y='y'),
                                    fill=color,
                                    color=ifelse(is.na(lineColor), color, lineColor), ...));
-    } else if (!is.numeric(cCol) && all(unlist(areColors(cCol)))) {
+    } else if (!is.numeric(cCol) && all(unlist(ufs::areColors(cCol)))) {
       ### If a specific color is passed, use that
       return(ggplot2::geom_polygon(tmpDf,
                                    mapping=ggplot2::aes_string(x='x', y='y'),

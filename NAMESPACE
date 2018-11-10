@@ -2,6 +2,7 @@
 
 S3method(print,meanConfInt)
 export("%IN%")
+export(areColors)
 export(associationMatrix)
 export(associationsDiamondPlot)
 export(associationsToDiamondPlotDf)
