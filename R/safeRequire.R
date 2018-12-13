@@ -1,5 +1,4 @@
-### This function checks whether a package is installed;
-### if not, it installs it. It then loads the package.
+#' @export
 safeRequire <- function(packageName, mirrorIndex=1) {
   if (!is.element(packageName, installed.packages()[,1])) {
     if (!is.null(mirrorIndex)) {
