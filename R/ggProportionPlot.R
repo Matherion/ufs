@@ -265,8 +265,7 @@ ggProportionPlot <- function(dat,
               show.legend=FALSE) +
     scale_y_continuous(breaks=sort(unique(longDat$itemValue)),
                        minor_breaks = NULL,
-                       #labels=leftAnchors,
-                       labels=unique(longDat$item),
+                       labels=leftAnchors,
                        name=NULL,
                        sec.axis = dup_axis(labels=rightAnchors)) +
     coord_cartesian(xlim=c(0, 100)) +
