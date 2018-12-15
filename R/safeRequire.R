@@ -1,7 +1,9 @@
 #' @export
-safeRequire <- function(packageName, mirrorIndex=1) {
+safeRequire <- function(packageName, mirrorIndex=NULL) {
   if (!is.element(packageName, installed.packages()[,1])) {
-    if (!is.null(mirrorIndex)) {
+    if (is.null(mirrorIndex)) {
+      chooseCRANmirror(ind=1);
+    } else {
       chooseCRANmirror(ind=mirrorIndex);
     }
     install.packages(packageName, dependencies=TRUE);
