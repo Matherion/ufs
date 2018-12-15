@@ -305,8 +305,8 @@ ggProportionPlot <- function(dat,
   ### Extract grob with axis labels of secondary axis (at the right-hand side),
   ### which are the subquestions
   subQuestionLabelplotAsGrob <- ggplotGrob(subQuestionLabelplot);
-  subQuestionPanel <- gtable_filter::gtable_filter(subQuestionLabelplotAsGrob,
-                                                   "axis-r");
+  subQuestionPanel <- gtable::gtable_filter(subQuestionLabelplotAsGrob,
+                                            "axis-r");
 
   ### Compute how wide this grob is based on the width of the
   ### widest element, and express this in inches
