@@ -305,7 +305,8 @@ ggProportionPlot <- function(dat,
   ### Extract grob with axis labels of secondary axis (at the right-hand side),
   ### which are the subquestions
   subQuestionLabelplotAsGrob <- ggplotGrob(subQuestionLabelplot);
-  subQuestionPanel <- gtable_filter(subQuestionLabelplotAsGrob, "axis-r");
+  subQuestionPanel <- gtable_filter::gtable_filter(subQuestionLabelplotAsGrob,
+                                                   "axis-r");
 
   ### Compute how wide this grob is based on the width of the
   ### widest element, and express this in inches
@@ -313,24 +314,24 @@ ggProportionPlot <- function(dat,
                                                   unit, x=1, units="strwidth"), convertUnit, "inches")));
 
   ### Convert the real plot to a gtable
-  plotAsGrob <- ggplotGrob(plot);
+  plotAsGrob <- ggplot2::ggplotGrob(plot);
 
   index <- which(subQuestionLabelplotAsGrob$layout$name == "axis-r");
   subQuestionWidth <-
     subQuestionLabelplotAsGrob$widths[subQuestionLabelplotAsGrob$layout[index, ]$l];
 
   ### Add a column to the left, with the width of the subquestion grob
-  fullPlot <- gtable_add_cols(plotAsGrob, subQuestionWidth, pos=0);
+  fullPlot <- gtable::gtable_add_cols(plotAsGrob, subQuestionWidth, pos=0);
 
   ### Get the layout information of the panel to locate the subquestion
   ### grob at the right height (i.e. in the right row)
   index <- plotAsGrob$layout[plotAsGrob$layout$name == "panel", ];
 
   ### Add the subquestion grob to the plot
-  fullPlot <- gtable_add_grob(fullPlot,
-                              subQuestionPanel,
-                              t=index$t, l=1, b=index$b, r=1,
-                              name = "subquestions");
+  fullPlot <- gtable::gtable_add_grob(fullPlot,
+                                      subQuestionPanel,
+                                      t=index$t, l=1, b=index$b, r=1,
+                                      name = "subquestions");
 
   if (returnPlotOnly) {
     return(fullPlot);
