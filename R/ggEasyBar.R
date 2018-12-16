@@ -186,7 +186,7 @@ ggEasyBar <- function(data, items = NULL,
                                                                     byrow=TRUE));
     } else {
       res <- res +
-        ggplot2::scale_fill_viridis_d(labels = c,
+        ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
                                       guide = ggplot2::guide_legend(title = NULL,
                                                                     nrow=legendRows,
                                                                     byrow=TRUE));
