@@ -24,6 +24,8 @@
 #' ("\code{perc}"), or both ("\code{both}"). This is only used if only one
 #' variable is shown in the plot; afterwise, after all, the absolute
 #' frequencies and percentages differ for each variable.
+#' @param legendValueLabels Labels to use in the legend; must be a vector of
+#' the same length as the number of categories in the variables.
 #' @param biAxisLabels This can be used to specify labels to use if you want to
 #' use labels on both the left and right side. This is mostly useful when
 #' plotting single questions or semantic differentials. This must be a list

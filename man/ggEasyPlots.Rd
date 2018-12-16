@@ -9,9 +9,10 @@
 \usage{
 ggEasyBar(data, items = NULL, labels = NULL, sortByMean = TRUE,
   xlab = NULL, ylab = NULL,
-  scale_fill_function = viridis::scale_fill_viridis(discrete = TRUE, guide =
-  guide_legend(title = NULL, nrow = 1)), fontColor = "white", fontSize = 2,
-  labelMinPercentage = 1, showInLegend = "both", biAxisLabels = NULL)
+  scale_fill_function = ggplot2::scale_fill_viridis_d(labels =
+  legendValueLabels, guide = guide_legend(title = NULL, nrow = 1)),
+  fontColor = "white", fontSize = 2, labelMinPercentage = 1,
+  showInLegend = "both", legendValueLabels = NULL, biAxisLabels = NULL)
 
 ggEasyRidge(data, items = NULL, labels = NULL, sortByMean = TRUE,
   xlab = NULL, ylab = NULL)
@@ -44,6 +45,9 @@ nothing ("\code{none}"), the frequencies ("\code{freq}"), the percentages
 ("\code{perc}"), or both ("\code{both}"). This is only used if only one
 variable is shown in the plot; afterwise, after all, the absolute
 frequencies and percentages differ for each variable.}
+
+\item{legendValueLabels}{Labels to use in the legend; must be a vector of
+the same length as the number of categories in the variables.}
 
 \item{biAxisLabels}{This can be used to specify labels to use if you want to
 use labels on both the left and right side. This is mostly useful when
