@@ -25,6 +25,7 @@ Imports: BiasedUrn (>= 1.07),
          grid (>= 3.5.1),
          gtable (>= 0.2.0),
          MBESS (>= 4.4.3),
+         pander (>= 0.6.3),
          scales (>= 1.0.0),
          SuppDists (>= 1.1.9),
          viridis (>= 0.5.1)
