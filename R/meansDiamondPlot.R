@@ -9,8 +9,9 @@
 #' diamonds remedies this.
 #'
 #'
-#' @param data The dataframe containing the variables (\code{items}) to show in
-#' the diamond plot.
+#' @param data,dat The dataframe containing the variables (\code{items}) to show in
+#' the diamond plot (the name `dat` for this argument is deprecated but still
+#' works for backward compatibility).
 #' @param items Optionally, the names (or numeric indices) of the variables
 #' (items) to show in the diamond plot. If NULL, all columns (variables, items)
 #' will be used.
