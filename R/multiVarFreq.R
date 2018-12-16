@@ -79,6 +79,7 @@ print.multiVarFreq <- function(x, ...) {
 }
 
 #' @method pander multiVarFreq
+#' @importFrom pander pander
 #' @export
 pander.multiVarFreq <- function(x, ...) {
   class(x) <- 'data.frame';
