@@ -10,9 +10,10 @@
 ggEasyBar(data, items = NULL, labels = NULL, sortByMean = TRUE,
   xlab = NULL, ylab = NULL,
   scale_fill_function = ggplot2::scale_fill_viridis_d(labels =
-  legendValueLabels, guide = guide_legend(title = NULL, nrow = 1)),
+  legendValueLabels, guide = guide_legend(title = NULL, nrow = legendRows)),
   fontColor = "white", fontSize = 2, labelMinPercentage = 1,
-  showInLegend = "both", legendValueLabels = NULL, biAxisLabels = NULL)
+  showInLegend = "both", legendRows = 2, legendValueLabels = NULL,
+  biAxisLabels = NULL)
 
 ggEasyRidge(data, items = NULL, labels = NULL, sortByMean = TRUE,
   xlab = NULL, ylab = NULL)
@@ -45,6 +46,8 @@ nothing ("\code{none}"), the frequencies ("\code{freq}"), the percentages
 ("\code{perc}"), or both ("\code{both}"). This is only used if only one
 variable is shown in the plot; afterwise, after all, the absolute
 frequencies and percentages differ for each variable.}
+
+\item{legendRows}{Number or rows in the legend.}
 
 \item{legendValueLabels}{Labels to use in the legend; must be a vector of
 the same length as the number of categories in the variables.}
