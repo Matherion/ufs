@@ -4,17 +4,19 @@
 \alias{meansDiamondPlot}
 \title{Diamond plots}
 \usage{
-meansDiamondPlot(dat, items = NULL, labels = NULL, decreasing = NULL,
+meansDiamondPlot(data, items = NULL, labels = NULL, decreasing = NULL,
   conf.level = 0.95, showData = TRUE, dataAlpha = 0.1, dataSize = 3,
   dataColor = "#444444", diamondColors = NULL, jitterWidth = 0.5,
   jitterHeight = 0.4, returnLayerOnly = FALSE, xlab = "Scores and means",
   ylab = NULL, theme = ggplot2::theme_bw(), xbreaks = "auto",
   outputFile = NULL, outputWidth = 10, outputHeight = 10,
-  ggsaveParams = list(units = "cm", dpi = 300, type = "cairo"), ...)
+  ggsaveParams = list(units = "cm", dpi = 300, type = "cairo"), dat = NULL,
+  ...)
 }
 \arguments{
-\item{dat}{The dataframe containing the variables (\code{items}) to show in
-the diamond plot.}
+\item{data, dat}{The dataframe containing the variables (\code{items}) to show in
+the diamond plot (the name `dat` for this argument is deprecated but still
+works for backward compatibility).}
 
 \item{items}{Optionally, the names (or numeric indices) of the variables
 (items) to show in the diamond plot. If NULL, all columns (variables, items)
