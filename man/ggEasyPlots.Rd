@@ -8,9 +8,7 @@
 \title{Convenience functions for ggplots based on multiple variables}
 \usage{
 ggEasyBar(data, items = NULL, labels = NULL, sortByMean = TRUE,
-  xlab = NULL, ylab = NULL,
-  scale_fill_function = ggplot2::scale_fill_viridis_d(labels =
-  legendValueLabels, guide = guide_legend(title = NULL, nrow = legendRows)),
+  xlab = NULL, ylab = NULL, scale_fill_function = NULL,
   fontColor = "white", fontSize = 2, labelMinPercentage = 1,
   showInLegend = "both", legendRows = 2, legendValueLabels = NULL,
   biAxisLabels = NULL)
@@ -32,7 +30,9 @@ used instead of the variable names.}
 \item{xlab, ylab}{The labels for the x and y axes.}
 
 \item{scale_fill_function}{The function to pass to \code{\link{ggplot}} to
-provide the colors of the bars.}
+provide the colors of the bars. If `NULL`, set to
+\code{ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
+guide = ggplot2::guide_legend(title = NULL, nrow=legendRows, byrow=TRUE))}.}
 
 \item{fontColor, fontSize}{The color and size of the font used to display the
 labels}

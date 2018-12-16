@@ -13,7 +13,9 @@
 #' @param sortByMean Whether to sort the variables by mean value.
 #' @param xlab,ylab The labels for the x and y axes.
 #' @param scale_fill_function The function to pass to \code{\link{ggplot}} to
-#' provide the colors of the bars.
+#' provide the colors of the bars. If `NULL`, set to
+#' \code{ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
+#' guide = ggplot2::guide_legend(title = NULL, nrow=legendRows, byrow=TRUE))}.
 #' @param fontColor,fontSize The color and size of the font used to display the
 #' labels
 #' @param labelMinPercentage The minimum percentage that a category must reach
@@ -58,9 +60,7 @@
 ggEasyBar <- function(data, items = NULL,
                       labels = NULL, sortByMean = TRUE,
                       xlab = NULL, ylab = NULL,
-                      scale_fill_function = ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
-                                                                          guide = guide_legend(title = NULL,
-                                                                                               nrow=legendRows)),
+                      scale_fill_function = NULL,
                       fontColor = "white",
                       fontSize = 2,
                       labelMinPercentage = 1,
@@ -170,6 +170,14 @@ ggEasyBar <- function(data, items = NULL,
                                                     y = 'rel',
                                                     fill = 'val',
                                                     label = 'label'));
+  }
+
+  if (is.null(scale_fill_function)) {
+    scale_fill_function <-
+      ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
+                                    guide = ggplot2::guide_legend(title = NULL,
+                                                                  nrow=legendRows,
+                                                                  byrow=TRUE));
   }
 
   res <- res +
