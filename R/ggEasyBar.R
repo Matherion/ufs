@@ -178,23 +178,28 @@ ggEasyBar <- function(data, items = NULL,
     ggplot2::labs(x=xlab, y=ylab) +
     ggplot2::theme(legend.position="bottom");
 
-  if (is.null(scale_fill_function)) {
-    if (is.null(legendValueLabels)) {
-      res <- res +
-        ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(title = NULL,
-                                                                    nrow=legendRows,
-                                                                    byrow=TRUE));
-    } else {
-      res <- res +
-        ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
-                                      guide = ggplot2::guide_legend(title = NULL,
-                                                                    nrow=legendRows,
-                                                                    byrow=TRUE));
-    }
-  } else {
-    res <- res +
-      scale_fill_function;
-  }
+  # if (is.null(scale_fill_function)) {
+  #   if (is.null(legendValueLabels)) {
+  #     res <- res +
+  #       ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(title = NULL,
+  #                                                                   nrow=legendRows,
+  #                                                                   byrow=TRUE));
+  #   } else {
+  #     res <- res +
+  #       ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
+  #                                     guide = ggplot2::guide_legend(title = NULL,
+  #                                                                   nrow=legendRows,
+  #                                                                   byrow=TRUE));
+  #   }
+  # } else {
+  #   res <- res +
+  #     scale_fill_function;
+  # }
+
+  res <- res +
+    ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(title = NULL,
+                                                                nrow=legendRows,
+                                                                byrow=TRUE));
 
   return(res);
 }
