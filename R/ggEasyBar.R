@@ -55,13 +55,14 @@
 ggEasyBar <- function(data, items = NULL,
                       labels = NULL, sortByMean = TRUE,
                       xlab = NULL, ylab = NULL,
-                      scale_fill_function = viridis::scale_fill_viridis(discrete = TRUE,
-                                                                        guide = guide_legend(title = NULL,
-                                                                                             nrow=1)),
+                      scale_fill_function = ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
+                                                                          guide = guide_legend(title = NULL,
+                                                                                               nrow=1)),
                       fontColor = "white",
                       fontSize = 2,
                       labelMinPercentage = 1,
                       showInLegend = "both",
+                      legendValueLabels=NULL,
                       biAxisLabels = NULL) {
 
   if (is.null(items)) {
@@ -74,7 +75,8 @@ ggEasyBar <- function(data, items = NULL,
   }
 
   if (sortByMean && length(items) > 1) {
-    if (!all(lapply(data[, items], is.numeric))) {
+    if (!all(unlist(lapply(data[, items], is.numeric)))) {
+      lvls <- lapply(data[, items], levels)
       data[, items] <- massConvertToNumeric(data[, items],
                                             ignoreCharacter=FALSE);
     }
@@ -138,6 +140,10 @@ ggEasyBar <- function(data, items = NULL,
                                round(tmpDf$rel),
                                "%)"),
                         "");
+
+  if (is.null(legendValueLabels)) {
+    legendValueLabels <- ggplot::waiver();
+  }
 
   ### Actual plot
   if (!is.null(biAxisLabels) &&
