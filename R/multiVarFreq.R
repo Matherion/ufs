@@ -50,7 +50,7 @@ multiVarFreq <- function(data,
     labels <- items;
   }
 
-  res <- do.call(rbind.fill,
+  res <- do.call(dplyr::bind_rows,
                  lapply(data[, items],
                         function(x)
                           return(as.data.frame(t(as.matrix(table(x)))))
