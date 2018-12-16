@@ -146,7 +146,7 @@ ggEasyBar <- function(data, items = NULL,
                         "");
 
   if (is.null(legendValueLabels)) {
-    legendValueLabels <- ggplot::waiver();
+    legendValueLabels <- ggplot2::waiver();
   }
 
   ### Actual plot
