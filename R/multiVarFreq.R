@@ -78,12 +78,12 @@ print.multiVarFreq <- function(x, ...) {
   print(x, na.print="", ...);
 }
 
-#' @method pander multiVarFreq
-#' @importFrom pander pander
-#' @export
-pander.multiVarFreq <- function(x, ...) {
-  class(x) <- 'data.frame';
-  cat("\n\n");
-  pander(x, missing = "");
-  cat("\n\n");
-}
+##' @importFrom pander pander
+##' @method pander multiVarFreq
+##' @export
+# pander.multiVarFreq <- function(x, ...) {
+#   class(x) <- 'data.frame';
+#   cat("\n\n");
+#   pander::pander(x, missing = "");
+#   cat("\n\n");
+# }
