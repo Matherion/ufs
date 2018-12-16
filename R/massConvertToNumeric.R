@@ -1,3 +1,29 @@
+#' Converting many dataframe columns to numeric
+#'
+#' This function makes it easy to convert many dataframe
+#' columns to numeric.
+#'
+#' @param dat The dataframe with the columns.
+#' @param byFactorLabel When converting factors, whether to do this
+#' by their label value (`TRUE`) or their level value (`FALSE`).
+#' @param ignoreCharacter Whether to convert (`FALSE`) or
+#' ignore (`TRUE`) character vectors.
+#' @param stringsAsFactors In the returned dataframe, whether
+#' to return string (character) vectors as factors or not.
+#'
+#' @return A data.frame.
+#' @export
+#'
+#' @examples
+#' a <- data.frame(var1 = factor(1:4),
+#'                 var2 = as.character(5:6));
+#'
+#' ### Ignores var2
+#' massConvertToNumeric(a);
+#'
+#' ### Converts var2
+#' massConvertToNumeric(a,
+#'                      ignoreCharacter = FALSE);
 massConvertToNumeric <- function(dat,
                                  byFactorLabel = FALSE,
                                  ignoreCharacter = TRUE,
