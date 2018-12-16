@@ -145,10 +145,6 @@ ggEasyBar <- function(data, items = NULL,
                                "%)"),
                         "");
 
-  if (is.null(legendValueLabels)) {
-    legendValueLabels <- ggplot2::waiver();
-  }
-
   ### Actual plot
   if (!is.null(biAxisLabels) &&
       (length(biAxisLabels$leftAnchors) == length(items)) &&
@@ -173,11 +169,18 @@ ggEasyBar <- function(data, items = NULL,
   }
 
   if (is.null(scale_fill_function)) {
-    scale_fill_function <-
-      ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
-                                    guide = ggplot2::guide_legend(title = NULL,
-                                                                  nrow=legendRows,
-                                                                  byrow=TRUE));
+    if (is.null(legendValueLabels)) {
+      scale_fill_function <-
+        ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(title = NULL,
+                                                                    nrow=legendRows,
+                                                                    byrow=TRUE));
+    } else {
+      scale_fill_function <-
+        ggplot2::scale_fill_viridis_d(labels = c,
+                                      guide = ggplot2::guide_legend(title = NULL,
+                                                                    nrow=legendRows,
+                                                                    byrow=TRUE));
+    }
   }
 
   res <- res +
