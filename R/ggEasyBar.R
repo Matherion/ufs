@@ -99,6 +99,7 @@ ggEasyBar <- function(data, items = NULL,
   tmpDf <-
     lapply(data[, items, drop=FALSE], function(x)
       return(cbind(table(x), table(x) / sum(table(x)))));
+
   tmpDf <-
     lapply(names(tmpDf),
            function(x) return(data.frame(var = rep(x, nrow(tmpDf[[x]])),
@@ -109,7 +110,7 @@ ggEasyBar <- function(data, items = NULL,
   tmpDf <- do.call(rbind, tmpDf);
   ### Convert row names to numeric if need be
   if (!is.numeric(tmpDf$val)) {
-    if (all(grepl('\\d+', tmpDf$val))) {
+    if (all(grepl('^\\d+$', tmpDf$val))) {
       if (is.factor(tmpDf$val)) {
         tmpDf$val <- as.numeric(levels(tmpDf$val))[tmpDf$val];
       } else {
@@ -118,10 +119,15 @@ ggEasyBar <- function(data, items = NULL,
     }
   }
 
-  if (is.numeric(tmpDf$val) || (all(grepl('\\d+', tmpDf$val)))) {
+  if (is.numeric(tmpDf$val) || (all(grepl('^\\d+$', tmpDf$val)))) {
     tmpDf$val <- factor(tmpDf$val,
                         levels = sort(as.numeric(unique(tmpDf$val))),
                         labels = sort(as.numeric(unique(tmpDf$val))),
+                        ordered=TRUE);
+  } else {
+    tmpDf$val <- factor(tmpDf$val,
+                        levels = tmpDf$val,
+                        labels = tmpDf$val,
                         ordered=TRUE);
   }
 
@@ -144,6 +150,21 @@ ggEasyBar <- function(data, items = NULL,
                                round(tmpDf$rel),
                                "%)"),
                         "");
+
+  if (is.null(scale_fill_function)) {
+    if (is.null(legendValueLabels)) {
+      scale_fill_function <-
+        ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(title = NULL,
+                                                                    nrow=legendRows,
+                                                                    byrow=TRUE));
+    } else {
+      scale_fill_function <-
+        ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
+                                      guide = ggplot2::guide_legend(title = NULL,
+                                                                    nrow=legendRows,
+                                                                    byrow=TRUE));
+    }
+  }
 
   ### Actual plot
   if (!is.null(biAxisLabels) &&
@@ -174,32 +195,11 @@ ggEasyBar <- function(data, items = NULL,
     ggplot2::theme_minimal() +
     ggplot2::coord_flip() +
     ggplot2::geom_text(color=fontColor, size = fontSize,
-              position = ggplot2::position_stack(reverse=TRUE, vjust = 0.5)) +
+                       position = ggplot2::position_stack(reverse=TRUE,
+                                                          vjust = 0.5)) +
+    scale_fill_function +
     ggplot2::labs(x=xlab, y=ylab) +
     ggplot2::theme(legend.position="bottom");
-
-  # if (is.null(scale_fill_function)) {
-  #   if (is.null(legendValueLabels)) {
-  #     res <- res +
-  #       ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(title = NULL,
-  #                                                                   nrow=legendRows,
-  #                                                                   byrow=TRUE));
-  #   } else {
-  #     res <- res +
-  #       ggplot2::scale_fill_viridis_d(labels = legendValueLabels,
-  #                                     guide = ggplot2::guide_legend(title = NULL,
-  #                                                                   nrow=legendRows,
-  #                                                                   byrow=TRUE));
-  #   }
-  # } else {
-  #   res <- res +
-  #     scale_fill_function;
-  # }
-
-  # res <- res +
-  #   ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(title = NULL,
-  #                                                               nrow=legendRows,
-  #                                                               byrow=TRUE));
 
   return(res);
 }
