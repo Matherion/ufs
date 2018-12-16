@@ -14,15 +14,15 @@
 #' @return A data.frame.
 #' @export
 #'
-#' @examples
+#' @examples ### Create a dataset
 #' a <- data.frame(var1 = factor(1:4),
 #'                 var2 = as.character(5:6));
 #'
 #' ### Ignores var2
-#' massConvertToNumeric(a);
+#' ufs::massConvertToNumeric(a);
 #'
 #' ### Converts var2
-#' massConvertToNumeric(a,
+#' ufs::massConvertToNumeric(a,
 #'                      ignoreCharacter = FALSE);
 massConvertToNumeric <- function(dat,
                                  byFactorLabel = FALSE,
