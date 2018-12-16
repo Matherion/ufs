@@ -168,31 +168,33 @@ ggEasyBar <- function(data, items = NULL,
                                                     label = 'label'));
   }
 
-  if (is.null(scale_fill_function)) {
-    if (is.null(legendValueLabels)) {
-      scale_fill_function <-
-        ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(title = NULL,
-                                                                    nrow=legendRows,
-                                                                    byrow=TRUE));
-    } else {
-      scale_fill_function <-
-        ggplot2::scale_fill_viridis_d(labels = c,
-                                      guide = ggplot2::guide_legend(title = NULL,
-                                                                    nrow=legendRows,
-                                                                    byrow=TRUE));
-    }
-  }
-
   res <- res +
     ggplot2::geom_bar(na.rm=TRUE, stat = 'identity',
                       position = ggplot2::position_stack(reverse = TRUE)) +
     ggplot2::theme_minimal() +
     ggplot2::coord_flip() +
-    scale_fill_function +
     ggplot2::geom_text(color=fontColor, size = fontSize,
               position = ggplot2::position_stack(reverse=TRUE, vjust = 0.5)) +
     ggplot2::labs(x=xlab, y=ylab) +
     ggplot2::theme(legend.position="bottom");
+
+  if (is.null(scale_fill_function)) {
+    if (is.null(legendValueLabels)) {
+      res <- res +
+        ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(title = NULL,
+                                                                    nrow=legendRows,
+                                                                    byrow=TRUE));
+    } else {
+      res <- res +
+        ggplot2::scale_fill_viridis_d(labels = c,
+                                      guide = ggplot2::guide_legend(title = NULL,
+                                                                    nrow=legendRows,
+                                                                    byrow=TRUE));
+    }
+  } else {
+    res <- res +
+      scale_fill_function;
+  }
 
   return(res);
 }
