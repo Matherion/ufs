@@ -9,7 +9,7 @@
 #' diamonds remedies this.
 #'
 #'
-#' @param dat The dataframe containing the variables (\code{items}) to show in
+#' @param data The dataframe containing the variables (\code{items}) to show in
 #' the diamond plot.
 #' @param items Optionally, the names (or numeric indices) of the variables
 #' (items) to show in the diamond plot. If NULL, all columns (variables, items)
@@ -79,7 +79,7 @@
 #'                  fullColorRange = c(1,5));
 #'
 #' @export meansDiamondPlot
-meansDiamondPlot <- function(dat, items = NULL, labels = NULL,
+meansDiamondPlot <- function(data, items = NULL, labels = NULL,
                              decreasing=NULL,
                              conf.level=.95,
                              showData = TRUE, dataAlpha = .1, dataSize=3,
@@ -98,7 +98,16 @@ meansDiamondPlot <- function(dat, items = NULL, labels = NULL,
                              ggsaveParams = list(units='cm',
                                                  dpi=300,
                                                  type="cairo"),
+                             dat=NULL,
                              ...) {
+
+  if (missing(data)) {
+    if (!is.null(dat)) {
+      data <- dat;
+    }
+  }
+
+  dat <- data;
 
   res <- list();
   res$intermediate <- list();
