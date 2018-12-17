@@ -34,15 +34,15 @@ ggEasyRidge <- function(data, items = NULL,
 
   ### Actual plot
   res <-
-    ggplot(data = tmpDf,
-           mapping = aes_string(x='val',
-                                y='var')) +
-    geom_density_ridges(na.rm=TRUE,
-                        alpha=.25) +
-    theme_minimal() +
-    labs(x=xlab,
-         y=ylab) +
-    theme(axis.ticks.x = element_line());
+    ggplot2::ggplot(data = tmpDf,
+                    mapping = ggplot2::aes_string(x='val',
+                                                  y='var')) +
+    ggridges::geom_density_ridges(na.rm=TRUE,
+                                  alpha=.25) +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(x=xlab,
+                  y=ylab) +
+    ggplot2::theme(axis.ticks.x = element_line());
 
   return(res);
 }
