@@ -77,20 +77,20 @@ confIntOmegaSq <- function(var1, var2, conf.level=.95) {
   ### Noncentrality parameter for F distribution
 
   res$intermediate$object.ncf <-
-    MBESS::conf.limits.ncf(F.value = f_val,
-                           conf.level = conf.level,
-                           df.1 = df_num,
-                           df.2 = df_den);
+    from_MBESS_conf.limits.ncf(F.value = f_val,
+                               conf.level = conf.level,
+                               df.1 = df_num,
+                               df.2 = df_den);
 
   res$output$es <- ufs::convert.f.to.omegasq(f_val, df_num, df_den);
 
   ### Converting to omega^2 using formula 16 in Steiger (2004)
 
   res$output$ci <-
-    c(MBESS::convert.ncf.to.omegasq(res$intermediate$object.ncf$Lower.Limit,
-                                    df_num + df_den + 1),
-      MBESS::convert.ncf.to.omegasq(res$intermediate$object.ncf$Upper.Limit,
-                                    df_num + df_den + 1));
+    c(convert.ncf.to.omegasq(res$intermediate$object.ncf$Lower.Limit,
+                            df_num + df_den + 1),
+      convert.ncf.to.omegasq(res$intermediate$object.ncf$Upper.Limit,
+                             df_num + df_den + 1));
 
   class(res) <- 'confIntOmegaSq';
   return(res);

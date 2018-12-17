@@ -188,8 +188,9 @@ computeEffectSize_etasq <- function(var1, var2, conf.level=.95,
 
   res$es <- df_num*f_val/(df_den + df_num*f_val);
   res$es.type <- "etasq";
-  capture.output(res$object <- MBESS::ci.pvaf(F.value=f_val, df.1=df_num, df.2=df_den,
-                        N=(df_den+df_num+1), conf.level=res$realConfidence));
+  capture.output(res$object <-
+    from_MBESS_ci.pvaf(F.value=f_val, df.1=df_num, df.2=df_den,
+                       N=(df_den+df_num+1), conf.level=res$realConfidence));
 
   res$ci <- c(res$object$Lower.Limit.Proportion.of.Variance.Accounted.for,
               res$object$Upper.Limit.Proportion.of.Variance.Accounted.for);
