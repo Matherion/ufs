@@ -205,8 +205,18 @@ biAxisDiamondPlot <- function(dat, items = NULL,
 
   ### Compute how wide this grob is based on the width of the
   ### widest element, and express this in inches
-  maxSubQuestionWidth <- max(unlist(lapply(lapply(unlist(strsplit(subQuestions, "\n")),
-                                                  ggplot2::unit, x=1, units="strwidth"), grid::convertUnit, "inches")));
+  tryCatch({
+    maxSubQuestionWidth <-
+      max(unlist(lapply(lapply(unlist(strsplit(as.character(subQuestions), "\n")),
+                               ggplot2::unit,
+                               x=1,
+                               units="strwidth"),
+                        grid::convertUnit, "inches")));
+  }, error=function(e) {
+    stop("Encountered an error while working with 'subQuestions'. This most ",
+         "likely is caused by illegal values, so check it carefully! The error ",
+         " was: ", e$message);
+  });
 
   ### Convert the real plot to a gtable
   plotAsGrob <- ggplot2::ggplotGrob(plot);
