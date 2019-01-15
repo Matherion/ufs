@@ -42,7 +42,7 @@ ggEasyRidge <- function(data, items = NULL,
     ggplot2::theme_minimal() +
     ggplot2::labs(x=xlab,
                   y=ylab) +
-    ggplot2::theme(axis.ticks.x = element_line());
+    ggplot2::theme(axis.ticks.x = ggplot2::element_line());
 
   return(res);
 }

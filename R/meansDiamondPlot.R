@@ -52,7 +52,8 @@
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
 #' @seealso \code{\link{diamondPlot}}, \code{\link{meanSDtoDiamondPlot}},
-#' \code{\link{factorLoadingDiamondCIplot}}, \code{\link{ggDiamondLayer}}
+#' \code{\link{ggDiamondLayer}}
+#####'## \code{\link{factorLoadingDiamondCIplot}}
 #' @keywords hplot
 #' @examples
 #'
@@ -147,8 +148,8 @@ meansDiamondPlot <- function(data, items = NULL, labels = NULL,
 
   plot <- plot + diamondLayer +
     ggplot2::scale_y_continuous(breaks=sort(res$intermediate$dat$rownr),
-                       minor_breaks=NULL,
-                       labels=res$intermediate$dat$label) +
+                                minor_breaks=NULL,
+                                labels=res$intermediate$dat$label) +
     theme +
     ggplot2::ylab(ylab) +
     ggplot2::xlab(xlab) +

@@ -1,3 +1,4 @@
+#' @rdname basicDiamondplotFunctions
 #' @export
 varsToDiamondPlotDf <- function(dat,
                                 items = NULL,

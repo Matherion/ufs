@@ -1,14 +1,14 @@
 #' Diamondplot with two Y axes
 #'
-#' This is basically a \code{\link{meansDiamondPlot}}, but extended to allow
+#' This is basically a [meansDiamondPlot()], but extended to allow
 #' specifying subquestions and anchors at the left and right side. This is
 #' convenient for psychological questionnaires when the anchors or dimensions
 #' were different from item to item. This function is used to function the left
-#' panel of the \code{\link{CIBER}} plot.
+#' panel of the [behaviorchange::CIBER()] plot.
 #'
 #' This is a diamondplot that can be used for items/questions where the anchors
 #' of the response scales could be different for every item. For the rest, it
-#' is very similar to \code{\link{meansDiamondPlot}}.
+#' is very similar to [meansDiamondPlot()].
 #'
 #' @param dat The dataframe containing the variables.
 #' @param items The variables to include.
@@ -58,13 +58,13 @@
 #' @param outputWidth,outputHeight Width and height of saved plot (specified in
 #' centimeters by default, see \code{ggsaveParams}).
 #' @param ggsaveParams Parameters to pass to ggsave when saving the plot.
-#' @param \dots These arguments are passed on to \code{\link{diamondPlot}}.
-#' @return Either just a plot (a \code{\link{gtable}} object) or an object with
+#' @param \dots These arguments are passed on to diamondPlot].
+#' @return Either just a plot (a [gtable::gtable()] object) or an object with
 #' all produced objects and that plot.
 #' @author Gjalt-Jorn Peters
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
-#' @seealso \code{\link{CIBER}}, \code{\link{associationsDiamondPlot}}
+#' @seealso [behaviorchange::CIBER()], \code{\link{associationsDiamondPlot}}
 #' @keywords hplot
 #' @examples
 #'

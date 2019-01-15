@@ -1,3 +1,4 @@
+#' @rdname basicDiamondplotFunctions
 #' @export
 rawDataDiamondLayer <- function(dat, items = NULL, itemOrder = 1:length(items),
                                 dataAlpha = .1,

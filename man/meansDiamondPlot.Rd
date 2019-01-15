@@ -112,7 +112,8 @@ meansDiamondPlot(tmpDf,
 }
 \seealso{
 \code{\link{diamondPlot}}, \code{\link{meanSDtoDiamondPlot}},
-\code{\link{factorLoadingDiamondCIplot}}, \code{\link{ggDiamondLayer}}
+\code{\link{ggDiamondLayer}}
+## \code{\link{factorLoadingDiamondCIplot}}
 }
 \author{
 Gjalt-Jorn Peters

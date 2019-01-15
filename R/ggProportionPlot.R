@@ -61,6 +61,10 @@
 #' @param theme The theme to use.
 #' @param returnPlotOnly Whether to only return the \code{\link{ggplot2}} plot
 #' or the full object including intermediate values and objects.
+#' @param x The object to print/plot.
+#' @param \dots Any additional arguments are passed on to `print` and
+#' `grid.draw`.
+#'
 #' @return A \code{\link{ggplot2}} object (if \code{returnPlotOnly} is TRUE),
 #' or an object containing that \code{\link{ggplot2}} object and intermediate
 #' products.
@@ -125,7 +129,7 @@
 #'                  scale_fill = c("#B63679FF", "#FCFDBFFF"),
 #'                  conf.steps=seq(from=0.0001, to=.9999, by=.2));
 #'
-#'
+#' @rdname ggProportionPlot
 #' @export ggProportionPlot
 ggProportionPlot <- function(dat,
                              items=NULL,
@@ -145,7 +149,7 @@ ggProportionPlot <- function(dat,
                              scale_fill = viridis::viridis(option="viridis", 2, begin=0.5, end=1),
                              rank.conf = FALSE,
                              linetype = 1,
-                             theme = theme_bw(),
+                             theme = ggplot2::theme_bw(),
                              returnPlotOnly = TRUE) {
 
   if (is.vector(dat) || is.factor(dat)) {
@@ -189,7 +193,7 @@ ggProportionPlot <- function(dat,
     }
   }
   if (na.rm) {
-    tmpDat <- tmpDat[complete.cases(tmpDat), , drop=FALSE];
+    tmpDat <- tmpDat[stats::complete.cases(tmpDat), , drop=FALSE];
   }
 
   if (is.null(subQuestions)) {
@@ -253,33 +257,38 @@ ggProportionPlot <- function(dat,
   longDat$itemValueMin <- longDat$itemValue - barHeight;
   longDat$itemValueMax <- longDat$itemValue + barHeight;
 
-  plot <- ggplot(longDat, aes_string(x='PercentageMin',
-                                     y='itemValue')) +
-    geom_rect(aes_string(xmin='PercentageMin',
-                         xmax='PercentageMax',
-                         ymin='itemValueMin',
-                         ymax='itemValueMax',
-                         color=ifelse(rank.conf, 'ConfidenceRanked', 'Confidence'),
-                         fill=ifelse(rank.conf, 'ConfidenceRanked', 'Confidence')),
-              linetype=linetype,
-              show.legend=FALSE) +
-    scale_y_continuous(breaks=sort(unique(longDat$itemValue)),
-                       minor_breaks = NULL,
-                       labels=leftAnchors,
-                       name=NULL,
-                       sec.axis = dup_axis(labels=rightAnchors)) +
-    coord_cartesian(xlim=c(0, 100)) +
+  plot <- ggplot2::ggplot(longDat,
+                          ggplot2::aes_string(x='PercentageMin',
+                                              y='itemValue')) +
+    ggplot2::geom_rect(ggplot2::aes_string(xmin='PercentageMin',
+                                           xmax='PercentageMax',
+                                           ymin='itemValueMin',
+                                           ymax='itemValueMax',
+                                           color=ifelse(rank.conf,
+                                                        'ConfidenceRanked',
+                                                        'Confidence'),
+                                           fill=ifelse(rank.conf,
+                                                       'ConfidenceRanked',
+                                                       'Confidence')),
+                       linetype=linetype,
+                       show.legend=FALSE) +
+    ggplot2::scale_y_continuous(breaks=sort(unique(longDat$itemValue)),
+                                minor_breaks = NULL,
+                                labels=leftAnchors,
+                                name=NULL,
+                                sec.axis = ggplot2::dup_axis(labels=rightAnchors)) +
+    ggplot2::coord_cartesian(xlim=c(0, 100)) +
     theme +
-    scale_color_gradient(low=scale_color[1],
-                         high=scale_color[2]) +
-    scale_fill_gradient(low=scale_fill[1],
-                        high=scale_fill[2]);
+    ggplot2::scale_color_gradient(low=scale_color[1],
+                                  high=scale_color[2]) +
+    ggplot2::scale_fill_gradient(low=scale_fill[1],
+                                 high=scale_fill[2]);
 
   if (showDiamonds) {
     confInts <- t(apply(freqs, 1, function(x) {
-        return(confIntProp(x['loCategoryCount'], x['totals'],
-                           conf.level=diamonds.conf.level));
-      }));
+      return(confIntProp(x['loCategoryCount'], x['totals'],
+                         conf.level=diamonds.conf.level));
+    }));
     colnames(confInts) <- c('ci.lo', 'ci.hi');
     confInts <- data.frame(100 * confInts);
     confInts$percentage <- 100 * freqs$loCategoryCount / freqs$totals;
@@ -293,24 +302,24 @@ ggProportionPlot <- function(dat,
 
   ### Create new version with subquestion labels
   suppressMessages(subQuestionLabelplot <- plot +
-    scale_y_continuous(breaks=sort(unique(longDat$itemValue)),
-                       minor_breaks = NULL,
-                       name=NULL,
-                       labels=subQuestions,
-                       sec.axis=dup_axis(labels=subQuestions)) +
-    theme(axis.text.y = element_text(size=rel(1.25), color="black"),
-          axis.ticks.y = element_blank()));
+                     ggplot2::scale_y_continuous(breaks=sort(unique(longDat$itemValue)),
+                                                 minor_breaks = NULL,
+                                                 name=NULL,
+                                                 labels=subQuestions,
+                                                 sec.axis=ggplot2::dup_axis(labels=subQuestions)) +
+                     ggplot2::theme(axis.text.y = ggplot2::element_text(size=ggplot2::rel(1.25), color="black"),
+                                    axis.ticks.y = ggplot2::element_blank()));
 
   ### Extract grob with axis labels of secondary axis (at the right-hand side),
   ### which are the subquestions
-  subQuestionLabelplotAsGrob <- ggplotGrob(subQuestionLabelplot);
+  subQuestionLabelplotAsGrob <- ggplot2::ggplotGrob(subQuestionLabelplot);
   subQuestionPanel <- gtable::gtable_filter(subQuestionLabelplotAsGrob,
                                             "axis-r");
 
   ### Compute how wide this grob is based on the width of the
   ### widest element, and express this in inches
   maxSubQuestionWidth <- max(unlist(lapply(lapply(unlist(strsplit(subQuestions, "\n")),
-                                                  unit, x=1, units="strwidth"), convertUnit, "inches")));
+                                                  grid::unit, x=1, units="strwidth"), grid::convertUnit, "inches")));
 
   ### Convert the real plot to a gtable
   plotAsGrob <- ggplot2::ggplotGrob(plot);
@@ -343,14 +352,21 @@ ggProportionPlot <- function(dat,
   }
 }
 
+#' @method print ggProportionPlot
+#' @rdname ggProportionPlot
+#' @export
 print.ggProportionPlot <- function(x, ...) {
   ### Empty canvas
-  grid.newpage();
+  grid::grid.newpage();
   ### Draw plot
-  grid.draw(x$plot);
+  grid::grid.draw(x$plot);
 }
 
+#' @method grid.draw ggProportionPlot
+#' @rdname ggProportionPlot
+#' @importFrom grid grid.draw
+#' @export
 grid.draw.ggProportionPlot <- function(x, ...) {
   ### Draw plot
-  grid.draw(x$plot);
+  grid::grid.draw(x$plot, ...);
 }

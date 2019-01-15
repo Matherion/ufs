@@ -75,7 +75,7 @@ value, associationMatrixESDefaults, works for everyday use. Again, see the
 'Notes' section below if you want to customize.}
 
 \item{var.equal}{Whether to test for equal variances ('test'), assume
-equality ('yes'), or assume unequality ('no'). See \code{\link{meanDiff}}
+equality ('yes'), or assume unequality ('no'). See [userfriendlyscience::meanDiff()]
 for more information.}
 }
 \value{

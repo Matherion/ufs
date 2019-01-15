@@ -1,11 +1,9 @@
-### Function for omega squared (etasq)
-
-
 #' Confidence intervals for Omega Squared
 #'
-#' This function used the \link{MBESS} function \code{\link{conf.limits.ncf}}
-#' and \code{\link{convert.ncf.to.omegasq}} to compute the point estimate and
-#' confidence interval for Omega Squared.
+#' This function used the MBESS function [MBESS::conf.limits.ncf()]
+#' and [MBESS::convert.ncf.to.omegasq()] to compute the point estimate and
+#' confidence interval for Omega Squared (which have been lifted out of MBESS to
+#' avoid importing the whole package)
 #'
 #'
 #' @param var1,var2 The two variables: one should be a factor (or will be made
@@ -13,6 +11,8 @@
 #' none of the variables is a factor, the function will look for the variable
 #' with the least unique values and change it into a factor.
 #' @param conf.level Level of confidence for the confidence interval.
+#' @param x,digits,\dots Respectively the object to print, the number of digits to
+#' round to, and any additonal arguments to pass on to the `print` function.
 #' @return
 #'
 #' A \code{confIntOmegaSq} object is returned, with as elements:
@@ -31,11 +31,10 @@
 #' analysis. Psychological Methods, 9(2), 164-82.
 #' https://doi.org/10.1037/1082-989X.9.2.164
 #' @keywords bivar
+#' @rdname confIntOmegaSq
 #' @examples
 #'
-#'
 #' confIntOmegaSq(mtcars$mpg, mtcars$cyl);
-#'
 #'
 #' @export confIntOmegaSq
 confIntOmegaSq <- function(var1, var2, conf.level=.95) {
@@ -88,7 +87,7 @@ confIntOmegaSq <- function(var1, var2, conf.level=.95) {
 
   res$output$ci <-
     c(convert.ncf.to.omegasq(res$intermediate$object.ncf$Lower.Limit,
-                            df_num + df_den + 1),
+                             df_num + df_den + 1),
       convert.ncf.to.omegasq(res$intermediate$object.ncf$Upper.Limit,
                              df_num + df_den + 1));
 
@@ -97,11 +96,14 @@ confIntOmegaSq <- function(var1, var2, conf.level=.95) {
 
 }
 
+#' @method print confIntOmegaSq
+#' @rdname confIntOmegaSq
+#' @export
 print.confIntOmegaSq <- function(x, ..., digits=2) {
 
   cat0("Omega squared: ",
        100*x$input$conf.level, "% CI = [",
-      paste0(ufs::formatR(x$output$ci, digits=digits), collapse="; "),
-      "], point estimate = ", ufs::formatR(x$output$es, digits=digits));
+       paste0(ufs::formatR(x$output$ci, digits=digits), collapse="; "),
+       "], point estimate = ", ufs::formatR(x$output$es, digits=digits));
 
 }

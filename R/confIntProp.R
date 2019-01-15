@@ -15,6 +15,7 @@
 #' or cases that one is interested in.
 #' @param n The total number of cases or observatons.
 #' @param conf.level The confidence level.
+#' @param plot Whether to plot the confidence interval in the binomial distribution.
 #' @return The confidence interval bounds in a twodimensional matrix, with the
 #' first column containing the lower bound and the second column containing the
 #' upper bound.
@@ -58,12 +59,12 @@ confIntProp <- function(x, n, conf.level = .95, plot=FALSE) {
   p.L <- function(x, n, alpha) {
     if (x == 0)
       0
-    else qbeta(alpha, x, n - x + 1)
+    else stats::qbeta(alpha, x, n - x + 1)
   }
   p.U <- function(x, n, alpha) {
     if (x == n)
       1
-    else qbeta(1 - alpha, x + 1, n - x)
+    else stats::qbeta(1 - alpha, x + 1, n - x)
   }
   ### END binom.test code
 
@@ -113,9 +114,9 @@ confIntProp <- function(x, n, conf.level = .95, plot=FALSE) {
 
   if (plot && (length(n)==1) && (length(x)==1)) {
     plotDf <- data.frame(x=seq(0, n, by=1),
-                         y=dbinom(seq(0, n, by=1), size=n, prob=x/n));
+                         y=stats::dbinom(seq(0, n, by=1), size=n, prob=x/n));
     attr(res, 'plot') <- ggplot2::ggplot(plotDf,
-                                         ggplot2::aes(x=x, y=y)) +
+                                         ggplot2::aes_string(x='x', y='y')) +
       ggplot2::geom_col() +
       ggplot2::theme_minimal(base_size=16) +
       ggplot2::scale_x_continuous(name="Frequency",

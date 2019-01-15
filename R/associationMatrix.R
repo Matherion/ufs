@@ -7,6 +7,66 @@
 ### of measurement levels of the two variables.
 
 ### Function for the t-test
+
+#' associationMatrix Helper Functions
+#'
+#' These objects contain a number of settings and functions for
+#' associationMatrix.
+#'
+#'
+#' @aliases computeStatistic_t computeStatistic_r computeStatistic_f
+#' computeStatistic_chisq computeEffectSize_d computeEffectSize_r
+#' computeEffectSize_etasq computeEffectSize_v associationMatrixESDefaults
+#' associationMatrixStatDefaults computeEffectSize_omegasq
+#' @param var1 One of the two variables for which to compute a statistic or
+#' effect size
+#' @param var2 The other variable for which to compute the statistic or effect
+#' size
+#' @param conf.level The confidence for the confidence interval for the effect
+#' size
+#' @param bootstrap Whether to bootstrap to estimate the confidence interval
+#' for Cramer's V.  If FALSE, the Fisher's Z conversion is used.
+#' @param samples If bootstrapping, the number of samples to generate (of
+#' course, more samples means more accuracy and longer processing time).
+#' @param var.equal Whether to test for equal variances ('test'), assume
+#' equality ('yes'), or assume unequality ('no'). See [userfriendlyscience::meanDiff()]
+#' for more information.
+#' @param \dots Any additonal arguments are sometimes used to specify exactly
+#' how statistics and effect sizes should be computed.
+#' @return
+#'
+#' associationMatrixStatDefaults and associationMatrixESDefaults contain the
+#' default functions from computeStatistic and computeEffectSize that are
+#' called (see the help file for associationMatrix for more details).
+#'
+#' The other functions return an object with the relevant statistic or effect
+#' size, with a confidence interval for the effect size.
+#'
+#' For computeStatistic, this object always contains: \item{statistic}{The
+#' relevant statistic} \item{statistic.type}{The type of statistic}
+#' \item{parameter}{The degrees of freedom for this statistic} \item{p.raw}{The
+#' p-value of this statistic for NHST} And in addition, it often contains
+#' (among other things, sometimes): \item{object}{The object from which the
+#' statistics are extracted}
+#'
+#' For computeEffectSize, this object always contains: \item{es}{The point
+#' estimate for the effect size} \item{esc.type}{The type of effect size}
+#' \item{ci}{The confidence interval for the effect size} And in addition, it
+#' often contains (among other things, sometimes): \item{object}{The object
+#' from which the effect size is extracted}
+#' @author Gjalt-Jorn Peters
+#'
+#' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
+#' @seealso [userfriendlyscience::meanDiff()], [associationMatrix()]
+#' @rdname associationMatrixHelperFunctions
+#' @keywords utilities bivar
+#' @examples
+#'
+#'
+#' computeStatistic_f(Orange$Tree, Orange$circumference)
+#' computeEffectSize_etasq(Orange$Tree, Orange$circumference)
+#'
+#' @export
 computeStatistic_t <- function(var1, var2, conf.level=.95,
                                var.equal='test', ...) {
 
@@ -31,6 +91,8 @@ computeStatistic_t <- function(var1, var2, conf.level=.95,
 }
 
 ### Function for the Pearson correlation (r)
+#' @rdname associationMatrixHelperFunctions
+#' @export
 computeStatistic_r <- function(var1, var2, conf.level=.95,
                                ...) {
   res <- list();
@@ -43,6 +105,8 @@ computeStatistic_r <- function(var1, var2, conf.level=.95,
 }
 
 ### Function for Anova (f)
+#' @rdname associationMatrixHelperFunctions
+#' @export
 computeStatistic_f <- function(var1, var2, conf.level=.95,
                                ...) {
 
@@ -81,6 +145,8 @@ computeStatistic_f <- function(var1, var2, conf.level=.95,
 }
 
 ### Function for chi-square (chisq)
+#' @rdname associationMatrixHelperFunctions
+#' @export
 computeStatistic_chisq <- function(var1, var2, conf.level=.95,
                                    ...) {
   res <- list();
@@ -93,13 +159,15 @@ computeStatistic_chisq <- function(var1, var2, conf.level=.95,
 }
 
 ### Effect size Cohens d
+#' @rdname associationMatrixHelperFunctions
+#' @export
 computeEffectSize_d <- function(var1, var2, conf.level=.95,
                                 var.equal="test", ...) {
-  if (length(unique(na.omit(var1))) == 2) {
+  if (length(unique(stats::na.omit(var1))) == 2) {
     dichotomous <- factor(var1);
     interval <- var2;
   }
-  else if (length(unique(na.omit(var2))) == 2) {
+  else if (length(unique(stats::na.omit(var2))) == 2) {
     dichotomous <- factor(var2);
     interval <- var1;
   }
@@ -125,6 +193,8 @@ computeEffectSize_d <- function(var1, var2, conf.level=.95,
 }
 
 ### Effect size Pearson's r
+#' @rdname associationMatrixHelperFunctions
+#' @export
 computeEffectSize_r <- function(var1, var2, conf.level=.95,
                                 ...) {
   res <- list();
@@ -136,6 +206,8 @@ computeEffectSize_r <- function(var1, var2, conf.level=.95,
 }
 
 ### Function for eta squared (etasq)
+#' @rdname associationMatrixHelperFunctions
+#' @export
 computeEffectSize_etasq <- function(var1, var2, conf.level=.95,
                                     ...) {
 
@@ -188,7 +260,7 @@ computeEffectSize_etasq <- function(var1, var2, conf.level=.95,
 
   res$es <- df_num*f_val/(df_den + df_num*f_val);
   res$es.type <- "etasq";
-  capture.output(res$object <-
+  utils::capture.output(res$object <-
     from_MBESS_ci.pvaf(F.value=f_val, df.1=df_num, df.2=df_den,
                        N=(df_den+df_num+1), conf.level=res$realConfidence));
 
@@ -200,6 +272,8 @@ computeEffectSize_etasq <- function(var1, var2, conf.level=.95,
 
 
 ### Function for omega squared (etasq)
+#' @rdname associationMatrixHelperFunctions
+#' @export
 computeEffectSize_omegasq <- function(var1, var2, conf.level=.95,
                                       ...) {
 
@@ -213,6 +287,8 @@ computeEffectSize_omegasq <- function(var1, var2, conf.level=.95,
 }
 
 ### Function for Cramers V effect size (v)
+#' @rdname associationMatrixHelperFunctions
+#' @export
 computeEffectSize_v <- function(var1, var2, conf.level=.95,
                                 bootstrap=FALSE, samples=5000,
                                 ...) {
@@ -341,7 +417,7 @@ associationMatrixESDefaults <- list(dichotomous =
 #' value, associationMatrixESDefaults, works for everyday use. Again, see the
 #' 'Notes' section below if you want to customize.
 #' @param var.equal Whether to test for equal variances ('test'), assume
-#' equality ('yes'), or assume unequality ('no'). See \code{\link{meanDiff}}
+#' equality ('yes'), or assume unequality ('no'). See [userfriendlyscience::meanDiff()]
 #' for more information.
 #' @return
 #'
@@ -456,7 +532,7 @@ associationMatrix <- function(dat=NULL, x=NULL, y=NULL, conf.level = .95,
   measurementLevelsX <- vector();
   xCounter <- 1;
   for(curXvar in x) {
-    if (var(as.numeric(dat[,curXvar]), na.rm=TRUE) == 0) {
+    if (stats::var(as.numeric(dat[,curXvar]), na.rm=TRUE) == 0) {
       stop("Variable '", curXvar, "' has no variance (everybody scores the same)! ",
            "This prohibits the calculation of effect size measures, so I'm aborting.");
     }
@@ -494,7 +570,7 @@ associationMatrix <- function(dat=NULL, x=NULL, y=NULL, conf.level = .95,
     measurementLevelsY <- vector();
     yCounter <- 1;
     for(curYvar in y) {
-      if (var(as.numeric(dat[,curYvar]), na.rm=TRUE) == 0) {
+      if (stats::var(as.numeric(dat[,curYvar]), na.rm=TRUE) == 0) {
         stop("Variable '", curYvar, "' has no variance (everybody scores the same)! ",
              "This prohibits the calculation of effect size measures, so I'm aborting.");
       }
@@ -598,7 +674,7 @@ associationMatrix <- function(dat=NULL, x=NULL, y=NULL, conf.level = .95,
         res$intermediate$effectSizes[[curXvar]][[curYvar]] <-
           tmpFun(dat[,curXvar], dat[,curYvar], conf.level = conf.level,
                  var.equal = var.equal);
-        res$intermediate$sampleSizes[[curXvar]][[curYvar]] <- nrow(na.omit(dat[,c(curXvar, curYvar)]));
+        res$intermediate$sampleSizes[[curXvar]][[curYvar]] <- nrow(stats::na.omit(dat[,c(curXvar, curYvar)]));
       }
       yCounter <- yCounter + 1;
     }
@@ -616,7 +692,7 @@ associationMatrix <- function(dat=NULL, x=NULL, y=NULL, conf.level = .95,
     }
   }
   ### Adjust p-values
-  res$intermediate$pvalMatrix.adj <- matrix(p.adjust(res$intermediate$pvalMatrix, method=correction),
+  res$intermediate$pvalMatrix.adj <- matrix(stats::p.adjust(res$intermediate$pvalMatrix, method=correction),
                                nrow(res$intermediate$pvalMatrix), ncol(res$intermediate$pvalMatrix),
                                dimnames=dimnames(res$intermediate$pvalMatrix));
   ### Store adjusted p-values in objects
@@ -711,8 +787,8 @@ print.associationMatrix <- function (x, type = x$input$type,
     if (file=="") {
       print(matrixToPrint, quote=FALSE);
     } else {
-      write.table(matrixToPrint, file=file, sep="\t",
-                  quote=FALSE, row.names=TRUE, col.names=TRUE);
+      utils::write.table(matrixToPrint, file=file, sep="\t",
+                         quote=FALSE, row.names=TRUE, col.names=TRUE);
     }
   }
   else {

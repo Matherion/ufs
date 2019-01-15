@@ -2,9 +2,12 @@
 % Please edit documentation in R/confIntOmegaSq.R
 \name{confIntOmegaSq}
 \alias{confIntOmegaSq}
+\alias{print.confIntOmegaSq}
 \title{Confidence intervals for Omega Squared}
 \usage{
 confIntOmegaSq(var1, var2, conf.level = 0.95)
+
+\method{print}{confIntOmegaSq}(x, ..., digits = 2)
 }
 \arguments{
 \item{var1, var2}{The two variables: one should be a factor (or will be made
@@ -13,6 +16,9 @@ none of the variables is a factor, the function will look for the variable
 with the least unique values and change it into a factor.}
 
 \item{conf.level}{Level of confidence for the confidence interval.}
+
+\item{x, digits, \dots}{Respectively the object to print, the number of digits to
+round to, and any additonal arguments to pass on to the `print` function.}
 }
 \value{
 A \code{confIntOmegaSq} object is returned, with as elements:
@@ -23,9 +29,10 @@ consisting of:} \item{output$es}{The point estimate} \item{output$ci}{The
 confidence interval}
 }
 \description{
-This function used the \link{MBESS} function \code{\link{conf.limits.ncf}}
-and \code{\link{convert.ncf.to.omegasq}} to compute the point estimate and
-confidence interval for Omega Squared.
+This function used the MBESS function [MBESS::conf.limits.ncf()]
+and [MBESS::convert.ncf.to.omegasq()] to compute the point estimate and
+confidence interval for Omega Squared (which have been lifted out of MBESS to
+avoid importing the whole package)
 }
 \note{
 Formula 16 in Steiger (2004) is used for the conversion in
@@ -33,9 +40,7 @@ Formula 16 in Steiger (2004) is used for the conversion in
 }
 \examples{
 
-
 confIntOmegaSq(mtcars$mpg, mtcars$cyl);
-
 
 }
 \references{

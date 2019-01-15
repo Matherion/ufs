@@ -13,6 +13,7 @@
 #' These functions are explained in Peters (2017).
 #'
 #' @aliases meansComparisonDiamondPlot duoComparisonDiamondPlot
+#' @rdname comparisonDiamondPlots
 #' @param dat The dataframe containing the relevant variables.
 #' @param items The variables to plot (on the y axis).
 #' @param compareBy The variable by which to compare (i.e. the variable
@@ -67,14 +68,14 @@
 #' \code{\link{diamondPlot}} by \code{meansComparisonDiamondPlot} and to both
 #' \code{meansComparisonDiamondPlot} and \code{\link{associationsDiamondPlot}}
 #' by \code{duoComparisonDiamondPlot}.
-#' @return Diamond plots: a \code{\link{ggplot}} by
+#' @return A Diamond plots: a [ggplot2::ggplot()] plot
 #' \code{meansComparisonDiamondPlot}, and a \code{\link{gtable}} by
 #' \code{duoComparisonDiamondPlot}.
 #' @author Gjalt-Jorn Peters
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
 #' @seealso \code{\link{diamondPlot}}, \code{\link{meansDiamondPlot}},
-#' \code{\link{CIBER}}
+#' [behaviorchange::CIBER()]
 #' @references Peters, G.-J. Y. (2017). Diamond Plots: a tutorial to introduce
 #' a visualisation tool that facilitates interpretation and comparison of
 #' multiple sample estimates while respecting their inaccuracy.

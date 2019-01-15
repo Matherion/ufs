@@ -60,14 +60,14 @@ centimeters by default, see \code{ggsaveParams}).}
 \code{\link{ggDiamondLayer}}.}
 }
 \value{
-A \code{\link{ggplot}} plot with a \code{\link{ggDiamondLayer}} is
+A [ggplot2::ggplot()] plot with a \code{\link{ggDiamondLayer}} is
 returned.
 }
 \description{
 This function constructs a diamond plot using \code{\link{ggDiamondLayer}}.
 It's normally not necessary to call this function directly: instead, use
-\code{\link{meansDiamondPlot}}, \code{\link{meanSDtoDiamondPlot}}, and
-\code{\link{factorLoadingDiamondCIplot}}.
+\code{\link{meansDiamondPlot}} \code{\link{meanSDtoDiamondPlot}}, and
+[factorLoadingDiamondCIplot()].
 }
 \examples{
 
@@ -96,7 +96,7 @@ diamondPlot(tmpDf, generateColors=c('green', 'red'),
 }
 \seealso{
 \code{\link{meansDiamondPlot}}, \code{\link{meanSDtoDiamondPlot}},
-\code{\link{factorLoadingDiamondCIplot}}, \code{\link{ggDiamondLayer}}
+\code{\link{ggDiamondLayer}}, [factorLoadingDiamondCIplot()]
 }
 \author{
 Gjalt-Jorn Peters

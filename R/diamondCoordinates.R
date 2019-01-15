@@ -1,3 +1,4 @@
+#' @rdname basicDiamondplotFunctions
 #' @export
 diamondCoordinates <- function(values, otherAxisValue = 1,
                                direction = 'horizontal',

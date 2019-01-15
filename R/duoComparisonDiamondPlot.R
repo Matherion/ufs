@@ -1,3 +1,5 @@
+#' @rdname comparisonDiamondPlots
+#' @export
 duoComparisonDiamondPlot <- function(dat, items = NULL,
                                      compareBy = NULL,
                                      labels = NULL,
@@ -26,10 +28,10 @@ duoComparisonDiamondPlot <- function(dat, items = NULL,
                                                          type="cairo"),
                                      ...) {
 
-  if (length(unique(na.omit(dat[, compareBy]))) != 2) {
+  if (length(unique(stats::na.omit(dat[, compareBy]))) != 2) {
     stop("The variable you compare by ('", compareBy,
          "') has to have exactly two levels. ",
-         "It has ", length(unique(na.omit(dat[, compareBy]))), ".");
+         "It has ", length(unique(stats::na.omit(dat[, compareBy]))), ".");
   }
 
   associationsDf <- ufs::associationsToDiamondPlotDf(dat = dat,
@@ -117,13 +119,13 @@ duoComparisonDiamondPlot <- function(dat, items = NULL,
                                         pos = rowAboveLegend);
 
   plot <- gtable::gtable_add_cols(plot1grob,
-                                   unit(1, "null"));
+                                  grid::unit(1, "null"));
 
   plot <- gtable::gtable_add_grob(plot,
-                                   plot2grob,
-                                   t=1,
-                                   b=length(plot$heights),
-                                   l=length(plot$widths));
+                                  plot2grob,
+                                  t=1,
+                                  b=length(plot$heights),
+                                  l=length(plot$widths));
 
   if (drawPlot) {
     grid::grid.newpage();

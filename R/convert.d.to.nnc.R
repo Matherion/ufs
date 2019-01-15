@@ -1,6 +1,6 @@
 #' Helper functions for Numbers Needed for Change
 #'
-#' These two functions are used by \code{\link{nnc}} to compute the Numbers
+#' These two functions are used by [behaviorchange::nnc()] to compute the Numbers
 #' Needed for Change.
 #'
 #' @aliases convert.d.to.nnc convert.d.to.eer
@@ -15,10 +15,10 @@
 #' @author Gjalt-Jorn Peters & Stefan Gruijters
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
-#' @seealso \code{\link{nnc}}
-#' @references Gruijters, S. L. K., & Peters, G.-J. Y. (2017). Introducing the
-#' Numbers Needed for Change (NNC): A practical measure of effect size for
-#' intervention research.
+#' @seealso [behaviorchange::nnc()]
+#' @references Gruijters, S. L., & Peters, G. Y. (2019). Gauging the
+#' impact of behavior change interventions: A tutorial on the Numbers
+#' Needed to Treat. *PsyArXiv.* doi:[10.31234/osf.io/2bau7](https://doi.org/10.31234/osf.io/2bau7)
 #' @keywords utilities
 #' @examples
 #'
@@ -37,7 +37,7 @@ convert.d.to.nnc <- function(d, cer, r = 1, eventDesirable=TRUE, eventIfHigher=T
     # if (eventDesirable) {
     #   return(1 / (2 * pnorm(d / sqrt(2)) - 1));
     # } else {
-      cat0("Not implemented yet!");
+    cat0("Not implemented yet!");
     # }
   } else {
     eer <- convert.d.to.eer(d, cer, eventDesirable=eventDesirable, eventIfHigher=eventIfHigher);

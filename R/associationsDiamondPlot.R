@@ -11,6 +11,7 @@
 #' This function can be used to quickly plot multiple confidence intervals.
 #'
 #' @aliases associationsDiamondPlot associationsToDiamondPlotDf
+#' @rdname associationsDiamondPlot
 #' @param dat The dataframe containing the relevant variables.
 #' @param covariates The covariates: the list of variables to associate to the
 #' criterion or criteria, usually the predictors.
@@ -59,7 +60,7 @@
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
 #' @seealso \code{\link{diamondPlot}}, \code{\link{ggDiamondLayer}},
-#' \code{\link{CIBER}}
+#' [behaviorchange::CIBER()]
 #' @keywords hplot
 #' @examples
 #'

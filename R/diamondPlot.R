@@ -2,8 +2,8 @@
 #'
 #' This function constructs a diamond plot using \code{\link{ggDiamondLayer}}.
 #' It's normally not necessary to call this function directly: instead, use
-#' \code{\link{meansDiamondPlot}}, \code{\link{meanSDtoDiamondPlot}}, and
-#' \code{\link{factorLoadingDiamondCIplot}}.
+#' \code{\link{meansDiamondPlot}} \code{\link{meanSDtoDiamondPlot}}, and
+#' [factorLoadingDiamondCIplot()].
 #'
 #'
 #' @param data A dataframe (or matrix) containing lower bounds, centers (e.g.
@@ -37,13 +37,13 @@
 #' @param ggsaveParams Parameters to pass to ggsave when saving the plot.
 #' @param \dots Additional arguments will be passed to
 #' \code{\link{ggDiamondLayer}}.
-#' @return A \code{\link{ggplot}} plot with a \code{\link{ggDiamondLayer}} is
+#' @return A [ggplot2::ggplot()] plot with a \code{\link{ggDiamondLayer}} is
 #' returned.
 #' @author Gjalt-Jorn Peters
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
 #' @seealso \code{\link{meansDiamondPlot}}, \code{\link{meanSDtoDiamondPlot}},
-#' \code{\link{factorLoadingDiamondCIplot}}, \code{\link{ggDiamondLayer}}
+#' \code{\link{ggDiamondLayer}}, [factorLoadingDiamondCIplot()]
 #' @keywords hplot
 #' @examples
 #'

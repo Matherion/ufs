@@ -1,3 +1,4 @@
+#' @rdname associationsDiamondPlot
 #' @export
 associationsToDiamondPlotDf <- function(dat, covariates, criterion,
                                         labels = NULL,

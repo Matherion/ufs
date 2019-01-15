@@ -1,4 +1,20 @@
-### This function generates a confidence level for a single mean
+#' A confidence interval for the mean
+#'
+#' @param vector A vector with raw data points - either specify this
+#' or a mean and then either an sd and n or an se.
+#' @param mean A mean.
+#' @param sd,n A standard deviation and sample size; can be specified
+#' to compute the standard error.
+#' @param se The standard error (cna be specified instead of `sd` and `n`).
+#' @param conf.level The confidence level of the interval.
+#' @param x,digits,\dots Respectively the object to print, the number of digits to
+#' round to, and any additonal arguments to pass on to the `print` function.
+#'
+#' @return And object with elements `input`, `intermediate`, and `output`,
+#' where `output` holds the result in list `ci`.
+#' @rdname meanConfInt
+#'
+#' @examples meanConfInt(mean=5, sd=2, n=20);
 #' @export
 meanConfInt <- function(vector=NULL, mean=NULL, sd=NULL, n=NULL, se=NULL, conf.level=.95) {
   if (is.null(mean) & is.null(sd) & is.null(n) & is.null(se)) {
@@ -29,6 +45,8 @@ meanConfInt <- function(vector=NULL, mean=NULL, sd=NULL, n=NULL, se=NULL, conf.l
   return(res);
 }
 
+#' @method print meanConfInt
+#' @rdname meanConfInt
 #' @export
 print.meanConfInt <- function(x, digits=2, ...) {
   print(round(x$output$ci, digits=digits), ...);

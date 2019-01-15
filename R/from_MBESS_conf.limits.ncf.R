@@ -114,8 +114,8 @@ from_MBESS_conf.limits.ncf <- function (F.value = NULL, conf.level = 0.95, df.1 
           UL.Bounds <- c(UL.Bounds[1], (UL.Bounds[1] +
                                           UL.Bounds[2])/2, UL.Bounds[2])
         }
-        Diff <- pf(q = F.value, df1 = df.1, df2 = df.2,
-                   ncp = UL.Bounds[2]) - alpha.upper
+        Diff <- stats::pf(q = F.value, df1 = df.1, df2 = df.2,
+                          ncp = UL.Bounds[2]) - alpha.upper
       }
       UL <- UL.Bounds[2]
     }

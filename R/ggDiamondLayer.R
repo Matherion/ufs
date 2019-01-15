@@ -87,6 +87,7 @@
 #' @seealso \code{\link{meansDiamondPlot}}, \code{\link{meanSDtoDiamondPlot}},
 #' \code{\link{factorLoadingDiamondCIplot}}, \code{\link{diamondPlot}}
 #' @keywords hplot
+#' @rdname basicDiamondplotFunctions
 #' @examples
 #'
 #' \dontrun{

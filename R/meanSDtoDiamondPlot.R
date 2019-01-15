@@ -99,10 +99,10 @@ meanSDtoDiamondPlot <- function(dat = NULL,
 
   if (!is.null(dat)) {
     if (!is.null(labels)) {
-      dat <- na.omit(dat[, varNamesToUse]);
+      dat <- stats::na.omit(dat[, varNamesToUse]);
       labels <- dat[, 4];
     } else {
-      dat <- na.omit(dat[, varNamesToUse]);
+      dat <- stats::na.omit(dat[, varNamesToUse]);
       labels <- 1:nrow(dat);
     }
     means <- dat[, 1];

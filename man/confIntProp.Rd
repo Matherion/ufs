@@ -13,6 +13,8 @@ or cases that one is interested in.}
 \item{n}{The total number of cases or observatons.}
 
 \item{conf.level}{The confidence level.}
+
+\item{plot}{Whether to plot the confidence interval in the binomial distribution.}
 }
 \value{
 The confidence interval bounds in a twodimensional matrix, with the

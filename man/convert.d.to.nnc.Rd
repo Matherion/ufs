@@ -25,7 +25,7 @@ considered 'an event'.}
 The converted value.
 }
 \description{
-These two functions are used by \code{\link{nnc}} to compute the Numbers
+These two functions are used by [behaviorchange::nnc()] to compute the Numbers
 Needed for Change.
 }
 \examples{
@@ -35,12 +35,12 @@ convert.d.to.nnc(d=.5, cer=.25);
 
 }
 \references{
-Gruijters, S. L. K., & Peters, G.-J. Y. (2017). Introducing the
-Numbers Needed for Change (NNC): A practical measure of effect size for
-intervention research.
+Gruijters, S. L., & Peters, G. Y. (2019). Gauging the
+impact of behavior change interventions: A tutorial on the Numbers
+Needed to Treat. *PsyArXiv.* doi:[10.31234/osf.io/2bau7](https://doi.org/10.31234/osf.io/2bau7)
 }
 \seealso{
-\code{\link{nnc}}
+[behaviorchange::nnc()]
 }
 \author{
 Gjalt-Jorn Peters & Stefan Gruijters

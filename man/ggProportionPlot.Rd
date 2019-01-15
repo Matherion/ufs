@@ -2,6 +2,8 @@
 % Please edit documentation in R/ggProportionPlot.R
 \name{ggProportionPlot}
 \alias{ggProportionPlot}
+\alias{print.ggProportionPlot}
+\alias{grid.draw.ggProportionPlot}
 \title{Sample distribution based plotting of proportions}
 \usage{
 ggProportionPlot(dat, items = NULL, loCategory = NULL, hiCategory = NULL,
@@ -11,8 +13,12 @@ ggProportionPlot(dat, items = NULL, loCategory = NULL, hiCategory = NULL,
   conf.steps = seq(from = 0.001, to = 0.999, by = 0.001),
   scale_color = viridis::viridis(option = "viridis", 2, begin = 0.5, end = 1),
   scale_fill = viridis::viridis(option = "viridis", 2, begin = 0.5, end = 1),
-  rank.conf = FALSE, linetype = 1, theme = theme_bw(),
+  rank.conf = FALSE, linetype = 1, theme = ggplot2::theme_bw(),
   returnPlotOnly = TRUE)
+
+\method{print}{ggProportionPlot}(x, ...)
+
+\method{grid.draw}{ggProportionPlot}(x, ...)
 }
 \arguments{
 \item{dat}{The dataframe containing the items (variables), or a vector.}
@@ -77,6 +83,11 @@ dashed, 3 = dotted, 4 = dotdash, 5 = longdash, 6 = twodash).}
 
 \item{returnPlotOnly}{Whether to only return the \code{\link{ggplot2}} plot
 or the full object including intermediate values and objects.}
+
+\item{x}{The object to print/plot.}
+
+\item{\dots}{Any additional arguments are passed on to `print` and
+`grid.draw`.}
 }
 \value{
 A \code{\link{ggplot2}} object (if \code{returnPlotOnly} is TRUE),
@@ -157,7 +168,6 @@ ggProportionPlot(mtcars,
                  showDiamonds = TRUE,
                  scale_fill = c("#B63679FF", "#FCFDBFFF"),
                  conf.steps=seq(from=0.0001, to=.9999, by=.2));
-
 
 }
 \seealso{
