@@ -6,8 +6,7 @@
 #' allow easy temporary filtering of rows from the dataframe; mediaan and modus
 #' compute the median and mode of ordinal or numeric data.
 #'
-#' @aliases basicSPSStranslationFunctions getData getDat exportToSPSS filterBy
-#' useAll mediaan modus
+#' @aliases getData getDat
 #' @param filename,file It is possible to specify a path and filename to load
 #' here. If not specified, the default R file selection dialogue is shown.
 #' \code{file} is still available for backward compatibility but will
@@ -31,32 +30,6 @@
 #' @param dfName The name of the dataframe to create in the parent environment.
 #' @param backup Whether to backup an object with name \code{dfName}, if one
 #' already exists in the parent environment.
-#' @param dat Dataframe to process: for filterBy, dataframe to filter rows
-#' from; for useAll, dataframe to restore ('unfilter').
-#' @param datafile The name of the data file, a comma separated values file
-#' that can be read into SPSS by using the code file.
-#' @param codefile The name of the code file, the SPSS syntax file that can be
-#' used to import the data file.
-#' @param savfile The name of the SPSS format .sav file (alternative for
-#' writing a datafile and a codefile).
-#' @param fileEncoding The encoding to use to write the files.
-#' @param newLinesInString A string to replace newlines with (SPSS has problems
-#' reading newlines).
-#' @param expression Logical expression determining which rows to keep and
-#' which to drop. Can be either a logical vector or a string which is then
-#' evaluated. If it's a string, it's evaluated using 'with' to evaluate the
-#' expression using the variable names.
-#' @param replaceOriginalDataframe Whether to also replace the original
-#' dataframe in the parent environment. Very messy, but for maximum
-#' compatibility with the 'SPSS way of doing things', by default, this is true.
-#' After all, people who care about the messiness/inappropriateness of this
-#' function wouldn't be using it in the first place :-)
-#' @param envir The environment where to create the 'backup' of the unfiltered
-#' dataframe, for when useAll is called and the filter is deactivated again.
-#' @param replaceFilteredDataframe Whether to replace the filtered dataframe
-#' passed in the 'dat' argument (see replaceOriginalDataframe).
-#' @param vector For mediaan and modus, the vector for which to find the median
-#' or mode.
 #' @return
 #'
 #' getData returns the imported dataframe, with the filename from which it was
@@ -82,7 +55,7 @@
 #' of RCompression produces "Please define LIB_ZLIB; ERROR: configuration
 #' failed for package 'Rcompression'"). If you have any suggestions, please let
 #' me know!
-#' @rdname basicSPSStranslation
+#' @rdname getData
 #' @keywords utilities file univar
 #' @examples
 #'
@@ -91,17 +64,6 @@
 #' ### Open a dialogue to read an SPSS file
 #' getData();
 #' }
-#'
-#' ### Get a median and a mode
-#' mediaan(c(1,2,2,3,4,4,5,6,6,6,7));
-#' modus(c(1,2,2,3,4,4,5,6,6,6,7));
-#'
-#' ### Create an example dataframe
-#' (exampleDat <- data.frame(x=rep(8, 8), y=rep(c(0,1), each=4)));
-#' ### Filter it, replacing the original dataframe
-#' (filterBy(exampleDat, "y=0"));
-#' ### Restore the old dataframe
-#' (useAll(exampleDat));
 #'
 getData <- function(filename=NULL, file=NULL,
                     errorMessage = "[defaultErrorMessage]",
@@ -288,7 +250,7 @@ getData <- function(filename=NULL, file=NULL,
   #  }
 }
 
-#' @rdname basicSPSStranslation
+#' @rdname getData
 #' @export
 getDat <- function(..., dfName="dat", backup=TRUE) {
   dat <- getData(...);

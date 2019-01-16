@@ -497,11 +497,17 @@ associationMatrix <- function(dat=NULL, x=NULL, y=NULL, conf.level = .95,
 
   ### If no dataframe was specified, load it from an SPSS file
   if (is.null(dat)) {
-    dat <- getData(errorMessage=paste0("No dataframe specified, and no valid datafile selected in ",
-                                       "the dialog I then showed to allow selection of a dataset.",
-                                       "Original error:\n\n[defaultErrorMessage]"),
-                   use.value.labels=FALSE);
-    res$input$dat.name <- paste0("SPSS file imported from ", attr(dat, "filename"));
+    # if (!requireNamespace("rosetta", quietly = TRUE)) {
+    #   stop("Package \"rosetta\" needed to load .sav format. Please install it using `install.packages('rosetta');`.",
+    #        call. = FALSE)
+    # } else {
+    #   dat <- rosetta::getData(errorMessage=paste0("No dataframe specified, and no valid datafile selected in ",
+      dat <- getData(errorMessage=paste0("No dataframe specified, and no valid datafile selected in ",
+                                                 "the dialog I then showed to allow selection of a dataset.",
+                                                 "Original error:\n\n[defaultErrorMessage]"),
+                             use.value.labels=FALSE);
+      res$input$dat.name <- paste0("SPSS file imported from ", attr(dat, "filename"));
+#    }
   }
   else {
     if (!is.data.frame(dat)) {

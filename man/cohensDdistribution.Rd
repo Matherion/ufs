@@ -14,17 +14,9 @@
 \alias{pdExtreme}
 \alias{pdMild}
 \alias{pdInterval}
-\alias{cohensdCI}
 \alias{confIntD}
 \alias{pwr.cohensdCI}
 \alias{pwr.confIntd}
-\alias{pCohensd}
-\alias{qCohensd}
-\alias{rCohensd}
-\alias{pdInterval}
-\alias{pdExtreme}
-\alias{pdMild}
-\alias{pwr.cohensdCI}
 \title{The distribution of Cohen's \emph{d}}
 \usage{
 cohensdCI(d, n, conf.level = 0.95, plot = FALSE, silent = TRUE)

@@ -33,7 +33,7 @@ multiVarFreq(mtcars, c('gear', 'carb'));
 
 }
 \seealso{
-\code{\link{table}}, \code{\link{freq}}
+\code{\link{table}}
 }
 \author{
 Gjalt-Jorn Peters

@@ -4,11 +4,12 @@
 \alias{associationMatrix}
 \title{associationMatrix}
 \usage{
-associationMatrix(dat = NULL, x = NULL, y = NULL, conf.level = 0.95,
-  correction = "fdr", bootstrapV = FALSE, info = c("full", "ci", "es"),
-  includeSampleSize = "depends", bootstrapV.samples = 5000, digits = 2,
-  pValueDigits = digits + 1, colNames = FALSE, type = c("R", "html",
-  "latex"), file = "", statistic = associationMatrixStatDefaults,
+associationMatrix(dat = NULL, x = NULL, y = NULL,
+  conf.level = 0.95, correction = "fdr", bootstrapV = FALSE,
+  info = c("full", "ci", "es"), includeSampleSize = "depends",
+  bootstrapV.samples = 5000, digits = 2, pValueDigits = digits + 1,
+  colNames = FALSE, type = c("R", "html", "latex"), file = "",
+  statistic = associationMatrixStatDefaults,
   effectSize = associationMatrixESDefaults, var.equal = "test")
 }
 \arguments{

@@ -4,7 +4,6 @@
 \alias{ggEasyBar}
 \alias{ggEasyPlots}
 \alias{ggEasyRidge}
-\alias{ggEasyRidge}
 \title{Convenience functions for ggplots based on multiple variables}
 \usage{
 ggEasyBar(data, items = NULL, labels = NULL, sortByMean = TRUE,

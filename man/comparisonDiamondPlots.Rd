@@ -4,7 +4,6 @@
 \name{duoComparisonDiamondPlot}
 \alias{duoComparisonDiamondPlot}
 \alias{meansComparisonDiamondPlot}
-\alias{duoComparisonDiamondPlot}
 \title{meansComparisonDiamondPlot and duoComparisonDiamondPlot}
 \usage{
 duoComparisonDiamondPlot(dat, items = NULL, compareBy = NULL,
@@ -16,18 +15,20 @@ duoComparisonDiamondPlot(dat, items = NULL, compareBy = NULL,
   "Effect size estimates"), ylab = c(NULL, NULL),
   theme = ggplot2::theme_bw(), showLegend = TRUE, lineSize = 1,
   drawPlot = TRUE, xbreaks = "auto", outputFile = NULL,
-  outputWidth = 10, outputHeight = 10, ggsaveParams = list(units = "cm",
-  dpi = 300, type = "cairo"), ...)
+  outputWidth = 10, outputHeight = 10, ggsaveParams = list(units =
+  "cm", dpi = 300, type = "cairo"), ...)
 
 meansComparisonDiamondPlot(dat, items = NULL, compareBy = NULL,
   labels = NULL, compareByLabels = NULL, decreasing = NULL,
-  sortBy = NULL, conf.level = 0.95, showData = TRUE, dataAlpha = 0.1,
-  dataSize = 3, comparisonColors = viridis::viridis(length(unique(dat[,
-  compareBy]))), alpha = 0.33, jitterWidth = 0.5, jitterHeight = 0.4,
-  xlab = "Scores and means", ylab = NULL, theme = ggplot2::theme_bw(),
-  showLegend = TRUE, lineSize = 1, xbreaks = "auto", outputFile = NULL,
-  outputWidth = 10, outputHeight = 10, ggsaveParams = list(units = "cm",
-  dpi = 300, type = "cairo"), ...)
+  sortBy = NULL, conf.level = 0.95, showData = TRUE,
+  dataAlpha = 0.1, dataSize = 3,
+  comparisonColors = viridis::viridis(length(unique(dat[, compareBy]))),
+  alpha = 0.33, jitterWidth = 0.5, jitterHeight = 0.4,
+  xlab = "Scores and means", ylab = NULL,
+  theme = ggplot2::theme_bw(), showLegend = TRUE, lineSize = 1,
+  xbreaks = "auto", outputFile = NULL, outputWidth = 10,
+  outputHeight = 10, ggsaveParams = list(units = "cm", dpi = 300, type
+  = "cairo"), ...)
 }
 \arguments{
 \item{dat}{The dataframe containing the relevant variables.}

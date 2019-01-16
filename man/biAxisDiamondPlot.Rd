@@ -12,9 +12,9 @@ biAxisDiamondPlot(dat, items = NULL, leftAnchors = NULL,
   xAxisLab = paste0("Scores and ", round(100 * conf.level, 2), "\% CIs"),
   drawPlot = TRUE, returnPlotOnly = TRUE, baseSize = 1,
   dotSize = baseSize, baseFontSize = 10 * baseSize,
-  theme = ggplot2::theme_bw(base_size = baseFontSize), outputFile = NULL,
-  outputWidth = 10, outputHeight = 10, ggsaveParams = list(units = "cm",
-  dpi = 300, type = "cairo"), ...)
+  theme = ggplot2::theme_bw(base_size = baseFontSize),
+  outputFile = NULL, outputWidth = 10, outputHeight = 10,
+  ggsaveParams = list(units = "cm", dpi = 300, type = "cairo"), ...)
 }
 \arguments{
 \item{dat}{The dataframe containing the variables.}

@@ -56,7 +56,7 @@
 #'
 #' @export confIntR
 confIntR <- function(r, N, conf.level = .95, plot=FALSE) {
-  if ((r < -1) || (r > 1)) {
+  if (any(r < -1) || any(r > 1)) {
     stop("The specified observed correlation (argument 'r') must be between -1 and 1.");
   }
   if ((conf.level < 0.000001) || (conf.level >= 1)) {

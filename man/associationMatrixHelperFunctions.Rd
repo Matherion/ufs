@@ -12,17 +12,10 @@
 \alias{associationMatrixESDefaults}
 \alias{associationMatrixStatDefaults}
 \alias{computeEffectSize_omegasq}
-\alias{computeStatistic_r}
-\alias{computeStatistic_f}
-\alias{computeStatistic_chisq}
-\alias{computeEffectSize_d}
-\alias{computeEffectSize_r}
-\alias{computeEffectSize_etasq}
-\alias{computeEffectSize_omegasq}
-\alias{computeEffectSize_v}
 \title{associationMatrix Helper Functions}
 \usage{
-computeStatistic_t(var1, var2, conf.level = 0.95, var.equal = "test", ...)
+computeStatistic_t(var1, var2, conf.level = 0.95, var.equal = "test",
+  ...)
 
 computeStatistic_r(var1, var2, conf.level = 0.95, ...)
 
@@ -30,7 +23,8 @@ computeStatistic_f(var1, var2, conf.level = 0.95, ...)
 
 computeStatistic_chisq(var1, var2, conf.level = 0.95, ...)
 
-computeEffectSize_d(var1, var2, conf.level = 0.95, var.equal = "test", ...)
+computeEffectSize_d(var1, var2, conf.level = 0.95, var.equal = "test",
+  ...)
 
 computeEffectSize_r(var1, var2, conf.level = 0.95, ...)
 

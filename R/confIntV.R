@@ -3,8 +3,38 @@
 
 ### Function to compute Cramer's V
 
-#' @rdname crossTab
-#' @export cramersV
+#' Cramer's V and its confidence interval
+#'
+#' These functions compute the point estimate and confidence interval for
+#' Cramer's V.
+#'
+#'
+#' @aliases confIntV cramersV
+#' @param x Either a crosstable to analyse, or one of two vectors to use to
+#' generate that crosstable. The vector should be a factor, i.e. a categorical
+#' variable identified as such by the 'factor' class).
+#' @param y If x is a crosstable, y can (and should) be empty. If x is a
+#' vector, y must also be a vector.
+#' @param digits Minimum number of digits after the decimal point to show in
+#' the result.
+#' @param conf.level Level of confidence for the confidence interval.
+#' @param samples Number of samples to generate when bootstrapping.
+#' @param method Whether to use Fisher's Z or bootstrapping to compute the
+#' confidence interval.
+#' @param storeBootstrappingData Whether to store (or discard) the data
+#' generating during the bootstrapping procedure.
+#' @param \dots Any additional arguments are passed on to the `print` function.
+#' @return A point estimate or a confidence interval for Cramer's V, an effect
+#' size to describe the association between two categorical variables.
+#' @keywords bivar
+#' @examples
+#' ### Get confidence interval for Cramer's V
+#' ### Note that by using 'table', and so removing the raw data, inhibits
+#' ### bootstrapping, which could otherwise take a while.
+#' confIntV(table(infert$education, infert$induced));
+#'
+#' @rdname cramersV
+#' @export
 cramersV <- function(x, y = NULL, digits=2) {
 
   res <- list(input = list(x=x, y=y, digits=digits),
@@ -61,7 +91,7 @@ cramersV <- function(x, y = NULL, digits=2) {
   return(res);
 }
 
-#' @rdname crossTab
+#' @rdname cramersV
 #' @method print CramersV
 #' @export
 print.CramersV <- function(x, digits=x$input$digits, ...) {
@@ -69,7 +99,7 @@ print.CramersV <- function(x, digits=x$input$digits, ...) {
       signif(x$output$cramersV, digits=digits));
 }
 
-#' @rdname crossTab
+#' @rdname cramersV
 #' @export
 confIntV <- function(x, y = NULL, conf.level=.95,
                      samples = 500, digits=2,
@@ -151,7 +181,7 @@ confIntV <- function(x, y = NULL, conf.level=.95,
   return(res);
 }
 
-#' @rdname crossTab
+#' @rdname cramersV
 #' @method print confIntV
 #' @export
 print.confIntV <- function(x, digits=x$input$digits, ...) {

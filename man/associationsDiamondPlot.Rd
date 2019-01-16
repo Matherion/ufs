@@ -4,17 +4,18 @@
 \name{associationsDiamondPlot}
 \alias{associationsDiamondPlot}
 \alias{associationsToDiamondPlotDf}
-\alias{associationsToDiamondPlotDf}
 \title{A diamondplot with confidence intervals for associations}
 \usage{
 associationsDiamondPlot(dat, covariates, criteria, labels = NULL,
   criteriaLabels = NULL, decreasing = NULL, sortBy = NULL,
-  conf.level = 0.95, criteriaColors = viridis::viridis(length(criteria)),
+  conf.level = 0.95,
+  criteriaColors = viridis::viridis(length(criteria)),
   criterionColor = "black", returnLayerOnly = FALSE, esMetric = "r",
   multiAlpha = 0.33, singleAlpha = 1, showLegend = TRUE,
-  xlab = "Effect size estimates", ylab = "", theme = ggplot2::theme_bw(),
-  lineSize = 1, outputFile = NULL, outputWidth = 10, outputHeight = 10,
-  ggsaveParams = list(units = "cm", dpi = 300, type = "cairo"), ...)
+  xlab = "Effect size estimates", ylab = "",
+  theme = ggplot2::theme_bw(), lineSize = 1, outputFile = NULL,
+  outputWidth = 10, outputHeight = 10, ggsaveParams = list(units =
+  "cm", dpi = 300, type = "cairo"), ...)
 
 associationsToDiamondPlotDf(dat, covariates, criterion, labels = NULL,
   decreasing = NULL, conf.level = 0.95, esMetric = "r")
