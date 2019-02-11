@@ -1,5 +1,5 @@
 from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower = NULL, alpha.upper = NULL,
-          t.value, tol = 1e-09, sup.int.warns = TRUE, ...)
+          t.value, tol = 1e-09, sup.int.warns = TRUE, silent=TRUE, ...)
 {
   if (missing(ncp)) {
     if (missing(t.value))
@@ -10,7 +10,8 @@ from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower 
     stop("The degrees of freedom must be some positive value.",
          call. = FALSE)
   if (abs(ncp) > 37.62)
-    print("The observed noncentrality parameter of the noncentral t-distribution has exceeded 37.62 in magnitude (R's limitation for accurate probabilities from the noncentral t-distribution) in the function's iterative search for the appropriate value(s). The results may be fine, but they might be inaccurate; use caution.")
+    if (!silent)
+      print("The observed noncentrality parameter of the noncentral t-distribution has exceeded 37.62 in magnitude (R's limitation for accurate probabilities from the noncentral t-distribution) in the function's iterative search for the appropriate value(s). The results may be fine, but they might be inaccurate; use caution.")
   if (sup.int.warns == TRUE)
     Orig.warn <- options()$warn
   options(warn = -1)
@@ -33,11 +34,11 @@ from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower 
     min.ncp = min(-150, -5 * ncp)
     max.ncp = max(150, 5 * ncp)
     .ci.nct.lower <- function(val.of.interest, ...) {
-      (qt(p = alpha.lower, df = df, ncp = val.of.interest,
+      (stats::qt(p = alpha.lower, df = df, ncp = val.of.interest,
           lower.tail = FALSE, log.p = FALSE) - ncp)^2
     }
     .ci.nct.upper <- function(val.of.interest, ...) {
-      (qt(p = alpha.upper, df = df, ncp = val.of.interest,
+      (stats::qt(p = alpha.upper, df = df, ncp = val.of.interest,
           lower.tail = TRUE, log.p = FALSE) - ncp)^2
     }
     if (alpha.lower != 0) {
@@ -62,16 +63,16 @@ from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower 
     }
     if (alpha.lower == 0)
       Result <- list(Lower.Limit = -Inf, Prob.Less.Lower = 0,
-                     Upper.Limit = Up.Lim$minimum, Prob.Greater.Upper = pt(q = ncp,
+                     Upper.Limit = Up.Lim$minimum, Prob.Greater.Upper = stats::pt(q = ncp,
                                                                            ncp = Up.Lim$minimum, df = df))
     if (alpha.upper == 0)
-      Result <- list(Lower.Limit = Low.Lim$minimum, Prob.Less.Lower = pt(q = ncp,
+      Result <- list(Lower.Limit = Low.Lim$minimum, Prob.Less.Lower = stats::pt(q = ncp,
                                                                          ncp = Low.Lim$minimum, df = df, lower.tail = FALSE),
                      Upper.Limit = Inf, Prob.Greater.Upper = 0)
     if (alpha.lower != 0 & alpha.upper != 0)
-      Result <- list(Lower.Limit = Low.Lim$minimum, Prob.Less.Lower = pt(q = ncp,
+      Result <- list(Lower.Limit = Low.Lim$minimum, Prob.Less.Lower = stats::pt(q = ncp,
                                                                          ncp = Low.Lim$minimum, df = df, lower.tail = FALSE),
-                     Upper.Limit = Up.Lim$minimum, Prob.Greater.Upper = pt(q = ncp,
+                     Upper.Limit = Up.Lim$minimum, Prob.Greater.Upper = stats::pt(q = ncp,
                                                                            ncp = Up.Lim$minimum, df = df))
     if (sup.int.warns == TRUE)
       options(warn = Orig.warn)
@@ -81,11 +82,11 @@ from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower 
                                   alpha.lower, alpha.upper, tol = 1e-09, sup.int.warns = TRUE,
                                   ...) {
     .ci.nct.lower <- function(val.of.interest, ...) {
-      (qt(p = alpha.lower, df = df, ncp = val.of.interest,
+      (stats::qt(p = alpha.lower, df = df, ncp = val.of.interest,
           lower.tail = FALSE, log.p = FALSE) - ncp)^2
     }
     .ci.nct.upper <- function(val.of.interest, ...) {
-      (qt(p = alpha.upper, df = df, ncp = val.of.interest,
+      (stats::qt(p = alpha.upper, df = df, ncp = val.of.interest,
           lower.tail = TRUE, log.p = FALSE) - ncp)^2
     }
     if (sup.int.warns == TRUE) {
@@ -100,16 +101,16 @@ from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower 
     }
     if (alpha.lower == 0)
       Result <- list(Lower.Limit = -Inf, Prob.Less.Lower = 0,
-                     Upper.Limit = Up.Lim$estimate, Prob.Greater.Upper = pt(q = ncp,
+                     Upper.Limit = Up.Lim$estimate, Prob.Greater.Upper = stats::pt(q = ncp,
                                                                             ncp = Up.Lim$estimate, df = df))
     if (alpha.upper == 0)
-      Result <- list(Lower.Limit = Low.Lim$estimate, Prob.Less.Lower = pt(q = ncp,
+      Result <- list(Lower.Limit = Low.Lim$estimate, Prob.Less.Lower = stats::pt(q = ncp,
                                                                           ncp = Low.Lim$estimate, df = df, lower.tail = FALSE),
                      Upper.Limit = Inf, Prob.Greater.Upper = 0)
     if (alpha.lower != 0 & alpha.upper != 0)
-      Result <- list(Lower.Limit = Low.Lim$estimate, Prob.Less.Lower = pt(q = ncp,
+      Result <- list(Lower.Limit = Low.Lim$estimate, Prob.Less.Lower = stats::pt(q = ncp,
                                                                           ncp = Low.Lim$estimate, df = df, lower.tail = FALSE),
-                     Upper.Limit = Up.Lim$estimate, Prob.Greater.Upper = pt(q = ncp,
+                     Upper.Limit = Up.Lim$estimate, Prob.Greater.Upper = stats::pt(q = ncp,
                                                                             ncp = Up.Lim$estimate, df = df))
     return(Result)
   }
@@ -133,6 +134,7 @@ from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower 
   Upper.M2 <- Res.M2$Upper.Limit
   Prob.Upper.M2 <- Res.M2$Prob.Greater.Upper
   Min.for.Best.Low <- min((c(Prob.Low.M1, Prob.Low.M2) - alpha.lower)^2)
+  Best.Low <- 1;
   if (!is.null(Res.M1)) {
     if (Min.for.Best.Low == (Prob.Low.M1 - alpha.lower)^2)
       Best.Low <- 1
@@ -143,6 +145,7 @@ from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower 
   }
   Min.for.Best.Up <- min((c(Prob.Upper.M1, Prob.Upper.M2) -
                             alpha.upper)^2)
+  Best.Up <- 1;
   if (!is.null(Res.M1)) {
     if (Min.for.Best.Up == (Prob.Upper.M1 - alpha.upper)^2)
       Best.Up <- 1

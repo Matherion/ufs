@@ -51,7 +51,7 @@ multiVarFreq <- function(data,
   }
 
   if (length(items)==1) {
-    res <- as.data.frame(t(as.matrix(table(dat[, items]))));
+    res <- as.data.frame(t(as.matrix(table(data[, items]))));
   } else {
     res <- do.call(dplyr::bind_rows,
                    lapply(data[, items],

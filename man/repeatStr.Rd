@@ -2,6 +2,7 @@
 % Please edit documentation in R/repeatStr.R
 \name{repeatStr}
 \alias{repeatStr}
+\alias{repStr}
 \title{Repeat a string a number of times}
 \usage{
 repeatStr(n = 1, str = " ")
@@ -21,6 +22,6 @@ Repeat a string a number of times
 ### 10 spaces:
 repStr(10);
 
-### Three hash symbols:
-repStr("#", 3);
+### Three euro symbols:
+repStr("\\u20ac", 3);
 }

@@ -1,7 +1,7 @@
 #' Confidence intervals for Omega Squared
 #'
-#' This function used the MBESS function [MBESS::conf.limits.ncf()]
-#' and [MBESS::convert.ncf.to.omegasq()] to compute the point estimate and
+#' This function uses the MBESS function [MBESS::conf.limits.ncf()]
+#' and [convert.ncf.to.omegasq()] to compute the point estimate and
 #' confidence interval for Omega Squared (which have been lifted out of MBESS to
 #' avoid importing the whole package)
 #'

@@ -5,14 +5,15 @@
 #' inputs can be switched as well.
 #'
 #' @return A character vector of length 1.
+#' @aliases repStr repeatStr
 #' @export repStr
 #' @export repeatStr
 #'
 #' @examples ### 10 spaces:
 #' repStr(10);
 #'
-#' ### Three hash symbols:
-#' repStr("#", 3);
+#' ### Three euro symbols:
+#' repStr("\u20ac", 3);
 repeatStr <- repStr <- function (n = 1, str = " ") {
   if (is.character(n) && is.numeric(str)) {
     ### The input was switched.

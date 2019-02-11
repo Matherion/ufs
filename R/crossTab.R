@@ -25,7 +25,7 @@ crossTab <- function(x, y=NULL, conf.level=.95,
     res$intermediate$table <- table(x, y);
     res$intermediate$n <- sum(res$intermediate$table);
     res$intermediate$varNames <- c(deparse(substitute(x)), deparse(substitute(y)));
-    res$intermediate$validForBoth <- complete.cases(cbind(x, y));
+    res$intermediate$validForBoth <- stats::complete.cases(cbind(x, y));
 
     if (length(unique(x[res$intermediate$validForBoth])) < 2) {
       stop("The variable specified as 'x' ('", res$intermediate$varNames[1],
