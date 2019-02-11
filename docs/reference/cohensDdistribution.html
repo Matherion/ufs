@@ -149,8 +149,8 @@ and its alias <code>pwr.confIntd</code>).</p>
     <tr>
       <th>n, n1, n2</th>
       <td><p>Desired number of Cohen's <em>d</em> values for <code>rCohensd</code> and
-<code>rd</code> (`n`), and the number of participants/datapoints in total (`n`) or in each
-group (`n1` and `n2`) for `dd`, `dCohensd`, <code>pdExtreme</code>,
+<code>rd</code> (<code>n</code>), and the number of participants/datapoints in total (<code>n</code>) or in each
+group (<code>n1</code> and <code>n2</code>) for <code>dd</code>, <code>dCohensd</code>, <code>pdExtreme</code>,
 <code>pdMild</code>, <code>pdInterval</code>, and <code>cohensdCI</code>.</p></td>
     </tr>
     <tr>
@@ -167,7 +167,7 @@ one value for <code>d</code>, <code>n</code>, and <code>conf.level</code>.</p></
       <th>silent</th>
       <td><p>Whether to provide <code>FALSE</code> or suppress (<code>TRUE</code>)
 warnings.  This is useful because function 'qt', which is used under the
-hood (see <code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>qt</a></code> for more information), warns that 'full precision
+hood (see <code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>qt()</a></code> for more information), warns that 'full precision
 may not have been achieved' when the density of the distribution is very
 close to zero. This is normally no cause for concern, because with sample
 sizes this big, small deviations have little impact.</p></td>
@@ -204,7 +204,7 @@ specified value.</p></td>
     </tr>
     <tr>
       <th>w</th>
-      <td><p>The desired 'half-width' or margin of error of the confidence
+      <td><p>The desired maximum 'half-width' or margin of error of the confidence
 interval.</p></td>
     </tr>
     <tr>
@@ -234,11 +234,11 @@ confidence interval for Cohen's <em>d</em> with a desired width.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The functions use <code><a href='convert.html'>convert.d.to.t</a></code> and
-<code><a href='convert.html'>convert.t.to.d</a></code> to provide the Cohen's <em>d</em> distribution.</p>
+    <p>The functions use <code><a href='convert.html'>convert.d.to.t()</a></code> and
+<code><a href='convert.html'>convert.t.to.d()</a></code> to provide the Cohen's <em>d</em> distribution.</p>
 <p>The confidence interval functions, <code>cohensdCI</code> and <code>pwr.cohensdCI</code>,
 now use the same method as MBESS (a slightly adapted version of
-[MBESS::conf.limits.nct()] is used).</p>
+<code><a href='https://www.rdocumentation.org/packages/MBESS/topics/conf.limits.nct'>MBESS::conf.limits.nct()</a></code> is used).</p>
 <p>More details about <code>cohensdCI</code> and <code>pwr.cohensdCI</code> are provided in
 Peters &amp; Crutzen (2017).</p>
     
@@ -257,8 +257,8 @@ https://doi.org/10.1146/annurev.psych.59.103006.093735</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='convert.html'>convert.d.to.t</a></code>, <code><a href='convert.html'>convert.t.to.d</a></code>,
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>dt</a></code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>pt</a></code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>qt</a></code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>rt</a></code></p></div>
+    <div class='dont-index'><p><code><a href='convert.html'>convert.d.to.t()</a></code>, <code><a href='convert.html'>convert.t.to.d()</a></code>,
+<code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>dt()</a></code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>pt()</a></code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>qt()</a></code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/TDist'>rt()</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -325,7 +325,7 @@ https://doi.org/10.1146/annurev.psych.59.103006.093735</p>
 the exported MBESS function conf.limits.nct written by Ken Kelley
 (University of Notre Dame), and with an error noticed by Guy Prochilo
 (University of Melbourne).</p>
-<p>Maintainer: Gjalt-Jorn Peters &lt;gjalt-jorn@userfriendlyscience.com&gt;</p>
+<p>Maintainer: Gjalt-Jorn Peters <a href='mailto:gjalt-jorn@userfriendlyscience.com'>gjalt-jorn@userfriendlyscience.com</a></p>
   </div>
 </div>
 

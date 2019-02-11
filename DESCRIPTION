@@ -19,7 +19,7 @@ Description: This is a new version of the 'userfriendlyscience' package,
     distributions, to generate confidence intervals, to plan study sample sizes
     for confidence intervals, and to do some basic operations such as
     (dis)attenuate effect size estimates.
-URL: https://userfriendlyscience.com
+URL: https://ufs.opens.science
 BugReports: https://github.com/matherion/ufs/issues
 Encoding: UTF-8
 LazyData: true
@@ -38,3 +38,4 @@ Imports: BiasedUrn (>= 1.07),
          scales (>= 1.0.0),
          SuppDists (>= 1.1.9),
          viridis (>= 0.5.1)
+Roxygen: list(markdown = TRUE)

@@ -46,7 +46,7 @@ size}
 size}
 
 \item{var.equal}{Whether to test for equal variances ('test'), assume
-equality ('yes'), or assume unequality ('no'). See [userfriendlyscience::meanDiff()]
+equality ('yes'), or assume unequality ('no'). See \code{\link[userfriendlyscience:meanDiff]{userfriendlyscience::meanDiff()}}
 for more information.}
 
 \item{\dots}{Any additonal arguments are sometimes used to specify exactly
@@ -91,12 +91,12 @@ computeEffectSize_etasq(Orange$Tree, Orange$circumference)
 
 }
 \seealso{
-[userfriendlyscience::meanDiff()], [associationMatrix()]
+\code{\link[userfriendlyscience:meanDiff]{userfriendlyscience::meanDiff()}}, \code{\link[=associationMatrix]{associationMatrix()}}
 }
 \author{
 Gjalt-Jorn Peters
 
-Maintainer: Gjalt-Jorn Peters <gjalt-jorn@userfriendlyscience.com>
+Maintainer: Gjalt-Jorn Peters \href{mailto:gjalt-jorn@userfriendlyscience.com}{gjalt-jorn@userfriendlyscience.com}
 }
 \keyword{bivar}
 \keyword{utilities}

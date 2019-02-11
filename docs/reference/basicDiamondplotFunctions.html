@@ -32,10 +32,10 @@
 
 <meta property="og:title" content="Basic ggplot2 diamond plot layer construction functions — diamondCoordinates" />
 
-<meta property="og:description" content="These functions are used by diamondPlot to construct a diamond
+<meta property="og:description" content="These functions are used by diamondPlot() to construct a diamond
 plot. It's normally not necessary to call this function directly: instead,
-use meansDiamondPlot, meanSDtoDiamondPlot, and
-factorLoadingDiamondCIplot." />
+use meansDiamondPlot(), meanSDtoDiamondPlot(), and
+factorLoadingDiamondCIplot()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -104,10 +104,10 @@ factorLoadingDiamondCIplot." />
 
     <div class="ref-description">
     
-    <p>These functions are used by <code><a href='diamondPlot.html'>diamondPlot</a></code> to construct a diamond
+    <p>These functions are used by <code><a href='diamondPlot.html'>diamondPlot()</a></code> to construct a diamond
 plot. It's normally not necessary to call this function directly: instead,
-use <code><a href='meansDiamondPlot.html'>meansDiamondPlot</a></code>, <code><a href='meanSDtoDiamondPlot.html'>meanSDtoDiamondPlot</a></code>, and
-<code><a href='factorLoadingDiamondCIplot.html'>factorLoadingDiamondCIplot</a></code>.</p>
+use <code><a href='meansDiamondPlot.html'>meansDiamondPlot()</a></code>, <code><a href='meanSDtoDiamondPlot.html'>meanSDtoDiamondPlot()</a></code>, and
+<code><a href='factorLoadingDiamondCIplot.html'>factorLoadingDiamondCIplot()</a></code>.</p>
     
     </div>
 
@@ -179,8 +179,8 @@ rows).</p></td>
     <tr>
       <th>generateColors</th>
       <td><p>A vector with colors to use to generate a gradient.
-These colors must be valid arguments to <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/colorRamp'>colorRamp</a></code> (and
-therefore, to <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/col2rgb'>col2rgb</a></code>).</p></td>
+These colors must be valid arguments to <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/colorRamp'>colorRamp()</a></code> (and
+therefore, to <code><a href='https://www.rdocumentation.org/packages/grDevices/topics/col2rgb'>col2rgb()</a></code>).</p></td>
     </tr>
     <tr>
       <th>fullColorRange</th>
@@ -205,7 +205,7 @@ have this color.</p></td>
       <td><p>If NA, lines will have the same colors as the diamonds'
 fill. If not NA, must be a valid color, which is then used as line color.
 Note that e.g. <code>linetype</code> and <code>color</code> can be used as well, which
-will be passed on to <code>geom_polygon</code>.</p></td>
+will be passed on to <code>geom_polygon()</code>.</p></td>
     </tr>
     <tr>
       <th>otherAxisCol</th>
@@ -216,9 +216,9 @@ should normally just be a vector of consecutive integers.</p></td>
     <tr>
       <th>&#8230;</th>
       <td><p>Any additional arguments are passed to
-<code>geom_polygon</code>. This can be used to set, for example, the
+<code>geom_polygon()</code>. This can be used to set, for example, the
 <code>alpha</code> value of the diamonds. Additional arguments for
-<code>rawDataDiamondLayer</code> are passed on to <code>geom_jitter</code>.</p></td>
+<code>rawDataDiamondLayer</code> are passed on to <code>geom_jitter()</code>.</p></td>
     </tr>
     <tr>
       <th>items</th>
@@ -268,18 +268,18 @@ decreasing (TRUE), increasing (FALSE), or not at all (NULL).</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>ggDiamondLayer</code> returns a <code>ggplot</code>
-<code>geom_polygon</code> object, which can then be used in
-<code>ggplot</code> plots (as <code><a href='diamondPlot.html'>diamondPlot</a></code> does).</p>
+    <p><code>ggDiamondLayer</code> returns a <code>ggplot()</code>
+<code>geom_polygon()</code> object, which can then be used in
+<code>ggplot()</code> plots (as <code><a href='diamondPlot.html'>diamondPlot()</a></code> does).</p>
 <p><code>diamondCoordinates</code> returns a set of four coordinates that together
 specify a diamond.</p>
 <p><code>varsToDiamondPlotDf</code> returns a dataframe of diamondCoordinates.</p>
-<p><code>rawDataDiamondLayer</code> returns a <code>geom_jitter</code> object.</p>
+<p><code>rawDataDiamondLayer</code> returns a <code>geom_jitter()</code> object.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='meansDiamondPlot.html'>meansDiamondPlot</a></code>, <code><a href='meanSDtoDiamondPlot.html'>meanSDtoDiamondPlot</a></code>,
-<code><a href='factorLoadingDiamondCIplot.html'>factorLoadingDiamondCIplot</a></code>, <code><a href='diamondPlot.html'>diamondPlot</a></code></p></div>
+    <div class='dont-index'><p><code><a href='meansDiamondPlot.html'>meansDiamondPlot()</a></code>, <code><a href='meanSDtoDiamondPlot.html'>meanSDtoDiamondPlot()</a></code>,
+<code><a href='factorLoadingDiamondCIplot.html'>factorLoadingDiamondCIplot()</a></code>, <code><a href='diamondPlot.html'>diamondPlot()</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -311,7 +311,7 @@ specify a diamond.</p>
 
     <h2>Author</h2>
     <p>Gjalt-Jorn Peters</p>
-<p>Maintainer: Gjalt-Jorn Peters &lt;gjalt-jorn@userfriendlyscience.com&gt;</p>
+<p>Maintainer: Gjalt-Jorn Peters <a href='mailto:gjalt-jorn@userfriendlyscience.com'>gjalt-jorn@userfriendlyscience.com</a></p>
   </div>
 </div>
 

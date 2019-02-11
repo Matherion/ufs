@@ -17,7 +17,7 @@
 #' @author Gjalt-Jorn Peters
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
-#' @seealso \code{\link{table}}
+#' @seealso [table()]
 #' @keywords utilities
 #' @examples
 #'
