@@ -42,21 +42,21 @@ from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower 
     }
     if (alpha.lower != 0) {
       if (sup.int.warns == TRUE)
-        Low.Lim <- suppressWarnings(optimize(f = .ci.nct.lower,
+        Low.Lim <- suppressWarnings(stats::optimize(f = .ci.nct.lower,
                                              interval = c(min.ncp, max.ncp), alpha.lower = alpha.lower,
                                              df = df, ncp = ncp, maximize = FALSE, tol = tol))
       if (sup.int.warns == FALSE)
-        Low.Lim <- optimize(f = .ci.nct.lower, interval = c(min.ncp,
+        Low.Lim <- stats::optimize(f = .ci.nct.lower, interval = c(min.ncp,
                                                             max.ncp), alpha.lower = alpha.lower, df = df,
                             ncp = ncp, maximize = FALSE, tol = tol)
     }
     if (alpha.upper != 0) {
       if (sup.int.warns == TRUE)
-        Up.Lim <- suppressWarnings(optimize(f = .ci.nct.upper,
+        Up.Lim <- suppressWarnings(stats::optimize(f = .ci.nct.upper,
                                             interval = c(min.ncp, max.ncp), alpha.upper = alpha.upper,
                                             df = df, ncp = ncp, maximize = FALSE, tol = tol))
       if (sup.int.warns == FALSE)
-        Up.Lim <- optimize(f = .ci.nct.upper, interval = c(min.ncp,
+        Up.Lim <- stats::optimize(f = .ci.nct.upper, interval = c(min.ncp,
                                                            max.ncp), alpha.upper = alpha.upper, df = df,
                            ncp = ncp, maximize = FALSE, tol = tol)
     }
@@ -89,14 +89,14 @@ from_MBESS_conf.limits.nct <- function (ncp, df, conf.level = 0.95, alpha.lower 
           lower.tail = TRUE, log.p = FALSE) - ncp)^2
     }
     if (sup.int.warns == TRUE) {
-      Low.Lim <- suppressWarnings(nlm(f = .ci.nct.lower,
+      Low.Lim <- suppressWarnings(stats::nlm(f = .ci.nct.lower,
                                       p = ncp, ...))
-      Up.Lim <- suppressWarnings(nlm(f = .ci.nct.upper,
+      Up.Lim <- suppressWarnings(stats::nlm(f = .ci.nct.upper,
                                      p = ncp, ...))
     }
     if (sup.int.warns == FALSE) {
-      Low.Lim <- nlm(f = .ci.nct.lower, p = ncp, ...)
-      Up.Lim <- nlm(f = .ci.nct.upper, p = ncp, ...)
+      Low.Lim <- stats::nlm(f = .ci.nct.lower, p = ncp, ...)
+      Up.Lim <- stats::nlm(f = .ci.nct.upper, p = ncp, ...)
     }
     if (alpha.lower == 0)
       Result <- list(Lower.Limit = -Inf, Prob.Less.Lower = 0,
