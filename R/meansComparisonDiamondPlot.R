@@ -80,7 +80,7 @@
 #' a visualisation tool that facilitates interpretation and comparison of
 #' multiple sample estimates while respecting their inaccuracy.
 #' *PsyArXiv.* http://doi.org/10.17605/OSF.IO/9W8YV
-#' @keywords ~kwd1 ~kwd2
+#' @keywords hplot
 #' @examples
 #'
 #' meansComparisonDiamondPlot(mtcars,

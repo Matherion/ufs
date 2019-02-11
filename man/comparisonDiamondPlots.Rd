@@ -161,5 +161,4 @@ Gjalt-Jorn Peters
 
 Maintainer: Gjalt-Jorn Peters \href{mailto:gjalt-jorn@userfriendlyscience.com}{gjalt-jorn@userfriendlyscience.com}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
+\keyword{hplot}
