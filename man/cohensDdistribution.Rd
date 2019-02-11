@@ -76,7 +76,7 @@ specified value.}
 
 \item{ds}{A vector with two Cohen's \emph{d} values.}
 
-\item{w}{The desired 'half-width' or margin of error of the confidence
+\item{w}{The desired maximum 'half-width' or margin of error of the confidence
 interval.}
 
 \item{extensive}{Whether to only return the required sample size, or more

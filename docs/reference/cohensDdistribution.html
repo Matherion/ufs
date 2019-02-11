@@ -236,6 +236,9 @@ confidence interval for Cohen's <em>d</em> with a desired width.</p>
 
     <p>The functions use <code><a href='convert.html'>convert.d.to.t</a></code> and
 <code><a href='convert.html'>convert.t.to.d</a></code> to provide the Cohen's <em>d</em> distribution.</p>
+<p>The confidence interval functions, <code>cohensdCI</code> and <code>pwr.cohensdCI</code>,
+now use the same method as MBESS (a slightly adapted version of
+[MBESS::conf.limits.nct()] is used).</p>
 <p>More details about <code>cohensdCI</code> and <code>pwr.cohensdCI</code> are provided in
 Peters &amp; Crutzen (2017).</p>
     
@@ -266,19 +269,19 @@ https://doi.org/10.1146/annurev.psych.59.103006.093735</p>
 <span class='co'>### how wildly our Cohen's d value can vary</span>
 <span class='co'>### from sample to sample.</span>
 <span class='fu'>cohensdCI</span>(<span class='fl'>.5</span>, <span class='kw'>n</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>plot</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                     lo        hi
-#&gt; d=0.5, n=200 0.2225057 0.7834273
+#&gt; d=0.5, n=200 0.2178714 0.7809034
 #&gt; attr(,"plot")</div><div class='img'><img src='cohensDdistribution-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; attr(,"class")
 #&gt; [1] "cohensdCI"</div><div class='input'>
 <span class='co'>### How many participants would we need if we</span>
 <span class='co'>### would want a more accurate estimate, say</span>
 <span class='co'>### with a maximum confidence interval width</span>
 <span class='co'>### of .2?</span>
-<span class='fu'>pwr.cohensdCI</span>(<span class='fl'>.5</span>, <span class='kw'>w</span><span class='kw'>=</span><span class='fl'>.1</span>);</div><div class='output co'>#&gt; [1] 1574</div><div class='input'>
+<span class='fu'>pwr.cohensdCI</span>(<span class='fl'>.5</span>, <span class='kw'>w</span><span class='kw'>=</span><span class='fl'>.1</span>);</div><div class='output co'>#&gt; [1] 1585</div><div class='input'>
 <span class='co'>### Show that 'sampling distribution':</span>
 <span class='fu'>cohensdCI</span>(<span class='fl'>.5</span>,
           <span class='kw'>n</span><span class='kw'>=</span><span class='fu'>pwr.cohensdCI</span>(<span class='fl'>.5</span>, <span class='kw'>w</span><span class='kw'>=</span><span class='fl'>.1</span>),
           <span class='kw'>plot</span><span class='kw'>=</span><span class='fl'>TRUE</span>);</div><div class='output co'>#&gt;                      lo        hi
-#&gt; d=0.5, n=1574 0.4000818 0.6006593
+#&gt; d=0.5, n=1585 0.3999342 0.5999124
 #&gt; attr(,"plot")</div><div class='img'><img src='cohensDdistribution-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; attr(,"class")
 #&gt; [1] "cohensdCI"</div><div class='input'>
 <span class='co'>### Generate 10 random Cohen's d values</span>
@@ -318,7 +321,10 @@ https://doi.org/10.1146/annurev.psych.59.103006.093735</p>
     </ul>
 
     <h2>Author</h2>
-    <p>Gjalt-Jorn Peters</p>
+    <p>Gjalt-Jorn Peters (Open University of the Netherlands), with
+the exported MBESS function conf.limits.nct written by Ken Kelley
+(University of Notre Dame), and with an error noticed by Guy Prochilo
+(University of Melbourne).</p>
 <p>Maintainer: Gjalt-Jorn Peters &lt;gjalt-jorn@userfriendlyscience.com&gt;</p>
   </div>
 </div>

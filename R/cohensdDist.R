@@ -43,7 +43,7 @@
 #' @param plot Whether to show a plot of the sampling distribution of Cohen's
 #' \emph{d} and the confidence interval. This can only be used if specifying
 #' one value for \code{d}, \code{n}, and \code{conf.level}.
-#' @param w The desired 'half-width' or margin of error of the confidence
+#' @param w The desired maximum 'half-width' or margin of error of the confidence
 #' interval.
 #' @param extensive Whether to only return the required sample size, or more
 #' extensive results.
