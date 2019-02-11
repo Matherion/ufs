@@ -123,6 +123,9 @@ convert.d.to.t <- function(d, df=NULL, n1=NULL, n2=NULL, proportion=.5) {
     return(NA);
   }
 
+  ### MBESS uses "ncp <- smd * sqrt((n.1 * n.2)/(n.1 + n.2))", but this
+  ### gives the same result
+
   multiplier <- sqrt((1 / groupSize1) + (1 / groupSize2));
 
   t <- d / multiplier;
@@ -237,8 +240,8 @@ convert.t.to.d <- function(t, df=NULL, n1=NULL, n2=NULL, proportion=.5) {
   }
 
   ### Updated to reflect http://journal.frontiersin.org/article/10.3389/fpsyg.2013.00863/full
-#   multiplier <- sqrt(((groupSize1 + groupSize2) / (groupSize1 * groupSize2)) *
-#                        ((groupSize1 + groupSize2) / (groupSize1 + groupSize2 - 2)));
+  # multiplier <- sqrt(((groupSize1 + groupSize2) / (groupSize1 * groupSize2)) *
+  #                      ((groupSize1 + groupSize2) / (groupSize1 + groupSize2 - 2)));
   multiplier <- sqrt((1 / groupSize1) + (1 / groupSize2));
 
   d <- t * multiplier;

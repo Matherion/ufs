@@ -460,6 +460,7 @@ associationMatrixESDefaults <- list(dichotomous =
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
 #' @keywords utilities univar
+#' @rdname associationMatrix
 #' @examples
 #'
 #'
@@ -781,6 +782,9 @@ associationMatrix <- function(dat=NULL, x=NULL, y=NULL, conf.level = .95,
   return(res);
 }
 
+#' @method print associationMatrix
+#' @rdname associationMatrix
+#' @export
 print.associationMatrix <- function (x, type = x$input$type,
                                      info = x$input$info,
                                      file = x$input$file, ...) {
@@ -818,12 +822,16 @@ print.associationMatrix <- function (x, type = x$input$type,
   invisible();
 }
 
-# pander.associationMatrix <- function (x,
-#                                      info = x$input$info,
-#                                      file = x$input$file, ...) {
-#
-#   ### Extract matrix to print (es, ci, or full)
-#   pander(x$output$matrix[[info[1]]],
-#          missing="");
-#   invisible();
-# }
+#' @method pander associationMatrix
+#' @rdname associationMatrix
+#' @importFrom pander pander
+#' @export
+pander.associationMatrix <- function (x,
+                                     info = x$input$info,
+                                     file = x$input$file, ...) {
+
+  ### Extract matrix to print (es, ci, or full)
+  pander(x$output$matrix[[info[1]]],
+         missing="");
+  invisible();
+}

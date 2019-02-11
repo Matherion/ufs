@@ -2,6 +2,8 @@
 % Please edit documentation in R/associationMatrix.R
 \name{associationMatrix}
 \alias{associationMatrix}
+\alias{print.associationMatrix}
+\alias{pander.associationMatrix}
 \title{associationMatrix}
 \usage{
 associationMatrix(dat = NULL, x = NULL, y = NULL,
@@ -11,6 +13,12 @@ associationMatrix(dat = NULL, x = NULL, y = NULL,
   colNames = FALSE, type = c("R", "html", "latex"), file = "",
   statistic = associationMatrixStatDefaults,
   effectSize = associationMatrixESDefaults, var.equal = "test")
+
+\method{print}{associationMatrix}(x, type = x$input$type,
+  info = x$input$info, file = x$input$file, ...)
+
+\method{pander}{associationMatrix}(x, info = x$input$info,
+  file = x$input$file, ...)
 }
 \arguments{
 \item{dat}{A dataframe with the variables of interest. All variables in this

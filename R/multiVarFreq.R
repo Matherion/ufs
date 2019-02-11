@@ -50,11 +50,15 @@ multiVarFreq <- function(data,
     labels <- items;
   }
 
-  res <- do.call(dplyr::bind_rows,
-                 lapply(data[, items],
-                        function(x)
-                          return(as.data.frame(t(as.matrix(table(x)))))
-                 ));
+  if (length(items)==1) {
+    res <- as.data.frame(t(as.matrix(table(dat[, items]))));
+  } else {
+    res <- do.call(dplyr::bind_rows,
+                   lapply(data[, items],
+                          function(x)
+                            return(as.data.frame(t(as.matrix(table(x)))))
+                   ));
+  }
 
   rownames(res) <- labels;
 

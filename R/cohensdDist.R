@@ -14,6 +14,10 @@
 #' The functions use \code{\link{convert.d.to.t}} and
 #' \code{\link{convert.t.to.d}} to provide the Cohen's \emph{d} distribution.
 #'
+#' The confidence interval functions, \code{cohensdCI} and \code{pwr.cohensdCI},
+#' now use the same method as MBESS (a slightly adapted version of
+#' [MBESS::conf.limits.nct()] is used).
+#'
 #' More details about \code{cohensdCI} and \code{pwr.cohensdCI} are provided in
 #' Peters & Crutzen (2017).
 #'
@@ -69,7 +73,10 @@
 #'
 #' \code{pwr.cohensdCI} provides the sample size required to obtain a
 #' confidence interval for Cohen's \emph{d} with a desired width.
-#' @author Gjalt-Jorn Peters
+#' @author Gjalt-Jorn Peters (Open University of the Netherlands), with
+#' the exported MBESS function conf.limits.nct written by Ken Kelley
+#' (University of Notre Dame), and with an error noticed by Guy Prochilo
+#' (University of Melbourne).
 #'
 #' Maintainer: Gjalt-Jorn Peters <gjalt-jorn@@userfriendlyscience.com>
 #' @seealso \code{\link{convert.d.to.t}}, \code{\link{convert.t.to.d}},
@@ -183,8 +190,8 @@ dCohensd <- dd <- function(x, df=NULL,
 #' @rdname cohensDdistribution
 pCohensd <- pd <- function(q, df, populationD = 0, lower.tail=TRUE) {
   ### Return p-value for given Cohen's d
-  return(stats::pt(ufs::convert.d.to.t(q, df=df), df,
-                   ncp=ufs::convert.d.to.t(populationD, df=df),
+  return(stats::pt(convert.d.to.t(q, df=df), df,
+                   ncp=convert.d.to.t(populationD, df=df),
                    lower.tail=lower.tail));
 }
 
@@ -193,10 +200,11 @@ pCohensd <- pd <- function(q, df, populationD = 0, lower.tail=TRUE) {
 #' @rdname cohensDdistribution
 qCohensd <- qd <- function(p, df, populationD = 0, lower.tail=TRUE) {
   ### Return Cohen's d for given p-value
-  return(ufs::convert.t.to.d(stats::qt(p, df,
-                                       ncp=ufs::convert.d.to.t(d=populationD,
-                                                               df=df),
-                                       lower.tail=lower.tail), df + 2));
+  return(convert.t.to.d(stats::qt(p=p, df=df,
+                                  ncp=convert.d.to.t(d=populationD,
+                                                     df=df),
+                                  lower.tail=lower.tail),
+                       df=df));
 }
 
 #' @export rCohensd
@@ -204,28 +212,28 @@ qCohensd <- qd <- function(p, df, populationD = 0, lower.tail=TRUE) {
 #' @rdname cohensDdistribution
 rCohensd <- rd <- function(n, df, populationD = 0) {
   ### Return random Cohen's d value(s)
-  return(ufs::convert.t.to.d(stats::rt(n, df=df,
-                                       ncp=ufs::convert.d.to.t(d=populationD,
-                                                               df=df)),
-                             df=df));
+  return(convert.t.to.d(stats::rt(n, df=df,
+                                  ncp=convert.d.to.t(d=populationD,
+                                                     df=df)),
+                        df=df));
 }
 
 #' @export
 #' @rdname cohensDdistribution
 pdInterval <- function(ds, n, populationD = 0) {
-  return(ufs::pd(max(ds), df=n - 2, populationD=populationD) -
-           ufs::pd(min(ds), df=n - 2, populationD=populationD));
+  return(pd(max(ds), df=n - 2, populationD=populationD) -
+           pd(min(ds), df=n - 2, populationD=populationD));
 }
 
 #' @export
 #' @rdname cohensDdistribution
 pdExtreme <- function(d, n, populationD = 0) {
-  return(2 * ufs::pd(d, n - 2, populationD=populationD,
-                     lower.tail = (d <= populationD)));
+  return(2 * pd(d, df=n - 2, populationD=populationD,
+                lower.tail = (d <= populationD)));
 }
 
 #' @export
 #' @rdname cohensDdistribution
 pdMild <- function(d, n, populationD = 0) {
-  return(1 - ufs::pdExtreme(d, n, populationD=populationD));
+  return(1 - pdExtreme(d, n, populationD=populationD));
 }

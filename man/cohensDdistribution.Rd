@@ -120,6 +120,10 @@ and its alias \code{pwr.confIntd}).
 The functions use \code{\link{convert.d.to.t}} and
 \code{\link{convert.t.to.d}} to provide the Cohen's \emph{d} distribution.
 
+The confidence interval functions, \code{cohensdCI} and \code{pwr.cohensdCI},
+now use the same method as MBESS (a slightly adapted version of
+[MBESS::conf.limits.nct()] is used).
+
 More details about \code{cohensdCI} and \code{pwr.cohensdCI} are provided in
 Peters & Crutzen (2017).
 }
@@ -185,7 +189,10 @@ Cumming, G. (2013). The New Statistics: Why and How. Psychological Science,
 \code{\link{dt}}, \code{\link{pt}}, \code{\link{qt}}, \code{\link{rt}}
 }
 \author{
-Gjalt-Jorn Peters
+Gjalt-Jorn Peters (Open University of the Netherlands), with
+the exported MBESS function conf.limits.nct written by Ken Kelley
+(University of Notre Dame), and with an error noticed by Guy Prochilo
+(University of Melbourne).
 
 Maintainer: Gjalt-Jorn Peters <gjalt-jorn@userfriendlyscience.com>
 }
