@@ -25,7 +25,7 @@
 #' @param n Desired number of Omega Squared values.
 #' @param populationOmegaSq The value of Omega Squared in the population; this
 #' determines the center of the Omega Squared distribution. This has not been
-#' implemented yet in this version of `userfriendlyscience`. If anybody
+#' implemented yet in this version of `ufs`. If anybody
 #' has the inverse of [convert.ncf.to.omegasq()] for me, I'll happily
 #' integrate this.
 #' @param lower.tail logical; if TRUE (default), probabilities are the
